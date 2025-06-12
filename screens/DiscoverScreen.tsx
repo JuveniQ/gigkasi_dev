@@ -8,9 +8,10 @@ import {
   FlatList, 
   TextInput,
   Image,
-  ScrollView
+  ScrollView,
+  Dimensions
 } from 'react-native';
-import { useNavigation, useRoute } from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native';
 import { MaterialIcons, Ionicons } from '@expo/vector-icons';
 import { colors } from '../constants/colors';
 
@@ -175,9 +176,10 @@ const serviceCategories = [
   { id: '9', name: 'Cooking', icon: 'restaurant' },
 ];
 
+const {width, height} = Dimensions.get('window')
 export default function DiscoverScreen({ route }) {
   const navigation = useNavigation();
-
+  
   const initialTab = route.params?.tab || 'providers';
   const initialCategory = route.params?.category || 'All';
 
@@ -741,8 +743,8 @@ const styles = StyleSheet.create({
   add_button: {
     position: 'absolute',
 
-    top: 675,
-    left: 325,
+    top: height/2,
+    left: width/2,
     borderRadius: 100,
     height: 52,
     width: 52,
