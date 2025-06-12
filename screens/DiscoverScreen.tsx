@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { act, useState } from 'react';
 import { 
   View, 
   Text, 
@@ -219,9 +219,19 @@ export default function DiscoverScreen({ route }) {
     navigation.navigate('RequestDetails', { request });
   };
 
+  const handleAddPress = () => {
+    if(activeTab == 'providers'){
+      //@ts-ignore
+      navigation.navigate('CreateService')
+    }else if (activeTab == 'requests'){
+      //@ts-ignore
+      navigation.navigate('CreateRequest')
+    }
+  }
+
+
   return (
     <SafeAreaView style={styles.container}>
-      <StatusBar style="light" />
       
       {/* Header */}
       <View style={styles.header}>
@@ -417,6 +427,13 @@ export default function DiscoverScreen({ route }) {
           contentContainerStyle={styles.listContent}
         />
       )}
+      <TouchableOpacity style={styles.add_button} 
+        role='button' 
+        activeOpacity={0.1}
+        onPress={handleAddPress}
+        > 
+        <Ionicons name='add' size={38} color='white' />
+      </TouchableOpacity>
     </SafeAreaView>
   );
 }
@@ -725,5 +742,18 @@ const styles = StyleSheet.create({
     color: '#FFFFFF',
     fontSize: 13,
     fontWeight: '600',
+  },
+
+  add_button: {
+    position: 'absolute',
+
+    top: 675,
+    left: 325,
+    borderRadius: 100,
+    height: 52,
+    width: 52,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: colors.buttonColor,
   }
 });
