@@ -219,13 +219,8 @@ export default function DiscoverScreen({ route }) {
   };
 
   const handleAddPress = () => {
-    if(activeTab == 'providers'){
-      //@ts-ignore
-      navigation.navigate('CreateService')
-    }else if (activeTab == 'requests'){
-      //@ts-ignore
-      navigation.navigate('CreateRequest')
-    }
+    //@ts-ignore
+    navigation.navigate('CreateRequest')
   }
 
 
