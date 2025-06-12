@@ -14,6 +14,8 @@ import MessagesScreen from './screens/MessagesScreen'
 import ProfileScreen from './screens/ProfileScreen'
 import ProviderDetailsScreen from './screens/ProviderDetailsScreen'
 import RequestDetailsScreen from './screens/RequestDetailsScreen'
+import EditProfileScreen from './screens/EditProfileScreen'
+import CreateServiceScreen from './screens/CreateServiceScreen'
 
 const Stack = createNativeStackNavigator()
 const Tab = createBottomTabNavigator()
@@ -25,7 +27,6 @@ function MainTabs() {
 
   const switchTab = Gesture.Pan()
     .onStart(({ velocityX }) => {
-      console.log('Start')
       if (velocityX > 0) {
         const prevIndex = Math.max(0, currentIndex - 1);
         if (prevIndex !== currentIndex) {
@@ -39,9 +40,7 @@ function MainTabs() {
           setCurrentIndex(nextIndex);
         }
       }
-    }).onBegin(() => {
-      console.log('Screen Touched')
-    })
+    }).minDistance(60)
 
   const tabIcon = ({ color, size }, route) => {
     const iconMap = {
@@ -90,6 +89,8 @@ function RootStack() {
       <Stack.Screen name='ProviderDetails' component={ProviderDetailsScreen} />
       <Stack.Screen name='RequestDetails' component={RequestDetailsScreen} />
       <Stack.Screen name='CreateRequest' component={CreateRequestScreen} />
+      <Stack.Screen name='CreateService' component={CreateServiceScreen} />
+      <Stack.Screen name='EditProfile' component={EditProfileScreen}/>
     </Stack.Navigator>
   )
 }

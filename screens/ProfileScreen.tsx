@@ -205,7 +205,10 @@ export default function ProfileScreen() {
       <View style={styles.sectionHeader}>
         <Text style={styles.sectionTitle}>Account Settings</Text>
       </View>
-      <TouchableOpacity style={styles.settingItem}>
+      
+      <TouchableOpacity style={styles.settingItem} 
+      //@ts-ignore
+      onPress={()=>navigation.navigate("EditProfile")}>
         <Feather name="user" size={18} color="#666" />
         <Text style={styles.settingText}>Edit Profile</Text>
         <Feather name="chevron-right" size={18} color="#999" />
