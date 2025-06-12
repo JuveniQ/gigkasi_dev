@@ -135,8 +135,8 @@ export default function CreateServiceScreen() {
                             ))}
                         </View>
                     </View>
-                    
-                    {/* Service Images */}
+
+                    {/* Service Images Section */}
                     <View style={styles.imagesContainer}>
                         <Text style={styles.sectionLabel}>Add Photos (Max 5)</Text>
                         <View style={styles.imagesRow}>
