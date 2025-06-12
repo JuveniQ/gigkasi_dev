@@ -36,7 +36,7 @@ const conversations = [
     service: 'Tutor',
     lastMessage: 'Great! I\'ll bring some practice materials for your son.',
     time: '2 hours ago',
-    unread: 0,
+    unread: 5,
     imageUrl: 'https://api.a0.dev/assets/image?text=Sarah%20K.%20Tutor&aspect=1:1',
     messages: [
       { id: '1', text: 'Hi, I\'m interested in tutoring your son in mathematics.', sent: false, time: '9:30 AM' },
@@ -300,7 +300,7 @@ const styles = StyleSheet.create({
   },
   unreadBadge: {
     position: 'absolute',
-    top: 12,
+    top: 45,
     left: 45,
     backgroundColor: '#2196F3',
     width: 18,

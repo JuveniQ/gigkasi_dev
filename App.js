@@ -12,6 +12,7 @@ import RequestDetailsScreen from './screens/RequestDetailsScreen'
 import MessagesScreen from './screens/MessagesScreen'
 import { Ionicons } from '@expo/vector-icons'
 import { colors } from './constants/colors'
+import CreateRequestScreen from './screens/CreateRequestScreen'
 
 const Stack = createNativeStackNavigator() 
 const Tab = createBottomTabNavigator()
@@ -59,6 +60,7 @@ function RootStack(){
       <Stack.Screen name='Home' component={MainTabs}/>
       <Stack.Screen name='ProviderDetails' component={ProviderDetailsScreen}/>
       <Stack.Screen name='RequestDetails' component={RequestDetailsScreen}/>
+      <Stack.Screen name='CreateRequest' component={CreateRequestScreen}/>
     </Stack.Navigator>
   )
 }
