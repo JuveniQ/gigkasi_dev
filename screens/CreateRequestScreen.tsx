@@ -1,20 +1,22 @@
+import { Ionicons, MaterialIcons } from '@expo/vector-icons';
+import { useNavigation, useRoute } from '@react-navigation/native';
+import * as ImagePicker from 'expo-image-picker';
 import React, { useState } from 'react';
 import {
-  View,
-  Text,
-  StyleSheet,
-  SafeAreaView,
-  TouchableOpacity,
-  ScrollView,
-  TextInput,
   Alert,
   Image,
   KeyboardAvoidingView,
-  Platform
+  Modal,
+  Platform,
+  SafeAreaView,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View
 } from 'react-native';
-import { useNavigation, useRoute } from '@react-navigation/native';
-import { MaterialIcons, Ionicons } from '@expo/vector-icons';
-import * as ImagePicker from 'expo-image-picker';
+import { colors } from '../constants/colors';
 
 // Service categories for the app
 const serviceCategories = [
@@ -53,12 +55,13 @@ export default function CreateRequestScreen() {
   const [availabilityDate, setAvailabilityDate] = useState('');
   const [availabilityTime, setAvailabilityTime] = useState('');
   const [attachedImages, setAttachedImages] = useState([]);
+  const [showModal, setShowModal] = useState(false);
   
   const handleBackPress = () => {
     navigation.goBack();
   };
   
-  const handleAddImage =async () => {
+  const uploadImage =async () => {
     const {status} = await ImagePicker.requestMediaLibraryPermissionsAsync();
 
     if(status != 'granted'){
@@ -68,13 +71,33 @@ export default function CreateRequestScreen() {
 
     const image = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ['images'],
+      legacy: false
     })
 
     if(!image.canceled){
       setAttachedImages([...attachedImages, image.assets[0]])
     }
-    
+    setShowModal(false)
   };
+
+  const takeImage = async ()=>{
+    const {status} = await  ImagePicker.requestCameraPermissionsAsync();
+
+    if(status != 'granted'){
+      Alert.alert('Permission Not Granted', 'Grant application camera access to be able to take photos')
+      return
+    }
+
+    const image = await ImagePicker.launchCameraAsync({
+        mediaTypes: 'images',
+        quality: 0.8
+    })
+
+    if(!image.canceled){
+      setAttachedImages([...attachedImages, image.assets[0]]);
+    }
+    setShowModal(false)
+  }
   
   const handleRemoveImage = (indexToRemove) => {
     
@@ -119,6 +142,26 @@ export default function CreateRequestScreen() {
 
   return (
     <SafeAreaView style={styles.container}>
+    <Modal style={{flex: 1}} visible={showModal} onDismiss={()=> setShowModal(false)} onRequestClose={()=> setShowModal(false)} animationType='slide' transparent={true}>
+      <View style={{backgroundColor: 'transparent', flex: 1,alignItems: 'center', justifyContent: 'center'}}>
+        
+        <View style={styles.imagePicker}>
+          
+          <TouchableOpacity style={styles.imagePickerButton} onPress={takeImage}>
+            <MaterialIcons name='camera-alt' size={24}/>
+            <Text>Take Image</Text>
+          </TouchableOpacity>
+          
+          <TouchableOpacity style={styles.imagePickerButton} onPress={uploadImage}>
+            <MaterialIcons name='photo-library' size={24}/>
+            <Text>Upload Image</Text>
+          </TouchableOpacity>
+        </View>
+        <TouchableOpacity style={styles.closeButton} onPress={()=> setShowModal(false)}>
+          <MaterialIcons name='close'/>
+        </TouchableOpacity>
+      </View>
+    </Modal>
       
       {/* Header */}
       <View style={styles.header}>
@@ -216,7 +259,7 @@ export default function CreateRequestScreen() {
                 </View>
               ))}
               
-              <TouchableOpacity style={styles.addImageButton} onPress={handleAddImage}>
+              <TouchableOpacity style={styles.addImageButton} onPress={()=>setShowModal(true)/*handleAddImage*/}>
                 <MaterialIcons name="add-a-photo" size={24} color="#666" />
                 <Text style={styles.addImageText}>Add Photo</Text>
               </TouchableOpacity>
@@ -343,9 +386,43 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    backgroundColor: '#0D47A1',
+    backgroundColor: colors.headerColor,
     paddingVertical: 10,
     paddingHorizontal: 16,
+  },
+  imagePicker: {
+    backgroundColor: 'white',
+    height:  250, 
+    width: 250, 
+    justifyContent: 'space-evenly', 
+    alignItems: 'center',
+    display: 'flex',
+    flexDirection: 'row',
+    borderRadius: 24,
+    elevation: 12,
+    shadowColor: 'black',
+    shadowRadius: 8,
+    shadowOffset: {width: 8, height: 8},
+  },
+  closeButton: {
+    backgroundColor: 'turquoise',
+    borderWidth: 1,
+    borderRadius: 100,
+    position: 'absolute',
+    top: 264,
+    right: 68,
+  },
+  imagePickerButton: {
+    backgroundColor: 'white',
+    alignItems: 'center',
+    justifyContent: 'center',
+    height: 104,
+    width: 100,
+    elevation: 4,
+    shadowColor: 'black',
+    shadowOffset: {width: 8, height: 8},
+    shadowRadius: 4,
+    borderRadius: 16,
   },
   backButton: {
     padding: 4,
