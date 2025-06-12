@@ -1,38 +1,29 @@
+import { Ionicons } from '@expo/vector-icons'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { NavigationContainer } from '@react-navigation/native'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
-import { Platform, StatusBar , StyleSheet } from 'react-native'
+import { Platform, StatusBar, StyleSheet } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
+import { colors } from './constants/colors'
+import CreateRequestScreen from './screens/CreateRequestScreen'
 import Dashboard from './screens/Dashboard'
-import HomeScreen from './screens/HomeScreen'
 import DiscoverScreen from './screens/DiscoverScreen'
+import MessagesScreen from './screens/MessagesScreen'
 import ProfileScreen from './screens/ProfileScreen'
 import ProviderDetailsScreen from './screens/ProviderDetailsScreen'
 import RequestDetailsScreen from './screens/RequestDetailsScreen'
-import MessagesScreen from './screens/MessagesScreen'
-import { Ionicons } from '@expo/vector-icons'
-import { colors } from './constants/colors'
-import CreateRequestScreen from './screens/CreateRequestScreen'
 
 const Stack = createNativeStackNavigator() 
 const Tab = createBottomTabNavigator()
 
 function MainTabs(){
 
-  const tabBarIcon = (name) => {
-    let icon = ''
-    if(name == 'Dashboard'){
-      icon = 'Dashboard';
-    }
+  const switchTab = (e) =>{
 
-    return(
-      <Ionicons name={icon}/>
-  )
   }
 
-  return(
-    <Tab.Navigator screenOptions={({ route })=>({tabBarIcon:({active,color, size })=>{
-      let iconName;
+  const tabIcon = ({color, size}, route) => {
+    let iconName;
       if(route.name=='Dashboard'){
         iconName = 'home'
       } else if (route.name=='Discover'){
@@ -44,7 +35,19 @@ function MainTabs(){
       }
 
       return <Ionicons name={iconName} size={size} color={color}/>
-    } ,headerShown: false, animation: 'shift', lazy: true, tabBarActiveTintColor: colors.tabBarColor, tabBarInactiveTintColor: colors.headerColor})}>
+  }
+
+  return(
+    <Tab.Navigator screenOptions={({ route })=>({
+      tabBarIcon: (props) => tabIcon(props, route),
+      headerShown: false, 
+      animation: 'shift',
+      tabBarHideOnKeyboard: true,
+      lazy: true,
+      tabBarActiveTintColor: colors.tabBarColor,
+      tabBarInactiveTintColor:
+      colors.headerColor
+      })}>
       <Tab.Screen name='Dashboard' component={Dashboard} />
       <Tab.Screen name='Discover' component={DiscoverScreen} />
       <Stack.Screen name='Messages' component={MessagesScreen} />
