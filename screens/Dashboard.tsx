@@ -10,7 +10,6 @@ import {
   TextInput,
   FlatList
 } from 'react-native';
-import { StatusBar } from 'expo-status-bar';
 import { useNavigation } from '@react-navigation/native';
 import { MaterialIcons, Ionicons } from '@expo/vector-icons';
 import {colors} from '../constants/colors'
@@ -155,7 +154,6 @@ export default function Dashboard() {
   
   return (
     <SafeAreaView style={styles.container}>
-      <StatusBar style="light" />
       
       <View style={styles.header}>
         <View style={styles.logo_container}>

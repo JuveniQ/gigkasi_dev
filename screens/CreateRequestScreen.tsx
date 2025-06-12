@@ -12,9 +12,9 @@ import {
   KeyboardAvoidingView,
   Platform
 } from 'react-native';
-import { StatusBar } from 'expo-status-bar';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { MaterialIcons, Ionicons } from '@expo/vector-icons';
+import * as ImagePicker from 'expo-image-picker';
 
 // Service categories for the app
 const serviceCategories = [
@@ -41,39 +41,44 @@ export default function CreateRequestScreen() {
   const route = useRoute();
   
   // Initial category if coming from specific service screen
-  const initialCategory = route.params?.category || null;
+  const initialCategory = null;
   
   // Form state
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [category, setCategory] = useState(initialCategory);
-  const [location, setLocation] = useState('Soweto, Johannesburg'); // Default location
+  const [location, setLocation] = useState('Witbank, Mpumalanga'); // Default location
   const [budget, setBudget] = useState('');
   const [urgency, setUrgency] = useState('medium');
   const [availabilityDate, setAvailabilityDate] = useState('');
   const [availabilityTime, setAvailabilityTime] = useState('');
-  
-  // Mock images for attachment feature
-  const [attachedImages, setAttachedImages] = useState([
-    { id: '1', uri: 'https://api.a0.dev/assets/image?text=Tap%20Repair&aspect=16:9' }
-  ]);
+  const [attachedImages, setAttachedImages] = useState([]);
   
   const handleBackPress = () => {
     navigation.goBack();
   };
   
-  const handleAddImage = () => {
-    // In a real app, this would open the camera or image picker
-    // Here we're just simulating by adding a placeholder image
-    const newImage = { 
-      id: String(attachedImages.length + 1), 
-      uri: `https://api.a0.dev/assets/image?text=Attachment%20${attachedImages.length + 1}&aspect=16:9` 
-    };
-    setAttachedImages([...attachedImages, newImage]);
+  const handleAddImage =async () => {
+    const {status} = await ImagePicker.requestMediaLibraryPermissionsAsync();
+
+    if(status != 'granted'){
+      Alert.alert('Permission Not Granted', 'Grant application media access to be able to upload photos')
+      return
+    }
+
+    const image = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ['images'],
+    })
+
+    if(!image.canceled){
+      setAttachedImages([...attachedImages, image.assets[0]])
+    }
+    
   };
   
-  const handleRemoveImage = (id) => {
-    setAttachedImages(attachedImages.filter(img => img.id !== id));
+  const handleRemoveImage = (indexToRemove) => {
+    
+    setAttachedImages(attachedImages.filter((_,index) =>index != indexToRemove ));
   };
   
   const validateForm = () => {
@@ -101,7 +106,7 @@ export default function CreateRequestScreen() {
       'Your request has been posted successfully. Service providers in your area will be notified.',
       [
         { 
-          text: 'OK', 
+          text: 'OK', //@ts-ignore
           onPress: () => navigation.navigate('Main')
         }
       ]
@@ -114,7 +119,6 @@ export default function CreateRequestScreen() {
 
   return (
     <SafeAreaView style={styles.container}>
-      <StatusBar style="light" />
       
       {/* Header */}
       <View style={styles.header}>
@@ -158,7 +162,7 @@ export default function CreateRequestScreen() {
                   onPress={() => setCategory(cat.name)}
                 >
                   <MaterialIcons 
-                    name={cat.icon}
+                    name={cat.icon as any}
                     size={24}
                     color={category === cat.name ? '#FFFFFF' : '#666'}
                   />
@@ -200,12 +204,12 @@ export default function CreateRequestScreen() {
               Add photos to help service providers understand your request better
             </Text>
             <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.imagesContainer}>
-              {attachedImages.map((image) => (
-                <View key={image.id} style={styles.imageWrapper}>
+              {attachedImages.map((image, index) => (
+                <View key={index} style={styles.imageWrapper}>
                   <Image source={{ uri: image.uri }} style={styles.attachedImage} />
                   <TouchableOpacity 
                     style={styles.removeImageButton}
-                    onPress={() => handleRemoveImage(image.id)}
+                    onPress={() => handleRemoveImage(index)}
                   >
                     <Ionicons name="close-circle" size={24} color="#2196F3" />
                   </TouchableOpacity>
@@ -453,8 +457,8 @@ const styles = StyleSheet.create({
   },
   removeImageButton: {
     position: 'absolute',
-    top: -8,
-    right: -8,
+    top: 0,
+    right: 0,
     backgroundColor: '#FFFFFF',
     borderRadius: 12,
   },

@@ -9,7 +9,6 @@ import {
   Image,
   TextInput
 } from 'react-native';
-import { StatusBar } from 'expo-status-bar';
 import { useNavigation } from '@react-navigation/native';
 import { MaterialIcons, Ionicons } from '@expo/vector-icons';
 import { colors } from '../constants/colors';
@@ -112,7 +111,6 @@ export default function MessagesScreen() {
   if (!activeChat) {
     return (
       <SafeAreaView style={styles.container}>
-        <StatusBar style="light" />
         
         {/* Header */}
         <View style={styles.header}>
@@ -181,7 +179,6 @@ export default function MessagesScreen() {
   // Render active chat
   return (
     <SafeAreaView style={styles.container}>
-      <StatusBar style="light" />
       
       {/* Chat header */}
       <View style={styles.chatHeader}>

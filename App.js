@@ -1,7 +1,7 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { NavigationContainer } from '@react-navigation/native'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
-import { Platform, StatusBar, StyleSheet } from 'react-native'
+import { Platform, StatusBar , StyleSheet } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import Dashboard from './screens/Dashboard'
 import HomeScreen from './screens/HomeScreen'
@@ -69,8 +69,8 @@ export default function App() {
   return (
     <NavigationContainer>
       
-      <SafeAreaView style={[styles.container, Platform.OS == 'ios' ? {padding: StatusBar.padding}: null]}>
-          <StatusBar barStyle='dark-content' networkActivityIndicatorVisible={true}/>
+      <SafeAreaView style={[styles.container, Platform.OS == 'ios' ? {padding: StatusBar.currentHeight}: null]}>
+          <StatusBar barStyle='light-content' backgroundColor={colors.headerColor} networkActivityIndicatorVisible={true}/>
           <RootStack/>  
       </SafeAreaView>
       

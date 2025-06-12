@@ -9,14 +9,14 @@ import {
   ScrollView,
   Alert
 } from 'react-native';
-import { StatusBar } from 'expo-status-bar';
+import {  } from 'expo-status-bar';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { MaterialIcons, Ionicons } from '@expo/vector-icons';
 
 export default function ProviderDetailsScreen() {
   const navigation = useNavigation();
   const route = useRoute();
-  const { provider } = route.params || {
+  const { provider }:any = route.params || {
     // Default provider data if none provided
     id: '1',
     name: 'John M.',
@@ -87,6 +87,7 @@ export default function ProviderDetailsScreen() {
   
   const handleSendMessage = () => {
     // In a real app, this would open a chat with the provider
+    //@ts-ignore
     navigation.navigate('Messages');
   };
   
@@ -114,7 +115,6 @@ export default function ProviderDetailsScreen() {
 
   return (
     <SafeAreaView style={styles.container}>
-      <StatusBar style="light" />
       
       {/* Header */}
       <View style={styles.header}>

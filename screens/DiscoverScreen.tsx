@@ -10,7 +10,6 @@ import {
   Image,
   ScrollView
 } from 'react-native';
-import { StatusBar } from 'expo-status-bar';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { MaterialIcons, Ionicons } from '@expo/vector-icons';
 import { colors } from '../constants/colors';

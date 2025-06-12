@@ -10,7 +10,7 @@ import {
   TextInput,
   FlatList
 } from 'react-native';
-import { StatusBar } from 'expo-status-bar';
+
 import { useNavigation } from '@react-navigation/native';
 import { MaterialIcons, Ionicons } from '@expo/vector-icons';
 
@@ -110,7 +110,6 @@ export default function HomeScreen() {
   
   return (
     <SafeAreaView style={styles.container}>
-      <StatusBar style="light" />
       
       {/* Header with location */}
       <View style={styles.header}>

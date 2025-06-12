@@ -10,7 +10,6 @@ import {
   Image,
   TextInput
 } from 'react-native';
-import { StatusBar } from 'expo-status-bar';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { MaterialIcons, Ionicons } from '@expo/vector-icons';
 
@@ -99,7 +98,6 @@ export default function RequestDetailsScreen() {
 
   return (
     <SafeAreaView style={styles.container}>
-      <StatusBar style="light" />
       
       {/* Header */}
       <View style={styles.header}>
