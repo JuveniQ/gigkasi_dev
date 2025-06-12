@@ -17,7 +17,7 @@ import { MaterialIcons, Ionicons } from '@expo/vector-icons';
 export default function RequestDetailsScreen() {
   const navigation = useNavigation();
   const route = useRoute();
-  const { request } = route.params || {
+  const { request  } : any = route.params || {
     // Default request data if none provided
     id: '1',
     title: 'Fix leaking tap urgently',
@@ -88,10 +88,12 @@ export default function RequestDetailsScreen() {
   };
   
   const handleViewProfile = () => {
+    //@ts-ignore
     navigation.navigate('Profile');
   };
   
   const handleContactClient = () => {
+    //@ts-ignore
     navigation.navigate('Messages');
   };
 

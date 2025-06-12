@@ -13,6 +13,7 @@ import {
 import { StatusBar } from 'expo-status-bar';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { MaterialIcons, Ionicons } from '@expo/vector-icons';
+import { colors } from '../constants/colors';
 
 // Mock data for providers
 const allProviders = [
@@ -175,9 +176,9 @@ const serviceCategories = [
   { id: '9', name: 'Cooking', icon: 'restaurant' },
 ];
 
-export default function DiscoverScreen() {
+export default function DiscoverScreen({ route }) {
   const navigation = useNavigation();
-  const route = useRoute();
+
   const initialTab = route.params?.tab || 'providers';
   const initialCategory = route.params?.category || 'All';
 
@@ -209,10 +210,12 @@ export default function DiscoverScreen() {
   });
   
   const handleProviderPress = (provider) => {
+    //@ts-ignore
     navigation.navigate('ProviderDetails', { provider });
   };
 
   const handleRequestPress = (request) => {
+    //@ts-ignore
     navigation.navigate('RequestDetails', { request });
   };
 
@@ -256,7 +259,7 @@ export default function DiscoverScreen() {
           <MaterialIcons 
             name="person" 
             size={20} 
-            color={activeTab === 'providers' ? '#2196F3' : '#666'} 
+            color={activeTab === 'providers' ? colors.buttonColor : '#666'} 
             style={styles.tabIcon}
           />
           <Text style={[styles.tabText, activeTab === 'providers' && styles.activeTabText]}>
@@ -271,7 +274,7 @@ export default function DiscoverScreen() {
           <MaterialIcons 
             name="list-alt" 
             size={20} 
-            color={activeTab === 'requests' ? '#2196F3' : '#666'} 
+            color={activeTab === 'requests' ? colors.buttonColor : '#666'} 
             style={styles.tabIcon}
           />
           <Text style={[styles.tabText, activeTab === 'requests' && styles.activeTabText]}>
@@ -293,7 +296,7 @@ export default function DiscoverScreen() {
               onPress={() => setSelectedCategory(category.name)}
             >
               <MaterialIcons 
-                name={category.icon} 
+                name={category.icon as any} 
                 size={16} 
                 color={selectedCategory === category.name ? '#FFFFFF' : '#666'} 
               />
@@ -351,6 +354,7 @@ export default function DiscoverScreen() {
               </View>
               <TouchableOpacity 
                 style={styles.contactButton}
+                //@ts-ignore
                 onPress={() => navigation.navigate('ProviderDetails', { provider: item })}
               >
                 <Text style={styles.contactButtonText}>View Profile</Text>
@@ -423,7 +427,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#F5F7FA',
   },
   header: {
-    backgroundColor: '#0D47A1',
+    backgroundColor: colors.headerColor,
     paddingTop: 10,
     paddingBottom: 10,
     paddingHorizontal: 16,
@@ -438,7 +442,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     paddingHorizontal: 16,
     paddingVertical: 12,
-    backgroundColor: '#0D47A1',
+    backgroundColor: colors.searchBgColor,
   },
   searchBar: {
     flex: 1,
@@ -460,7 +464,7 @@ const styles = StyleSheet.create({
   filterButton: {
     width: 40,
     height: 40,
-    backgroundColor: '#2196F3',
+    backgroundColor: colors.buttonColor,
     borderRadius: 20,
     justifyContent: 'center',
     alignItems: 'center',
@@ -481,7 +485,7 @@ const styles = StyleSheet.create({
   },
   activeTabButton: {
     borderBottomWidth: 2,
-    borderBottomColor: '#2196F3',
+    borderBottomColor: colors.buttonColor,
   },
   tabIcon: {
     marginRight: 6,
@@ -492,7 +496,7 @@ const styles = StyleSheet.create({
     color: '#666',
   },
   activeTabText: {
-    color: '#2196F3',
+    color: colors.buttonColor,
   },
   categoriesContainer: {
     paddingVertical: 12,
@@ -513,7 +517,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFFFFF',
   },
   selectedCategoryItem: {
-    backgroundColor: '#2196F3',
+    backgroundColor: colors.buttonColor,
     borderColor: '#2196F3',
   },
   categoryText: {
@@ -566,7 +570,7 @@ const styles = StyleSheet.create({
   },
   providerService: {
     fontSize: 14,
-    color: '#2196F3',
+    color: 'green',
     marginVertical: 2,
   },
   ratingContainer: {
@@ -618,7 +622,7 @@ const styles = StyleSheet.create({
     marginLeft: 4,
   },
   contactButton: {
-    backgroundColor: '#2196F3',
+    backgroundColor: colors.buttonColor,
     borderRadius: 25,
     paddingVertical: 10,
     alignItems: 'center',
@@ -712,7 +716,7 @@ const styles = StyleSheet.create({
     marginLeft: 4,
   },
   respondButton: {
-    backgroundColor: '#2196F3',
+    backgroundColor: colors.buttonColor,
     paddingHorizontal: 16,
     paddingVertical: 8,
     borderRadius: 20,

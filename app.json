@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "gigkasi-app-frontend",
-    "slug": "gigkasi-app-frontend",
+    "slug": "gigkasi",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -24,6 +24,12 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "extra": {
+      "eas": {
+        "projectId": "f7c48d80-dfa8-4d9b-b02f-69523557cc06"
+      }
+    },
+    "owner": "jayetheus"
   }
 }

@@ -12,6 +12,7 @@ import {
 import { StatusBar } from 'expo-status-bar';
 import { useNavigation } from '@react-navigation/native';
 import { MaterialIcons, Ionicons } from '@expo/vector-icons';
+import { colors } from '../constants/colors';
 
 // Mock data for conversations
 const conversations = [
@@ -245,7 +246,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#F5F7FA',
   },
   header: {
-    backgroundColor: '#0D47A1',
+    backgroundColor: colors.headerColor,
     paddingTop: 10,
     paddingBottom: 10,
     paddingHorizontal: 16,
@@ -259,7 +260,7 @@ const styles = StyleSheet.create({
   searchContainer: {
     paddingHorizontal: 16,
     paddingVertical: 12,
-    backgroundColor: '#FFFFFF',
+    backgroundColor: colors.searchBgColor,
     borderBottomWidth: 1,
     borderBottomColor: '#EEEEEE',
   },
@@ -334,7 +335,7 @@ const styles = StyleSheet.create({
   },
   conversationService: {
     fontSize: 12,
-    color: '#2196F3',
+    color: 'green',
     marginBottom: 4,
   },
   conversationMessage: {
@@ -342,7 +343,7 @@ const styles = StyleSheet.create({
     color: '#666',
   },
   unreadMessage: {
-    fontWeight: '500',
+    fontWeight: 'bold',
     color: '#333',
   },
   emptyState: {
@@ -365,7 +366,7 @@ const styles = StyleSheet.create({
   },
   // Chat screen styles
   chatHeader: {
-    backgroundColor: '#0D47A1',
+    backgroundColor: colors.headerColor,
     paddingTop: 10,
     paddingBottom: 10,
     paddingHorizontal: 16,
@@ -417,7 +418,7 @@ const styles = StyleSheet.create({
     marginBottom: 2,
   },
   sentBubble: {
-    backgroundColor: '#2196F3',
+    backgroundColor: colors.categoryColor,
     borderBottomRightRadius: 4,
   },
   receivedBubble: {
@@ -467,7 +468,7 @@ const styles = StyleSheet.create({
     maxHeight: 100,
   },
   sendButton: {
-    backgroundColor: '#2196F3',
+    backgroundColor: colors.buttonColor,
     width: 40,
     height: 40,
     borderRadius: 20,

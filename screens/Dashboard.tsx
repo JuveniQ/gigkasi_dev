@@ -13,7 +13,7 @@ import {
 import { StatusBar } from 'expo-status-bar';
 import { useNavigation } from '@react-navigation/native';
 import { MaterialIcons, Ionicons } from '@expo/vector-icons';
-
+import {colors} from '../constants/colors'
 // Service categories for the app
 const serviceCategories = [
   { id: '1', name: 'Plumbing', icon: 'plumbing' },
@@ -69,6 +69,21 @@ const liveRequests = [
     location: 'Soweto, Zone 4',
     time: 'Today, ASAP',
     postedTime: '25 min ago',
+    description: 'Kitchen sink is leaking badly and causing water damage. Need someone to fix it today.',
+    budget: 'R200-R350',
+    images: [
+      'https://api.a0.dev/assets/image?text=Leaking%20Tap&aspect=16:9',
+      'https://api.a0.dev/assets/image?text=Water%20Damage&aspect=16:9'
+    ],
+    preferences: ['Professional tools', 'Same day service', 'Experienced plumber'],
+    poster: {
+      id: '101',
+      name: 'Themba K.',
+      rating: 4.7,
+      imageUrl: 'https://api.a0.dev/assets/image?text=Themba%20K.&aspect=1:1',
+      joinedDate: 'June 2022',
+      completedJobs: 8
+    }
   },
   {
     id: '2',
@@ -77,6 +92,21 @@ const liveRequests = [
     location: 'Orlando East',
     time: 'Tomorrow, 4PM',
     postedTime: '1 hour ago',
+    description: 'Kitchen sink is leaking badly and causing water damage. Need someone to fix it today.',
+    budget: 'R200-R350',
+    images: [
+      'https://api.a0.dev/assets/image?text=Leaking%20Tap&aspect=16:9',
+      'https://api.a0.dev/assets/image?text=Water%20Damage&aspect=16:9'
+    ],
+    preferences: ['Professional tools', 'Same day service', 'Experienced plumber'],
+    poster: {
+      id: '101',
+      name: 'Jay Nhlapho.',
+      rating: 4.7,
+      imageUrl: 'https://i.scdn.co/image/ab6761610000517494b019d16885a45caaf10ca3',
+      joinedDate: 'June 2022',
+      completedJobs: 8
+    }
   },
   {
     id: '3',
@@ -85,13 +115,28 @@ const liveRequests = [
     location: 'Diepkloof',
     time: 'This weekend',
     postedTime: '3 hours ago',
+    description: 'Kitchen sink is leaking badly and causing water damage. Need someone to fix it today.',
+    budget: 'R200-R350',
+    images: [
+      'https://api.a0.dev/assets/image?text=Leaking%20Tap&aspect=16:9',
+      'https://api.a0.dev/assets/image?text=Water%20Damage&aspect=16:9'
+    ],
+    preferences: ['Professional tools', 'Same day service', 'Experienced plumber'],
+    poster: {
+      id: '101',
+      name: 'Themba K.',
+      rating: 4.7,
+      imageUrl: 'https://api.a0.dev/assets/image?text=Themba%20K.&aspect=1:1',
+      joinedDate: 'June 2022',
+      completedJobs: 8
+    }
   },
 ];
 
-export default function HomeScreen() {
+export default function Dashboard() {
   const navigation = useNavigation();
   const [searchQuery, setSearchQuery] = useState('');
-  const [location, setLocation] = useState('Soweto, Johannesburg');
+  //const [location, setLocation] = useState('Soweto, Johannesburg');
   
   const handleProviderPress = (provider) => {
     //@ts-ignore
@@ -112,20 +157,11 @@ export default function HomeScreen() {
     <SafeAreaView style={styles.container}>
       <StatusBar style="light" />
       
-      {/* Header with location */}
       <View style={styles.header}>
-        <View style={styles.locationContainer}>
-          <MaterialIcons name="location-on" size={24} color="#FFFFFF" />
-          <Text style={styles.locationText}>{location}</Text>
-          <MaterialIcons name="keyboard-arrow-down" size={24} color="#FFFFFF" />
+        <View style={styles.logo_container}>
+            <Text style={styles.logo_main}>Gig</Text>
+            <Text style={styles.logo_secondary}>Kasi</Text>
         </View>
-        <TouchableOpacity 
-          style={styles.profileButton}
-          //@ts-ignore
-          onPress={() => navigation.navigate('Profile')}
-        >
-          <Ionicons name="person-circle-outline" size={32} color="#FFFFFF" />
-        </TouchableOpacity>
       </View>
       
       {/* Search bar */}
@@ -256,13 +292,11 @@ export default function HomeScreen() {
             style={styles.createRequestButton}
             onPress={handleCreateRequestPress}
           >
-            <MaterialIcons name="add" size={24} color="#FFFFFF" />
+            <Ionicons name="add" size={24} color='white' />
             <Text style={styles.createRequestText}>Post a Request</Text>
           </TouchableOpacity>
         </View>
       </ScrollView>
-
-      {/* Bottom navigation is now handled by Tab Navigator */}
     </SafeAreaView>
   );
 }
@@ -270,27 +304,37 @@ export default function HomeScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#F5F7FA',
+    backgroundColor: colors.backgroundColor,
   },
   header: {
-    backgroundColor: '#0D47A1',
+    backgroundColor: colors.headerColor,
     paddingTop: 10,
     paddingBottom: 10,
     paddingHorizontal: 16,
     flexDirection: 'row',
-    justifyContent: 'space-between',
+    justifyContent: 'center',
     alignItems: 'center',
   },
-  locationContainer: {
+  logo_container: {
     flexDirection: 'row',
-    alignItems: 'center',
   },
-  locationText: {
-    color: '#FFFFFF',
-    fontSize: 16,
-    fontWeight: '500',
-    marginLeft: 4,
-  },
+  logo_main:{
+    fontSize: 36,
+    color: 'white',
+    fontWeight: 'bold',
+    textShadowOffset: {height:2, width: 1},
+    textShadowColor: 'yellow',
+    textShadowRadius: 1,
+
+},
+  logo_secondary: {
+    fontSize: 36,
+    fontWeight: 'bold',
+    color: 'yellow',
+    textShadowOffset: {height:2, width: 2},
+    textShadowColor: 'lime',
+    textShadowRadius: 1,
+},
   profileButton: {
     padding: 4,
   },
@@ -298,7 +342,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     paddingHorizontal: 16,
     paddingVertical: 12,
-    backgroundColor: '#0D47A1',
+    backgroundColor: colors.searchBgColor,
   },
   searchBar: {
     flex: 1,
@@ -320,7 +364,7 @@ const styles = StyleSheet.create({
   filterButton: {
     width: 40,
     height: 40,
-    backgroundColor: '#2196F3',
+    backgroundColor: colors.buttonColor,
     borderRadius: 20,
     justifyContent: 'center',
     alignItems: 'center',
@@ -345,7 +389,7 @@ const styles = StyleSheet.create({
     marginBottom: 12,
   },
   viewAllText: {
-    color: '#2196F3',
+    color: 'green',
     fontSize: 14,
   },
   categoriesContainer: {
@@ -361,7 +405,7 @@ const styles = StyleSheet.create({
     width: 50,
     height: 50,
     borderRadius: 25,
-    backgroundColor: '#2196F3',
+    backgroundColor: colors.buttonColor,
     justifyContent: 'center',
     alignItems: 'center',
     marginBottom: 8,
@@ -391,7 +435,7 @@ const styles = StyleSheet.create({
   },
   requestCategory: {
     fontSize: 13,
-    color: '#2196F3',
+    color: 'green',
     fontWeight: '500',
   },
   requestTime: {
@@ -417,7 +461,7 @@ const styles = StyleSheet.create({
     marginLeft: 4,
   },
   respondButton: {
-    backgroundColor: '#2196F3',
+    backgroundColor: colors.buttonColor,
     borderRadius: 20,
     paddingVertical: 8,
     alignItems: 'center',
@@ -428,7 +472,8 @@ const styles = StyleSheet.create({
   },
   providersContainer: {
     paddingLeft: 16,
-    marginBottom: 24,
+    paddingBottom:1.5,
+    marginBottom: 28,
   },
   providerCard: {
     width: 150,
@@ -492,7 +537,7 @@ const styles = StyleSheet.create({
     marginBottom: 24,
   },
   createRequestButton: {
-    backgroundColor: '#2196F3',
+    backgroundColor: colors.buttonColor,
     borderRadius: 25,
     flexDirection: 'row',
     justifyContent: 'center',
