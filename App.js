@@ -17,6 +17,7 @@ import MessagesScreen from './screens/MessagesScreen'
 import ProfileScreen from './screens/ProfileScreen'
 import ProviderDetailsScreen from './screens/ProviderDetailsScreen'
 import RequestDetailsScreen from './screens/RequestDetailsScreen'
+import NotificationsScreen from './screens/NotificationScreen'
 
 const Stack = createNativeStackNavigator()
 const Tab = createBottomTabNavigator()
@@ -101,6 +102,7 @@ function RootStack() {
       <Stack.Screen name='CreateRequest' component={CreateRequestScreen} />
       <Stack.Screen name='CreateService' component={CreateServiceScreen} />
       <Stack.Screen name='EditProfile' component={EditProfileScreen}/>
+      <Stack.Screen name="Notifications" component={NotificationsScreen}/>
     </Stack.Navigator>
   )
 }

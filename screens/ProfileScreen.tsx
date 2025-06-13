@@ -424,21 +424,27 @@ export default function ProfileScreen() {
         <Text style={styles.settingText}>Edit Profile</Text>
         <Feather name="chevron-right" size={18} color="#999" />
       </TouchableOpacity>
+
       <TouchableOpacity style={styles.settingItem}>
         <Feather name="credit-card" size={18} color="#666" />
         <Text style={styles.settingText}>Payment Methods</Text>
         <Feather name="chevron-right" size={18} color="#999" />
       </TouchableOpacity>
-      <TouchableOpacity style={styles.settingItem}>
+
+      <TouchableOpacity style={styles.settingItem}
+        //@ts-ignore
+        onPress={() => navigation.navigate("Notification")}>
         <Feather name="bell" size={18} color="#666" />
         <Text style={styles.settingText}>Notifications</Text>
         <Feather name="chevron-right" size={18} color="#999" />
       </TouchableOpacity>
+      
       <TouchableOpacity style={styles.settingItem}>
         <Feather name="lock" size={18} color="#666" />
         <Text style={styles.settingText}>Privacy & Security</Text>
         <Feather name="chevron-right" size={18} color="#999" />
       </TouchableOpacity>
+
       <TouchableOpacity style={styles.logoutButton} onPress={() => Alert.alert('Logout', 'Are you sure you want to logout?')}>
         <Text style={styles.logoutText}>Logout</Text>
       </TouchableOpacity>
