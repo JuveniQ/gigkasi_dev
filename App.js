@@ -114,7 +114,7 @@ export default function App() {
     <GestureHandlerRootView style={{ flex: 1 }}>
       <NavigationContainer>
         <SafeAreaView style={[styles.container, Platform.OS == 'ios' ? { padding: StatusBar.currentHeight } : null]}>
-          <StatusBar barStyle='dark-content'   />
+          <StatusBar barStyle='light-content'   />
           <RootStack />
         </SafeAreaView>
       </NavigationContainer>
