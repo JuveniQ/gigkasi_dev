@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
+
 import {
   View,
   Text,
@@ -84,6 +85,9 @@ export default function ProfileScreen() {
       aspect: [4, 3],
       quality: 1,
     });
+
+ 
+
 
     if (!result.canceled) {
       setPortfolioImage(result.assets[0].uri);
@@ -216,7 +220,19 @@ export default function ProfileScreen() {
       ]
     );
   };
+const [showReviewsModal, setShowReviewsModal] = useState(false);
 
+const mockReviews = [
+  { id: '1', reviewer: 'Lerato M.', rating: 5, comment: 'Excellent job on short notice!' },
+  { id: '2', reviewer: 'Sipho D.', rating: 4, comment: 'Very professional and friendly.' },
+  { id: '4', reviewer: 'Zanele K.', rating: 5, comment: 'Highly recommended!' },
+   { id: '5', reviewer: 'Lerato M.', rating: 5, comment: 'Excellent job on short notice!' },
+  { id: '6', reviewer: 'Sipho D.', rating: 4, comment: 'Very professional and friendly.' },
+  { id: '7', reviewer: 'Zanele K.', rating: 5, comment: 'Highly recommended!' },
+   { id: '8', reviewer: 'Lerato M.', rating: 5, comment: 'Excellent job on short notice!' },
+  { id: '9', reviewer: 'Sipho D.', rating: 4, comment: 'Very professional and friendly.' },
+  { id: '10', reviewer: 'Zanele K.', rating: 5, comment: 'Highly recommended!' },
+];
   const renderProfileHeader = () => (
     <View style={styles.profileHeader}>
       <View style={styles.avatarContainer}>
@@ -234,12 +250,55 @@ export default function ProfileScreen() {
         <Text style={styles.profileLocation}>
           <Feather name="map-pin" size={12} color="#666" /> {userData.location}
         </Text>
+
+
+         <TouchableOpacity onPress={() => setShowReviewsModal(true)}>
+
+           
+          
         <View style={styles.ratingContainer}>
           <Ionicons name="star" size={14} color="#FFD700" />
           <Text style={styles.ratingText}>
             {userData.rating} ({userData.reviews} reviews)
           </Text>
         </View>
+</TouchableOpacity>
+
+
+<Modal
+  visible={showReviewsModal}
+  transparent
+  animationType="slide"
+  onRequestClose={() => setShowReviewsModal(false)}
+  style={styles.modalBg}
+>
+  <View style={styles.modalOverlay}>
+    <View style={styles.modalContent}>
+      <Text style={styles.modalTitle}>User Reviews</Text>
+
+      <FlatList
+        data={mockReviews}
+        keyExtractor={(item) => item.id}
+        renderItem={({ item }) => (
+          <View style={{ marginBottom: 15 }}>
+            <Text style={{ fontWeight: 'bold', fontSize: 16 }}>{item.reviewer}</Text>
+            <Text style={{ color: '#FFD700' }}>{'★'.repeat(item.rating)}</Text>
+            <Text style={{ fontSize: 14, color: '#555' }}>{item.comment}</Text>
+          </View>
+        )}
+      />
+
+      <TouchableOpacity
+        style={[styles.cancelButton, { marginTop: 10 }]}
+        onPress={() => setShowReviewsModal(false)}
+      >
+        <Text style={styles.buttonText}>Close</Text>
+      </TouchableOpacity>
+    </View>
+  </View>
+</Modal>
+
+
         <Text style={styles.joinDate}>{userData.joinDate}</Text>
       </View>
     </View>
@@ -280,7 +339,7 @@ export default function ProfileScreen() {
         renderItem={({ item }) => (
           <View style={styles.serviceCard}>
             <View style={styles.serviceHeader}>
-              <MaterialIcons name={item.icon as any} size={20} color="#2196F3" />
+              <MaterialIcons name={item.icon as any} size={20} color={colors.categoryColor} />
               <Text style={styles.serviceName}>{item.name}</Text>
             </View>
             <Text style={styles.serviceDescription}>{item.description}</Text>
@@ -445,7 +504,7 @@ export default function ProfileScreen() {
       ]}
       onPress={() => setSelectedService(service)}
     >
-      <MaterialIcons name={service.icon} size={24} color="#2196F3" />
+      <MaterialIcons name={service.icon} size={24} color={colors.categoryColor }/>
       <Text style={styles.serviceOptionText}>{service.name}</Text>
     </TouchableOpacity>
   );
@@ -926,17 +985,31 @@ const styles = StyleSheet.create({
     marginVertical: 16,
   },
   // Modal styles
-  modalOverlay: {
+  modalBg: {
     flex: 1,
-    backgroundColor: 'rgba(0,0,0,0.5)',
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
     justifyContent: 'center',
     alignItems: 'center',
+    paddingTop: 50,
+  },
+  modalOverlay: {
+    flex: 1,
+    backgroundColor: 'transparent',
+    justifyContent: 'center',
+    alignItems: 'center',
+   
+    padding: 20,
+   
   },
   modalContent: {
-    backgroundColor: '#fff',
+  
+    
+    backgroundColor: colors.backgroundColor,
     width: '90%',
     borderRadius: 10,
     padding: 20,
+    maxHeight: '100%',
+    elevation: 16,
   },
   modalTitle: {
     fontSize: 18,
@@ -956,24 +1029,27 @@ const styles = StyleSheet.create({
   modalButtons: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginTop: 10,
+   
   },
   cancelButton: {
-    backgroundColor: '#f5f5f5',
+    
     padding: 12,
     borderRadius: 6,
     flex: 1,
     marginRight: 10,
     alignItems: 'center',
+    backgroundColor: 'rgb(177, 233, 214)', // Red color for cancel button
   },
   saveButton: {
-    backgroundColor: '#2196F3',
+    
     padding: 12,
     borderRadius: 6,
     flex: 1,
     alignItems: 'center',
+    backgroundColor: colors.categoryColor,  
   },
   buttonText: {
+    color: '#fff',
     fontSize: 16,
     fontWeight: '500',
   },
@@ -1005,7 +1081,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     flexWrap: 'wrap',
     justifyContent: 'space-between',
-    marginBottom: 15,
+    marginBottom: 20,
   },
   serviceOption: {
     width: '30%',
