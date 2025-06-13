@@ -9,8 +9,9 @@ import {
   Image,
   StatusBar
 } from 'react-native';
-import { Ionicons, Feather, MaterialCommunityIcons } from '@expo/vector-icons';
+import { Ionicons, Feather, MaterialCommunityIcons, MaterialIcons } from '@expo/vector-icons';
 import { notifications } from '../constants/mockData';
+import { colors } from '../constants/colors';
 
 const NotificationsScreen = () => {
   const [activeTab, setActiveTab] = useState('All');
@@ -31,15 +32,15 @@ const NotificationsScreen = () => {
     const iconName = {
       message: 'message-text',
       booking: 'calendar-check',
-      payment: 'cash',
+      payment: 'currency-exchange',
       review: 'star',
-      system: 'alert-circle'
+      system: 'settings-applications'
     }[notification.type];
     
     return (
       <View style={[styles.iconContainer, styles[notification.type]]}>
-        <MaterialCommunityIcons 
-          name={iconName} 
+        <MaterialIcons 
+          name={iconName}
           size={20} 
           color="#fff" 
         />
@@ -64,13 +65,12 @@ const NotificationsScreen = () => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <StatusBar barStyle="dark-content" />
       
       {/* Header */}
       <View style={styles.header}>
         <Text style={styles.headerTitle}>Notifications</Text>
         <TouchableOpacity>
-          <Feather name="settings" size={24} color="#333" />
+          <MaterialIcons name="settings" size={24} color="#fff" />
         </TouchableOpacity>
       </View>
       
@@ -117,6 +117,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#F8F9FA',
+    justifyContent: "space-around",
   },
   header: {
     flexDirection: 'row',
@@ -124,12 +125,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     padding: 16,
     paddingTop: 8,
-    backgroundColor: '#fff',
+    backgroundColor: colors.headerColor,
   },
   headerTitle: {
     fontSize: 22,
     fontWeight: '600',
-    color: '#333',
+    color: '#FFF',
   },
   tabsContainer: {
     flexDirection: 'row',
@@ -157,7 +158,7 @@ const styles = StyleSheet.create({
     color: '#fff',
   },
   listContent: {
-    paddingBottom: 16,
+    paddingBottom: 4,
   },
   notificationItem: {
     flexDirection: 'row',
