@@ -12,6 +12,7 @@ import {
 } from 'react-native';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { MaterialIcons, Ionicons } from '@expo/vector-icons';
+import { colors } from '../constants/colors';
 
 export default function RequestDetailsScreen() {
   const navigation = useNavigation();
@@ -292,7 +293,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#F5F7FA',
   },
   header: {
-    backgroundColor: '#0D47A1',
+    backgroundColor: colors.headerColor,
     paddingTop: 10,
     paddingBottom: 10,
     paddingHorizontal: 16,
@@ -575,7 +576,7 @@ const styles = StyleSheet.create({
     textAlignVertical: 'top',
   },
   submitButton: {
-    backgroundColor: '#2196F3',
+    backgroundColor: colors.buttonColor,
     paddingVertical: 12,
     borderRadius: 8,
     alignItems: 'center',

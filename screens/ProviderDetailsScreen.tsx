@@ -12,6 +12,7 @@ import {
 import {  } from 'expo-status-bar';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { MaterialIcons, Ionicons } from '@expo/vector-icons';
+import { colors } from '../constants/colors';
 
 export default function ProviderDetailsScreen() {
   const navigation = useNavigation();
@@ -313,7 +314,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#F5F7FA',
   },
   header: {
-    backgroundColor: '#0D47A1',
+    backgroundColor: colors.headerColor,
     paddingTop: 10,
     paddingBottom: 10,
     paddingHorizontal: 16,
@@ -600,14 +601,16 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     alignItems: 'center',
     justifyContent: 'center',
-    borderWidth: 1,
-    borderColor: '#2196F3',
-    backgroundColor: '#F0F7FF',
+  
+   
+    backgroundColor: colors.buttonColor,
   },
   messageButtonText: {
-    color: '#2196F3',
+    color: 'white',
     fontWeight: '600',
     fontSize: 15,
+   
+   
   },
   bookButton: {
     flex: 1,
@@ -616,7 +619,7 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: '#2196F3',
+    backgroundColor:colors.buttonColor,
   },
   bookButtonText: {
     color: '#FFFFFF',
