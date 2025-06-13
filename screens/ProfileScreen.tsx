@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
+
 import {
   View,
   Text,
@@ -84,6 +85,9 @@ export default function ProfileScreen() {
       aspect: [4, 3],
       quality: 1,
     });
+
+ 
+
 
     if (!result.canceled) {
       setPortfolioImage(result.assets[0].uri);
@@ -216,7 +220,19 @@ export default function ProfileScreen() {
       ]
     );
   };
+const [showReviewsModal, setShowReviewsModal] = useState(false);
 
+const mockReviews = [
+  { id: '1', reviewer: 'Lerato M.', rating: 5, comment: 'Excellent job on short notice!' },
+  { id: '2', reviewer: 'Sipho D.', rating: 4, comment: 'Very professional and friendly.' },
+  { id: '4', reviewer: 'Zanele K.', rating: 5, comment: 'Highly recommended!' },
+   { id: '5', reviewer: 'Lerato M.', rating: 5, comment: 'Excellent job on short notice!' },
+  { id: '6', reviewer: 'Sipho D.', rating: 4, comment: 'Very professional and friendly.' },
+  { id: '7', reviewer: 'Zanele K.', rating: 5, comment: 'Highly recommended!' },
+   { id: '8', reviewer: 'Lerato M.', rating: 5, comment: 'Excellent job on short notice!' },
+  { id: '9', reviewer: 'Sipho D.', rating: 4, comment: 'Very professional and friendly.' },
+  { id: '10', reviewer: 'Zanele K.', rating: 5, comment: 'Highly recommended!' },
+];
   const renderProfileHeader = () => (
     <View style={styles.profileHeader}>
       <View style={styles.avatarContainer}>
@@ -234,12 +250,55 @@ export default function ProfileScreen() {
         <Text style={styles.profileLocation}>
           <Feather name="map-pin" size={12} color="#666" /> {userData.location}
         </Text>
+
+
+         <TouchableOpacity onPress={() => setShowReviewsModal(true)}>
+
+           
+          
         <View style={styles.ratingContainer}>
           <Ionicons name="star" size={14} color="#FFD700" />
           <Text style={styles.ratingText}>
             {userData.rating} ({userData.reviews} reviews)
           </Text>
         </View>
+</TouchableOpacity>
+
+
+<Modal
+  visible={showReviewsModal}
+  transparent
+  animationType="slide"
+  onRequestClose={() => setShowReviewsModal(false)}
+  style={styles.modalBg}
+>
+  <View style={styles.modalOverlay}>
+    <View style={styles.modalContent}>
+      <Text style={styles.modalTitle}>User Reviews</Text>
+
+      <FlatList
+        data={mockReviews}
+        keyExtractor={(item) => item.id}
+        renderItem={({ item }) => (
+          <View style={{ marginBottom: 15 }}>
+            <Text style={{ fontWeight: 'bold', fontSize: 16 }}>{item.reviewer}</Text>
+            <Text style={{ color: '#FFD700' }}>{'★'.repeat(item.rating)}</Text>
+            <Text style={{ fontSize: 14, color: '#555' }}>{item.comment}</Text>
+          </View>
+        )}
+      />
+
+      <TouchableOpacity
+        style={[styles.cancelButton, { marginTop: 10 }]}
+        onPress={() => setShowReviewsModal(false)}
+      >
+        <Text style={styles.buttonText}>Close</Text>
+      </TouchableOpacity>
+    </View>
+  </View>
+</Modal>
+
+
         <Text style={styles.joinDate}>{userData.joinDate}</Text>
       </View>
     </View>
@@ -926,17 +985,31 @@ const styles = StyleSheet.create({
     marginVertical: 16,
   },
   // Modal styles
-  modalOverlay: {
+  modalBg: {
     flex: 1,
-    backgroundColor: 'rgba(0,0,0,0.5)',
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
     justifyContent: 'center',
     alignItems: 'center',
+    paddingTop: 50,
+  },
+  modalOverlay: {
+    flex: 1,
+    backgroundColor: 'transparent',
+    justifyContent: 'center',
+    alignItems: 'center',
+   
+    padding: 20,
+   
   },
   modalContent: {
-    backgroundColor: '#fff',
+  
+    
+    backgroundColor: colors.backgroundColor,
     width: '90%',
     borderRadius: 10,
     padding: 20,
+    maxHeight: '80%',
+    elevation: 16,
   },
   modalTitle: {
     fontSize: 18,
