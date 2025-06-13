@@ -19,6 +19,19 @@ import { Ionicons, Feather, MaterialIcons } from '@expo/vector-icons';
 import { colors } from '../constants/colors';
 import * as ImagePicker from 'expo-image-picker';
 
+// Service options with icons
+const serviceOptions = [
+  { id: '1', name: 'Plumbing', icon: 'plumbing' },
+  { id: '2', name: 'Electrical', icon: 'electrical-services' },
+  { id: '3', name: 'Tutoring', icon: 'school' },
+  { id: '4', name: 'Cleaning', icon: 'cleaning-services' },
+  { id: '5', name: 'Gardening', icon: 'yard' },
+  { id: '6', name: 'Beauty', icon: 'content-cut' },
+  { id: '7', name: 'Transport', icon: 'directions-car' },
+  { id: '8', name: 'Cooking', icon: 'restaurant' },
+  { id: '9', name: 'Other', icon: 'add-circle-outline' }
+];
+
 export default function ProfileScreen() {
   const navigation = useNavigation();
   const [isServiceProvider, setIsServiceProvider] = useState(true);
@@ -33,6 +46,8 @@ export default function ProfileScreen() {
   const [serviceDescription, setServiceDescription] = useState('');
   const [servicePrice, setServicePrice] = useState('');
   const [portfolioTitle, setPortfolioTitle] = useState('');
+  const [selectedService, setSelectedService] = useState(null);
+  const [customServiceName, setCustomServiceName] = useState('');
 
   // Mock user data with state
   const [userData, setUserData] = useState({
@@ -46,8 +61,8 @@ export default function ProfileScreen() {
     completedJobs: 48,
     requestsMade: 12,
     services: [
-      { id: '1', name: 'Electrical', description: 'Residential electrical repairs', price: 'R150-R300/hr' },
-      { id: '2', name: 'Plumbing', description: 'Water system repairs', price: 'R180-R250/hr' }
+      { id: '1', name: 'Electrical', description: 'Residential electrical repairs', price: 'R150-R300/hr', icon: 'electrical-services' },
+      { id: '2', name: 'Plumbing', description: 'Water system repairs', price: 'R180-R250/hr', icon: 'plumbing' }
     ],
     requests: [
       { id: '1', title: 'Fix leaking tap', status: 'active', date: '2 days ago', responses: 4 },
@@ -76,7 +91,10 @@ export default function ProfileScreen() {
   };
 
   const handleAddService = () => {
-    if (!serviceName || !serviceDescription || !servicePrice) {
+    const finalServiceName = selectedService?.name === 'Other' ? customServiceName : selectedService?.name;
+    const finalServiceIcon = selectedService?.name === 'Other' ? 'add-circle-outline' : selectedService?.icon;
+
+    if (!finalServiceName || !serviceDescription || !servicePrice) {
       Alert.alert('Error', 'Please fill all fields');
       return;
     }
@@ -85,7 +103,13 @@ export default function ProfileScreen() {
       // Update existing service
       const updatedServices = userData.services.map(service => 
         service.id === editingService.id 
-          ? { ...service, name: serviceName, description: serviceDescription, price: servicePrice }
+          ? { 
+              ...service, 
+              name: finalServiceName, 
+              description: serviceDescription, 
+              price: servicePrice,
+              icon: finalServiceIcon
+            }
           : service
       );
       setUserData({...userData, services: updatedServices});
@@ -93,9 +117,10 @@ export default function ProfileScreen() {
       // Add new service
       const newService = {
         id: Date.now().toString(),
-        name: serviceName,
+        name: finalServiceName,
         description: serviceDescription,
-        price: servicePrice
+        price: servicePrice,
+        icon: finalServiceIcon
       };
       setUserData({...userData, services: [...userData.services, newService]});
     }
@@ -134,6 +159,8 @@ export default function ProfileScreen() {
     setServiceName('');
     setServiceDescription('');
     setServicePrice('');
+    setSelectedService(null);
+    setCustomServiceName('');
     setEditingService(null);
     setShowServiceForm(false);
   };
@@ -146,7 +173,17 @@ export default function ProfileScreen() {
   };
 
   const editService = (service) => {
-    setServiceName(service.name);
+    // Find if this is a predefined service
+    const predefinedService = serviceOptions.find(opt => opt.name === service.name);
+    
+    if (predefinedService) {
+      setSelectedService(predefinedService);
+    } else {
+      // For custom services
+      setSelectedService(serviceOptions.find(opt => opt.name === 'Other'));
+      setCustomServiceName(service.name);
+    }
+    
     setServiceDescription(service.description);
     setServicePrice(service.price);
     setEditingService(service);
@@ -242,7 +279,10 @@ export default function ProfileScreen() {
         scrollEnabled={false}
         renderItem={({ item }) => (
           <View style={styles.serviceCard}>
-            <Text style={styles.serviceName}>{item.name}</Text>
+            <View style={styles.serviceHeader}>
+              <MaterialIcons name={item.icon as any} size={20} color="#2196F3" />
+              <Text style={styles.serviceName}>{item.name}</Text>
+            </View>
             <Text style={styles.serviceDescription}>{item.description}</Text>
             <View style={styles.serviceFooter}>
               <Text style={styles.servicePrice}>{item.price}</Text>
@@ -396,6 +436,20 @@ export default function ProfileScreen() {
     </>
   );
 
+  const renderServiceOption = (service) => (
+    <TouchableOpacity
+      key={service.id}
+      style={[
+        styles.serviceOption,
+        selectedService?.id === service.id && styles.selectedServiceOption
+      ]}
+      onPress={() => setSelectedService(service)}
+    >
+      <MaterialIcons name={service.icon} size={24} color="#2196F3" />
+      <Text style={styles.serviceOptionText}>{service.name}</Text>
+    </TouchableOpacity>
+  );
+
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
@@ -448,12 +502,18 @@ export default function ProfileScreen() {
               {editingService ? 'Edit Service' : 'Add New Service'}
             </Text>
             
-            <TextInput
-              style={styles.input}
-              placeholder="Service Name"
-              value={serviceName}
-              onChangeText={setServiceName}
-            />
+            <View style={styles.serviceOptionsContainer}>
+              {serviceOptions.map(renderServiceOption)}
+            </View>
+
+            {selectedService?.name === 'Other' && (
+              <TextInput
+                style={styles.input}
+                placeholder="Enter service name"
+                value={customServiceName}
+                onChangeText={setCustomServiceName}
+              />
+            )}
             
             <TextInput
               style={styles.input}
@@ -696,10 +756,16 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: '#eee',
   },
+  serviceHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 8,
+  },
   serviceName: {
     fontSize: 16,
     fontWeight: '600',
     color: '#333',
+    marginLeft: 8,
   },
   serviceDescription: {
     fontSize: 14,
@@ -933,5 +999,30 @@ const styles = StyleSheet.create({
   previewImage: {
     width: '100%',
     height: '100%',
+  },
+  // Service options styles
+  serviceOptionsContainer: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'space-between',
+    marginBottom: 15,
+  },
+  serviceOption: {
+    width: '30%',
+    alignItems: 'center',
+    padding: 10,
+    marginBottom: 10,
+    borderRadius: 8,
+    borderWidth: 1,
+    borderColor: '#ddd',
+  },
+  selectedServiceOption: {
+    borderColor: '#2196F3',
+    backgroundColor: '#E3F2FD',
+  },
+  serviceOptionText: {
+    marginTop: 5,
+    fontSize: 12,
+    textAlign: 'center',
   },
 });
