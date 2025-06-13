@@ -9,18 +9,33 @@ import {
   ScrollView,
   FlatList,
   Alert,
-  Switch
+  Switch,
+  TextInput,
+  Modal,
+  Button
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { Ionicons, Feather, MaterialIcons } from '@expo/vector-icons';
 import { colors } from '../constants/colors';
+import * as ImagePicker from 'expo-image-picker';
 
 export default function ProfileScreen() {
   const navigation = useNavigation();
   const [isServiceProvider, setIsServiceProvider] = useState(true);
+  const [showServiceForm, setShowServiceForm] = useState(false);
+  const [showPortfolioForm, setShowPortfolioForm] = useState(false);
+  const [editingService, setEditingService] = useState(null);
+  const [editingPortfolio, setEditingPortfolio] = useState(null);
+  const [portfolioImage, setPortfolioImage] = useState(null);
 
-  // Mock user data
-  const userData = {
+  // Form states
+  const [serviceName, setServiceName] = useState('');
+  const [serviceDescription, setServiceDescription] = useState('');
+  const [servicePrice, setServicePrice] = useState('');
+  const [portfolioTitle, setPortfolioTitle] = useState('');
+
+  // Mock user data with state
+  const [userData, setUserData] = useState({
     name: 'Thabo Mokoena',
     imageUrl: 'https://api.a0.dev/assets/image?text=TM&aspect=1:1',
     location: 'Soweto, Johannesburg',
@@ -45,6 +60,124 @@ export default function ProfileScreen() {
     ],
     skills: ['Electrical wiring', 'Circuit repair', 'Pipe fitting', 'Leak repair'],
     qualifications: ['National Certificate: Electrical Engineering', 'Plumbing Service Certificate']
+  });
+
+  const pickImage = async () => {
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
+
+    if (!result.canceled) {
+      setPortfolioImage(result.assets[0].uri);
+    }
+  };
+
+  const handleAddService = () => {
+    if (!serviceName || !serviceDescription || !servicePrice) {
+      Alert.alert('Error', 'Please fill all fields');
+      return;
+    }
+
+    if (editingService) {
+      // Update existing service
+      const updatedServices = userData.services.map(service => 
+        service.id === editingService.id 
+          ? { ...service, name: serviceName, description: serviceDescription, price: servicePrice }
+          : service
+      );
+      setUserData({...userData, services: updatedServices});
+    } else {
+      // Add new service
+      const newService = {
+        id: Date.now().toString(),
+        name: serviceName,
+        description: serviceDescription,
+        price: servicePrice
+      };
+      setUserData({...userData, services: [...userData.services, newService]});
+    }
+
+    resetServiceForm();
+  };
+
+  const handleAddPortfolio = () => {
+    if (!portfolioTitle || (!portfolioImage && !editingPortfolio)) {
+      Alert.alert('Error', 'Please add a title and image');
+      return;
+    }
+
+    if (editingPortfolio) {
+      // Update existing portfolio item
+      const updatedPortfolio = userData.portfolio.map(item => 
+        item.id === editingPortfolio.id 
+          ? { ...item, title: portfolioTitle, imageUrl: portfolioImage || item.imageUrl }
+          : item
+      );
+      setUserData({...userData, portfolio: updatedPortfolio});
+    } else {
+      // Add new portfolio item
+      const newPortfolio = {
+        id: Date.now().toString(),
+        title: portfolioTitle,
+        imageUrl: portfolioImage || 'https://api.a0.dev/assets/image?text=Project&aspect=16:9'
+      };
+      setUserData({...userData, portfolio: [...userData.portfolio, newPortfolio]});
+    }
+
+    resetPortfolioForm();
+  };
+
+  const resetServiceForm = () => {
+    setServiceName('');
+    setServiceDescription('');
+    setServicePrice('');
+    setEditingService(null);
+    setShowServiceForm(false);
+  };
+
+  const resetPortfolioForm = () => {
+    setPortfolioTitle('');
+    setPortfolioImage(null);
+    setEditingPortfolio(null);
+    setShowPortfolioForm(false);
+  };
+
+  const editService = (service) => {
+    setServiceName(service.name);
+    setServiceDescription(service.description);
+    setServicePrice(service.price);
+    setEditingService(service);
+    setShowServiceForm(true);
+  };
+
+  const editPortfolio = (item) => {
+    setPortfolioTitle(item.title);
+    setPortfolioImage(item.imageUrl);
+    setEditingPortfolio(item);
+    setShowPortfolioForm(true);
+  };
+
+  const deletePortfolio = (id) => {
+    Alert.alert(
+      'Delete Portfolio Item',
+      'Are you sure you want to delete this item?',
+      [
+        { text: 'Cancel', style: 'cancel' },
+        { 
+          text: 'Delete', 
+          style: 'destructive',
+          onPress: () => {
+            setUserData({
+              ...userData,
+              portfolio: userData.portfolio.filter(item => item.id !== id)
+            });
+          }
+        }
+      ]
+    );
   };
 
   const renderProfileHeader = () => (
@@ -93,7 +226,13 @@ export default function ProfileScreen() {
     <>
       <View style={styles.sectionHeader}>
         <Text style={styles.sectionTitle}>My Services</Text>
-        <TouchableOpacity style={styles.addButton}>
+        <TouchableOpacity 
+          style={styles.addButton}
+          onPress={() => {
+            resetServiceForm();
+            setShowServiceForm(true);
+          }}
+        >
           <Feather name="plus" size={16} color="#2196F3" />
         </TouchableOpacity>
       </View>
@@ -107,7 +246,7 @@ export default function ProfileScreen() {
             <Text style={styles.serviceDescription}>{item.description}</Text>
             <View style={styles.serviceFooter}>
               <Text style={styles.servicePrice}>{item.price}</Text>
-              <TouchableOpacity>
+              <TouchableOpacity onPress={() => editService(item)}>
                 <Feather name="edit-2" size={16} color="#666" />
               </TouchableOpacity>
             </View>
@@ -160,7 +299,13 @@ export default function ProfileScreen() {
     <>
       <View style={styles.sectionHeader}>
         <Text style={styles.sectionTitle}>Portfolio</Text>
-        <TouchableOpacity style={styles.addButton}>
+        <TouchableOpacity 
+          style={styles.addButton}
+          onPress={() => {
+            resetPortfolioForm();
+            setShowPortfolioForm(true);
+          }}
+        >
           <Feather name="plus" size={16} color="#2196F3" />
         </TouchableOpacity>
       </View>
@@ -172,7 +317,23 @@ export default function ProfileScreen() {
         renderItem={({ item }) => (
           <View style={styles.portfolioItem}>
             <Image source={{ uri: item.imageUrl }} style={styles.portfolioImage} />
-            <Text style={styles.portfolioTitle}>{item.title}</Text>
+            <View style={styles.portfolioOverlay}>
+              <Text style={styles.portfolioTitle}>{item.title}</Text>
+              <View style={styles.portfolioActions}>
+                <TouchableOpacity 
+                  style={styles.portfolioActionButton}
+                  onPress={() => editPortfolio(item)}
+                >
+                  <Feather name="edit-2" size={14} color="#fff" />
+                </TouchableOpacity>
+                <TouchableOpacity 
+                  style={styles.portfolioActionButton}
+                  onPress={() => deletePortfolio(item.id)}
+                >
+                  <Feather name="trash-2" size={14} color="#fff" />
+                </TouchableOpacity>
+              </View>
+            </View>
           </View>
         )}
       />
@@ -273,6 +434,122 @@ export default function ProfileScreen() {
         {/* Settings */}
         {renderSettings()}
       </ScrollView>
+
+      {/* Service Form Modal */}
+      <Modal
+        visible={showServiceForm}
+        animationType="slide"
+        transparent={true}
+        onRequestClose={resetServiceForm}
+      >
+        <View style={styles.modalOverlay}>
+          <View style={styles.modalContent}>
+            <Text style={styles.modalTitle}>
+              {editingService ? 'Edit Service' : 'Add New Service'}
+            </Text>
+            
+            <TextInput
+              style={styles.input}
+              placeholder="Service Name"
+              value={serviceName}
+              onChangeText={setServiceName}
+            />
+            
+            <TextInput
+              style={styles.input}
+              placeholder="Description"
+              value={serviceDescription}
+              onChangeText={setServiceDescription}
+              multiline
+            />
+            
+            <TextInput
+              style={styles.input}
+              placeholder="Price Range (e.g., R150-R300/hr)"
+              value={servicePrice}
+              onChangeText={setServicePrice}
+            />
+            
+            <View style={styles.modalButtons}>
+              <TouchableOpacity 
+                style={styles.cancelButton}
+                onPress={resetServiceForm}
+              >
+                <Text style={styles.buttonText}>Cancel</Text>
+              </TouchableOpacity>
+              
+              <TouchableOpacity 
+                style={styles.saveButton}
+                onPress={handleAddService}
+              >
+                <Text style={styles.buttonText}>
+                  {editingService ? 'Update' : 'Save'}
+                </Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </View>
+      </Modal>
+
+      {/* Portfolio Form Modal */}
+      <Modal
+        visible={showPortfolioForm}
+        animationType="slide"
+        transparent={true}
+        onRequestClose={resetPortfolioForm}
+      >
+        <View style={styles.modalOverlay}>
+          <View style={styles.modalContent}>
+            <Text style={styles.modalTitle}>
+              {editingPortfolio ? 'Edit Portfolio Item' : 'Add Portfolio Item'}
+            </Text>
+            
+            <TouchableOpacity 
+              style={styles.imagePicker}
+              onPress={pickImage}
+            >
+              {portfolioImage ? (
+                <Image 
+                  source={{ uri: portfolioImage }} 
+                  style={styles.previewImage}
+                />
+              ) : (
+                <View style={styles.imagePlaceholder}>
+                  <Feather name="image" size={40} color="#666" />
+                  <Text style={styles.imagePlaceholderText}>
+                    Tap to select an image
+                  </Text>
+                </View>
+              )}
+            </TouchableOpacity>
+            
+            <TextInput
+              style={styles.input}
+              placeholder="Project Title"
+              value={portfolioTitle}
+              onChangeText={setPortfolioTitle}
+            />
+            
+            <View style={styles.modalButtons}>
+              <TouchableOpacity 
+                style={styles.cancelButton}
+                onPress={resetPortfolioForm}
+              >
+                <Text style={styles.buttonText}>Cancel</Text>
+              </TouchableOpacity>
+              
+              <TouchableOpacity 
+                style={styles.saveButton}
+                onPress={handleAddPortfolio}
+              >
+                <Text style={styles.buttonText}>
+                  {editingPortfolio ? 'Update' : 'Save'}
+                </Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </View>
+      </Modal>
     </SafeAreaView>
   );
 }
@@ -494,10 +771,26 @@ const styles = StyleSheet.create({
     height: 100,
     backgroundColor: '#eee',
   },
+  portfolioOverlay: {
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    right: 0,
+    backgroundColor: 'rgba(0,0,0,0.5)',
+    padding: 8,
+  },
   portfolioTitle: {
     fontSize: 12,
-    padding: 8,
-    color: '#333',
+    color: '#fff',
+    fontWeight: '600',
+  },
+  portfolioActions: {
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+    marginTop: 4,
+  },
+  portfolioActionButton: {
+    marginLeft: 8,
   },
   skillsContainer: {
     flexDirection: 'row',
@@ -565,5 +858,80 @@ const styles = StyleSheet.create({
     color: '#999',
     fontSize: 12,
     marginVertical: 16,
+  },
+  // Modal styles
+  modalOverlay: {
+    flex: 1,
+    backgroundColor: 'rgba(0,0,0,0.5)',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  modalContent: {
+    backgroundColor: '#fff',
+    width: '90%',
+    borderRadius: 10,
+    padding: 20,
+  },
+  modalTitle: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    marginBottom: 20,
+    color: '#333',
+    textAlign: 'center',
+  },
+  input: {
+    borderWidth: 1,
+    borderColor: '#ddd',
+    borderRadius: 6,
+    padding: 12,
+    marginBottom: 15,
+    fontSize: 16,
+  },
+  modalButtons: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginTop: 10,
+  },
+  cancelButton: {
+    backgroundColor: '#f5f5f5',
+    padding: 12,
+    borderRadius: 6,
+    flex: 1,
+    marginRight: 10,
+    alignItems: 'center',
+  },
+  saveButton: {
+    backgroundColor: '#2196F3',
+    padding: 12,
+    borderRadius: 6,
+    flex: 1,
+    alignItems: 'center',
+  },
+  buttonText: {
+    fontSize: 16,
+    fontWeight: '500',
+  },
+  // Image picker styles
+  imagePicker: {
+    height: 150,
+    borderWidth: 1,
+    borderColor: '#ddd',
+    borderRadius: 6,
+    marginBottom: 15,
+    justifyContent: 'center',
+    alignItems: 'center',
+    overflow: 'hidden',
+  },
+  imagePlaceholder: {
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  imagePlaceholderText: {
+    marginTop: 10,
+    color: '#666',
+  },
+  previewImage: {
+    width: '100%',
+    height: '100%',
   },
 });
