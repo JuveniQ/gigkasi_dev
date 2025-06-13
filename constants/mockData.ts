@@ -195,3 +195,19 @@ export const liveRequests = [
 ];
 
 //End Dashboard Data
+
+
+
+// ProfileScreen
+
+export const mockReviews = [
+  { id: '1', reviewer: 'Lerato M.', rating: 5, comment: 'Excellent job on short notice!' },
+  { id: '2', reviewer: 'Sipho D.', rating: 4, comment: 'Very professional and friendly.' },
+  { id: '4', reviewer: 'Zanele K.', rating: 5, comment: 'Highly recommended!' },
+   { id: '5', reviewer: 'Lerato M.', rating: 5, comment: 'Excellent job on short notice!' },
+  { id: '6', reviewer: 'Sipho D.', rating: 4, comment: 'Very professional and friendly.' },
+  { id: '7', reviewer: 'Zanele K.', rating: 5, comment: 'Highly recommended!' },
+   { id: '8', reviewer: 'Lerato M.', rating: 5, comment: 'Excellent job on short notice!' },
+  { id: '9', reviewer: 'Sipho D.', rating: 4, comment: "It looks like you're encountering some dependency warnings when running yarn install for your React Native/Expo project. These warnings are generally not critical, but it's good to address them for better long-term maintenance. Here's how to handle them" },
+  { id: '10', reviewer: 'Zanele K.', rating: 5, comment: 'Highly recommended!' },
+];

@@ -19,6 +19,7 @@ import { useNavigation } from '@react-navigation/native';
 import { Ionicons, Feather, MaterialIcons } from '@expo/vector-icons';
 import { colors } from '../constants/colors';
 import * as ImagePicker from 'expo-image-picker';
+import { mockReviews } from '../constants/mockData';
 
 // Service options with icons
 const serviceOptions = [
@@ -52,9 +53,9 @@ export default function ProfileScreen() {
 
   // Mock user data with state
   const [userData, setUserData] = useState({
-    name: 'Thabo Mokoena',
+    name: 'Jay Anderson',
     imageUrl: 'https://api.a0.dev/assets/image?text=TM&aspect=1:1',
-    location: 'Soweto, Johannesburg',
+    location: 'Ext 4, Emalahleni, Mpumalanga',
     rating: 4.7,
     reviews: 23,
     joinDate: 'Joined August 2023',
@@ -222,17 +223,7 @@ export default function ProfileScreen() {
   };
 const [showReviewsModal, setShowReviewsModal] = useState(false);
 
-const mockReviews = [
-  { id: '1', reviewer: 'Lerato M.', rating: 5, comment: 'Excellent job on short notice!' },
-  { id: '2', reviewer: 'Sipho D.', rating: 4, comment: 'Very professional and friendly.' },
-  { id: '4', reviewer: 'Zanele K.', rating: 5, comment: 'Highly recommended!' },
-   { id: '5', reviewer: 'Lerato M.', rating: 5, comment: 'Excellent job on short notice!' },
-  { id: '6', reviewer: 'Sipho D.', rating: 4, comment: 'Very professional and friendly.' },
-  { id: '7', reviewer: 'Zanele K.', rating: 5, comment: 'Highly recommended!' },
-   { id: '8', reviewer: 'Lerato M.', rating: 5, comment: 'Excellent job on short notice!' },
-  { id: '9', reviewer: 'Sipho D.', rating: 4, comment: 'Very professional and friendly.' },
-  { id: '10', reviewer: 'Zanele K.', rating: 5, comment: 'Highly recommended!' },
-];
+
   const renderProfileHeader = () => (
     <View style={styles.profileHeader}>
       <View style={styles.avatarContainer}>
