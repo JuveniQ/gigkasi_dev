@@ -36,7 +36,7 @@ const serviceOptions = [
 
 export default function ProfileScreen() {
   const navigation = useNavigation();
-  const [isServiceProvider, setIsServiceProvider] = useState(true);
+  const [isServiceProvider, setIsServiceProvider] = useState(false);
   const [showServiceForm, setShowServiceForm] = useState(false);
   const [showPortfolioForm, setShowPortfolioForm] = useState(false);
   const [editingService, setEditingService] = useState(null);
