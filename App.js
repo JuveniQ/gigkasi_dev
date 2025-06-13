@@ -20,6 +20,7 @@ import RequestDetailsScreen from './screens/RequestDetailsScreen'
 import NotificationsScreen from './screens/NotificationScreen'
 import PrivacySecurityScreen from './screens/PrivacyScreen'
 import UserProvider from './contexts/UserContext'
+import AuthScreen from './screens/AuthScreen';
 
 const Stack = createNativeStackNavigator()
 const Tab = createBottomTabNavigator()
@@ -95,6 +96,11 @@ function MainTabs() {
               setCurrentIndex(3)
             }
           }} />
+          <Stack.Screen 
+  name="Auth" 
+  component={AuthScreen}
+  options={{ headerShown: false }}
+/>
         </Tab.Navigator>
       </View>
     </GestureDetector>
