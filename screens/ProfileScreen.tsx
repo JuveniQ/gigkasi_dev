@@ -922,7 +922,7 @@ const styles = StyleSheet.create({
     color: '#333',
   },
   logoutButton: {
-    margin: 4,
+    margin: 4 ,
     marginHorizontal: 64,
     padding: 16,
     backgroundColor: 'rgba(255, 0, 0, 0.6)',
