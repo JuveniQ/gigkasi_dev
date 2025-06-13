@@ -19,6 +19,7 @@ import ProviderDetailsScreen from './screens/ProviderDetailsScreen'
 import RequestDetailsScreen from './screens/RequestDetailsScreen'
 import NotificationsScreen from './screens/NotificationScreen'
 import PrivacySecurityScreen from './screens/PrivacyScreen'
+import UserProvider from './contexts/UserContext'
 
 const Stack = createNativeStackNavigator()
 const Tab = createBottomTabNavigator()
@@ -58,8 +59,8 @@ function MainTabs() {
 
   return (
     <GestureDetector gesture={switchTab}>
-      <View collapsable={false} style={{flex: 1}}>
-        <Tab.Navigator  screenOptions={({ route }) => ({
+      <View collapsable={false} style={{ flex: 1 }}>
+        <Tab.Navigator screenOptions={({ route }) => ({
           tabBarIcon: (props) => tabIcon(props, route),
           headerShown: false,
           tabBarStyle: {
@@ -71,23 +72,31 @@ function MainTabs() {
           lazy: true,
           tabBarActiveTintColor: colors.tabBarColor,
           tabBarInactiveTintColor: colors.headerColor,
-          
+
         })}>
 
-          <Tab.Screen name='Dashboard' component={Dashboard} listeners={{tabPress: (e) =>{
-            setCurrentIndex(0)
-          }}}/>
-          <Tab.Screen name='Discover' component={DiscoverScreen} listeners={{tabPress: (e) =>{
-            setCurrentIndex(1)
-          }}}/>
-          <Stack.Screen name='Messages' component={MessagesScreen} listeners={{tabPress: (e) =>{
-            setCurrentIndex(2)
-          }}}/>
-          <Tab.Screen name='Profile' component={ProfileScreen} listeners={{tabPress: (e) =>{
-            setCurrentIndex(3)
-          }}}/>
+          <Tab.Screen name='Dashboard' component={Dashboard} listeners={{
+            tabPress: (e) => {
+              setCurrentIndex(0)
+            }
+          }} />
+          <Tab.Screen name='Discover' component={DiscoverScreen} listeners={{
+            tabPress: (e) => {
+              setCurrentIndex(1)
+            }
+          }} />
+          <Stack.Screen name='Messages' component={MessagesScreen} listeners={{
+            tabPress: (e) => {
+              setCurrentIndex(2)
+            }
+          }} />
+          <Tab.Screen name='Profile' component={ProfileScreen} listeners={{
+            tabPress: (e) => {
+              setCurrentIndex(3)
+            }
+          }} />
         </Tab.Navigator>
-        </View>
+      </View>
     </GestureDetector>
 
   )
@@ -102,9 +111,9 @@ function RootStack() {
       <Stack.Screen name='RequestDetails' component={RequestDetailsScreen} />
       <Stack.Screen name='CreateRequest' component={CreateRequestScreen} />
       <Stack.Screen name='CreateService' component={CreateServiceScreen} />
-      <Stack.Screen name='EditProfile' component={EditProfileScreen}/>
-      <Stack.Screen name="Notifications" component={NotificationsScreen}/>
-      <Stack.Screen name='PrivacySecurity' component={PrivacySecurityScreen}/>
+      <Stack.Screen name='EditProfile' component={EditProfileScreen} />
+      <Stack.Screen name="Notifications" component={NotificationsScreen} />
+      <Stack.Screen name='PrivacySecurity' component={PrivacySecurityScreen} />
     </Stack.Navigator>
   )
 }
@@ -113,14 +122,16 @@ export default function App() {
 
 
   return (
-    <GestureHandlerRootView style={{ flex: 1 }}>
-      <NavigationContainer>
-        <SafeAreaView style={[styles.container, Platform.OS == 'ios' ? { padding: StatusBar.currentHeight } : null]}>
-          <StatusBar barStyle='light-content' />
-          <RootStack />
-        </SafeAreaView>
-      </NavigationContainer>
-    </GestureHandlerRootView>
+    <UserProvider>
+      <GestureHandlerRootView style={{ flex: 1 }}>
+        <NavigationContainer>
+          <SafeAreaView style={[styles.container, Platform.OS == 'ios' ? { padding: StatusBar.currentHeight } : null]}>
+            <StatusBar barStyle='light-content' />
+            <RootStack />
+          </SafeAreaView>
+        </NavigationContainer>
+      </GestureHandlerRootView>
+    </UserProvider>
   );
 }
 

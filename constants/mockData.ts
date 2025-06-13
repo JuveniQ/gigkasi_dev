@@ -227,6 +227,7 @@ export const serviceOptions = [
 ];
 
 export const userData = {
+    id: '4',
     name: 'Jay Anderson',
     imageUrl: 'https://api.a0.dev/assets/image?text=TM&aspect=1:1',
     location: 'Ext 4, Emalahleni, Mpumalanga',
@@ -236,6 +237,7 @@ export const userData = {
     verified: true,
     completedJobs: 48,
     requestsMade: 12,
+    loggedIn: false,
     services: [
       { id: '1', name: 'Electrical', description: 'Residential electrical repairs', price: 'R150-R300/hr', icon: 'electrical-services' },
       { id: '2', name: 'Plumbing', description: 'Water system repairs', price: 'R180-R250/hr', icon: 'plumbing' }
@@ -250,7 +252,8 @@ export const userData = {
       { id: '2', title: 'Bathroom Plumbing', imageUrl: 'https://api.a0.dev/assets/image?text=Bathroom&aspect=16:9' }
     ],
     skills: ['Electrical wiring', 'Circuit repair', 'Pipe fitting', 'Leak repair'],
-    qualifications: ['National Certificate: Electrical Engineering', 'Plumbing Service Certificate']
+    qualifications: ['National Certificate: Electrical Engineering', 'Plumbing Service Certificate'],
+    status: ''
   }
 
   //PROFILE SCREEN END ===================================
