@@ -413,7 +413,7 @@ export default function ProfileScreen() {
 
   const renderSettings = () => (
     <>
-      <View style={styles.sectionHeader}>
+      <View style={[styles.sectionHeader, {marginTop: 24}]}>
         <Text style={styles.sectionTitle}>Account Settings</Text>
       </View>
 
@@ -917,15 +917,16 @@ const styles = StyleSheet.create({
   },
   logoutButton: {
     margin: 16,
+    marginHorizontal: 64,
     padding: 16,
-    backgroundColor: '#fff',
-    borderRadius: 8,
+    backgroundColor: 'rgba(255, 0, 0, 0.6)',
+    borderRadius: 16,
     borderWidth: 1,
-    borderColor: '#2196F3',
+    borderColor: '#666',
     alignItems: 'center',
   },
   logoutText: {
-    color: '#2196F3',
+    color: '#000',
     fontSize: 16,
     fontWeight: '500',
   },
@@ -953,8 +954,6 @@ const styles = StyleSheet.create({
 
   },
   modalContent: {
-
-
     backgroundColor: colors.backgroundColor,
     width: '90%',
     borderRadius: 10,
