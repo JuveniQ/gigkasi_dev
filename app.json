@@ -21,7 +21,7 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#C1FF72"
       },
-      "package": "za.com.juveniq",
+      "package": "za.co.juveniq",
       "edgeToEdgeEnabled": true
     },
     "web": {
