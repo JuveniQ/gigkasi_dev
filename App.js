@@ -3,7 +3,8 @@ import { Ionicons } from '@expo/vector-icons'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { NavigationContainer, useNavigation } from '@react-navigation/native'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
-import { Platform, StatusBar, StyleSheet, View } from 'react-native'
+import { Platform, StyleSheet, View } from 'react-native'
+import { StatusBar } from 'expo-status-bar'
 import { Gesture, GestureDetector, GestureHandlerRootView } from 'react-native-gesture-handler'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { colors } from './constants/colors'
@@ -102,7 +103,7 @@ export default function App() {
     <GestureHandlerRootView style={{ flex: 1 }}>
       <NavigationContainer>
         <SafeAreaView style={[styles.container, Platform.OS == 'ios' ? { padding: StatusBar.currentHeight } : null]}>
-          <StatusBar barStyle='light-content' backgroundColor={colors.headerColor} networkActivityIndicatorVisible={true} />
+          <StatusBar barStyle='dark-content'   />
           <RootStack />
         </SafeAreaView>
       </NavigationContainer>
