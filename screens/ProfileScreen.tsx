@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState } from 'react';
 
 import {
   View,
@@ -12,27 +12,15 @@ import {
   Alert,
   Switch,
   TextInput,
-  Modal,
-  Button
+  Modal
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { Ionicons, Feather, MaterialIcons } from '@expo/vector-icons';
 import { colors } from '../constants/colors';
 import * as ImagePicker from 'expo-image-picker';
-import { mockReviews } from '../constants/mockData';
+import { mockReviews, serviceOptions, userData as ud } from '../constants/mockData';
 
-// Service options with icons
-const serviceOptions = [
-  { id: '1', name: 'Plumbing', icon: 'plumbing' },
-  { id: '2', name: 'Electrical', icon: 'electrical-services' },
-  { id: '3', name: 'Tutoring', icon: 'school' },
-  { id: '4', name: 'Cleaning', icon: 'cleaning-services' },
-  { id: '5', name: 'Gardening', icon: 'yard' },
-  { id: '6', name: 'Beauty', icon: 'content-cut' },
-  { id: '7', name: 'Transport', icon: 'directions-car' },
-  { id: '8', name: 'Cooking', icon: 'restaurant' },
-  { id: '9', name: 'Other', icon: 'add-circle-outline' }
-];
+
 
 export default function ProfileScreen() {
   const navigation = useNavigation();
@@ -52,32 +40,7 @@ export default function ProfileScreen() {
   const [customServiceName, setCustomServiceName] = useState('');
 
   // Mock user data with state
-  const [userData, setUserData] = useState({
-    name: 'Jay Anderson',
-    imageUrl: 'https://api.a0.dev/assets/image?text=TM&aspect=1:1',
-    location: 'Ext 4, Emalahleni, Mpumalanga',
-    rating: 4.7,
-    reviews: 23,
-    joinDate: 'Joined August 2023',
-    verified: true,
-    completedJobs: 48,
-    requestsMade: 12,
-    services: [
-      { id: '1', name: 'Electrical', description: 'Residential electrical repairs', price: 'R150-R300/hr', icon: 'electrical-services' },
-      { id: '2', name: 'Plumbing', description: 'Water system repairs', price: 'R180-R250/hr', icon: 'plumbing' }
-    ],
-    requests: [
-      { id: '1', title: 'Fix leaking tap', status: 'active', date: '2 days ago', responses: 4 },
-      { id: '2', title: 'Garden cleanup', status: 'pending', date: '5 days ago', responses: 1 },
-      { id: '3', title: 'Math tutoring', status: 'completed', date: '2 weeks ago', provider: 'Sarah K.' }
-    ],
-    portfolio: [
-      { id: '1', title: 'Kitchen Renovation', imageUrl: 'https://api.a0.dev/assets/image?text=Kitchen&aspect=16:9' },
-      { id: '2', title: 'Bathroom Plumbing', imageUrl: 'https://api.a0.dev/assets/image?text=Bathroom&aspect=16:9' }
-    ],
-    skills: ['Electrical wiring', 'Circuit repair', 'Pipe fitting', 'Leak repair'],
-    qualifications: ['National Certificate: Electrical Engineering', 'Plumbing Service Certificate']
-  });
+  const [userData, setUserData] = useState(ud);
 
   const pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
@@ -87,7 +50,7 @@ export default function ProfileScreen() {
       quality: 1,
     });
 
- 
+
 
 
     if (!result.canceled) {
@@ -106,18 +69,18 @@ export default function ProfileScreen() {
 
     if (editingService) {
       // Update existing service
-      const updatedServices = userData.services.map(service => 
-        service.id === editingService.id 
-          ? { 
-              ...service, 
-              name: finalServiceName, 
-              description: serviceDescription, 
-              price: servicePrice,
-              icon: finalServiceIcon
-            }
+      const updatedServices = userData.services.map(service =>
+        service.id === editingService.id
+          ? {
+            ...service,
+            name: finalServiceName,
+            description: serviceDescription,
+            price: servicePrice,
+            icon: finalServiceIcon
+          }
           : service
       );
-      setUserData({...userData, services: updatedServices});
+      setUserData({ ...userData, services: updatedServices });
     } else {
       // Add new service
       const newService = {
@@ -127,7 +90,7 @@ export default function ProfileScreen() {
         price: servicePrice,
         icon: finalServiceIcon
       };
-      setUserData({...userData, services: [...userData.services, newService]});
+      setUserData({ ...userData, services: [...userData.services, newService] });
     }
 
     resetServiceForm();
@@ -141,12 +104,12 @@ export default function ProfileScreen() {
 
     if (editingPortfolio) {
       // Update existing portfolio item
-      const updatedPortfolio = userData.portfolio.map(item => 
-        item.id === editingPortfolio.id 
+      const updatedPortfolio = userData.portfolio.map(item =>
+        item.id === editingPortfolio.id
           ? { ...item, title: portfolioTitle, imageUrl: portfolioImage || item.imageUrl }
           : item
       );
-      setUserData({...userData, portfolio: updatedPortfolio});
+      setUserData({ ...userData, portfolio: updatedPortfolio });
     } else {
       // Add new portfolio item
       const newPortfolio = {
@@ -154,7 +117,7 @@ export default function ProfileScreen() {
         title: portfolioTitle,
         imageUrl: portfolioImage || 'https://api.a0.dev/assets/image?text=Project&aspect=16:9'
       };
-      setUserData({...userData, portfolio: [...userData.portfolio, newPortfolio]});
+      setUserData({ ...userData, portfolio: [...userData.portfolio, newPortfolio] });
     }
 
     resetPortfolioForm();
@@ -180,7 +143,7 @@ export default function ProfileScreen() {
   const editService = (service) => {
     // Find if this is a predefined service
     const predefinedService = serviceOptions.find(opt => opt.name === service.name);
-    
+
     if (predefinedService) {
       setSelectedService(predefinedService);
     } else {
@@ -188,7 +151,7 @@ export default function ProfileScreen() {
       setSelectedService(serviceOptions.find(opt => opt.name === 'Other'));
       setCustomServiceName(service.name);
     }
-    
+
     setServiceDescription(service.description);
     setServicePrice(service.price);
     setEditingService(service);
@@ -208,8 +171,8 @@ export default function ProfileScreen() {
       'Are you sure you want to delete this item?',
       [
         { text: 'Cancel', style: 'cancel' },
-        { 
-          text: 'Delete', 
+        {
+          text: 'Delete',
           style: 'destructive',
           onPress: () => {
             setUserData({
@@ -221,7 +184,7 @@ export default function ProfileScreen() {
       ]
     );
   };
-const [showReviewsModal, setShowReviewsModal] = useState(false);
+  const [showReviewsModal, setShowReviewsModal] = useState(false);
 
 
   const renderProfileHeader = () => (
@@ -243,51 +206,48 @@ const [showReviewsModal, setShowReviewsModal] = useState(false);
         </Text>
 
 
-         <TouchableOpacity onPress={() => setShowReviewsModal(true)}>
-
-           
-          
-        <View style={styles.ratingContainer}>
-          <Ionicons name="star" size={14} color="#FFD700" />
-          <Text style={styles.ratingText}>
-            {userData.rating} ({userData.reviews} reviews)
-          </Text>
-        </View>
-</TouchableOpacity>
-
-
-<Modal
-  visible={showReviewsModal}
-  transparent
-  animationType="slide"
-  onRequestClose={() => setShowReviewsModal(false)}
-  style={styles.modalBg}
->
-  <View style={styles.modalOverlay}>
-    <View style={styles.modalContent}>
-      <Text style={styles.modalTitle}>User Reviews</Text>
-
-      <FlatList
-        data={mockReviews}
-        keyExtractor={(item) => item.id}
-        renderItem={({ item }) => (
-          <View style={{ marginBottom: 15 }}>
-            <Text style={{ fontWeight: 'bold', fontSize: 16 }}>{item.reviewer}</Text>
-            <Text style={{ color: '#FFD700' }}>{'★'.repeat(item.rating)}</Text>
-            <Text style={{ fontSize: 14, color: '#555' }}>{item.comment}</Text>
+        {isServiceProvider && <TouchableOpacity onPress={() => setShowReviewsModal(true)}>
+          <View style={styles.ratingContainer}>
+            <Ionicons name="star" size={14} color="#FFD700" />
+            <Text style={styles.ratingText}>
+              {userData.rating} ({userData.reviews} reviews)
+            </Text>
           </View>
-        )}
-      />
+        </TouchableOpacity>}
 
-      <TouchableOpacity
-        style={[styles.cancelButton, { marginTop: 10 }]}
-        onPress={() => setShowReviewsModal(false)}
-      >
-        <Text style={styles.buttonText}>Close</Text>
-      </TouchableOpacity>
-    </View>
-  </View>
-</Modal>
+
+        <Modal
+          visible={showReviewsModal}
+          transparent
+          animationType="slide"
+          onRequestClose={() => setShowReviewsModal(false)}
+          style={styles.modalBg}
+        >
+          <View style={styles.modalOverlay}>
+            <View style={styles.modalContent}>
+              <Text style={styles.modalTitle}>User Reviews</Text>
+
+              <FlatList
+                data={mockReviews}
+                keyExtractor={(item) => item.id}
+                renderItem={({ item }) => (
+                  <View style={{ marginBottom: 15 }}>
+                    <Text style={{ fontWeight: 'bold', fontSize: 16 }}>{item.reviewer}</Text>
+                    <Text style={{ color: '#FFD700' }}>{'★'.repeat(item.rating)}</Text>
+                    <Text style={{ fontSize: 14, color: '#555' }}>{item.comment}</Text>
+                  </View>
+                )}
+              />
+
+              <TouchableOpacity
+                style={[styles.cancelButton, { marginTop: 10 }]}
+                onPress={() => setShowReviewsModal(false)}
+              >
+                <Text style={styles.buttonText}>Close</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </Modal>
 
 
         <Text style={styles.joinDate}>{userData.joinDate}</Text>
@@ -299,7 +259,7 @@ const [showReviewsModal, setShowReviewsModal] = useState(false);
     <View style={styles.statsContainer}>
       <View style={styles.statItem}>
         <Text style={styles.statValue}>{userData.completedJobs}</Text>
-        <Text style={styles.statLabel}>Jobs Completed</Text>
+        <Text style={styles.statLabel}>{isServiceProvider ? 'Jobs Completed' : 'Random Stat'}</Text>
       </View>
       <View style={styles.statDivider} />
       <View style={styles.statItem}>
@@ -313,7 +273,7 @@ const [showReviewsModal, setShowReviewsModal] = useState(false);
     <>
       <View style={styles.sectionHeader}>
         <Text style={styles.sectionTitle}>My Services</Text>
-        <TouchableOpacity 
+        <TouchableOpacity
           style={styles.addButton}
           onPress={() => {
             resetServiceForm();
@@ -389,7 +349,7 @@ const [showReviewsModal, setShowReviewsModal] = useState(false);
     <>
       <View style={styles.sectionHeader}>
         <Text style={styles.sectionTitle}>Portfolio</Text>
-        <TouchableOpacity 
+        <TouchableOpacity
           style={styles.addButton}
           onPress={() => {
             resetPortfolioForm();
@@ -410,13 +370,13 @@ const [showReviewsModal, setShowReviewsModal] = useState(false);
             <View style={styles.portfolioOverlay}>
               <Text style={styles.portfolioTitle}>{item.title}</Text>
               <View style={styles.portfolioActions}>
-                <TouchableOpacity 
+                <TouchableOpacity
                   style={styles.portfolioActionButton}
                   onPress={() => editPortfolio(item)}
                 >
                   <Feather name="edit-2" size={14} color="#fff" />
                 </TouchableOpacity>
-                <TouchableOpacity 
+                <TouchableOpacity
                   style={styles.portfolioActionButton}
                   onPress={() => deletePortfolio(item.id)}
                 >
@@ -456,10 +416,10 @@ const [showReviewsModal, setShowReviewsModal] = useState(false);
       <View style={styles.sectionHeader}>
         <Text style={styles.sectionTitle}>Account Settings</Text>
       </View>
-      
-      <TouchableOpacity style={styles.settingItem} 
-      //@ts-ignore
-      onPress={()=>navigation.navigate("EditProfile")}>
+
+      <TouchableOpacity style={styles.settingItem}
+        //@ts-ignore
+        onPress={() => navigation.navigate("EditProfile")}>
         <Feather name="user" size={18} color="#666" />
         <Text style={styles.settingText}>Edit Profile</Text>
         <Feather name="chevron-right" size={18} color="#999" />
@@ -495,7 +455,7 @@ const [showReviewsModal, setShowReviewsModal] = useState(false);
       ]}
       onPress={() => setSelectedService(service)}
     >
-      <MaterialIcons name={service.icon} size={24} color={colors.categoryColor }/>
+      <MaterialIcons name={service.icon} size={24} color={colors.categoryColor} />
       <Text style={styles.serviceOptionText}>{service.name}</Text>
     </TouchableOpacity>
   );
@@ -551,7 +511,7 @@ const [showReviewsModal, setShowReviewsModal] = useState(false);
             <Text style={styles.modalTitle}>
               {editingService ? 'Edit Service' : 'Add New Service'}
             </Text>
-            
+
             <View style={styles.serviceOptionsContainer}>
               {serviceOptions.map(renderServiceOption)}
             </View>
@@ -564,7 +524,7 @@ const [showReviewsModal, setShowReviewsModal] = useState(false);
                 onChangeText={setCustomServiceName}
               />
             )}
-            
+
             <TextInput
               style={styles.input}
               placeholder="Description"
@@ -572,23 +532,23 @@ const [showReviewsModal, setShowReviewsModal] = useState(false);
               onChangeText={setServiceDescription}
               multiline
             />
-            
+
             <TextInput
               style={styles.input}
               placeholder="Price Range (e.g., R150-R300/hr)"
               value={servicePrice}
               onChangeText={setServicePrice}
             />
-            
+
             <View style={styles.modalButtons}>
-              <TouchableOpacity 
+              <TouchableOpacity
                 style={styles.cancelButton}
                 onPress={resetServiceForm}
               >
                 <Text style={styles.buttonText}>Cancel</Text>
               </TouchableOpacity>
-              
-              <TouchableOpacity 
+
+              <TouchableOpacity
                 style={styles.saveButton}
                 onPress={handleAddService}
               >
@@ -613,14 +573,14 @@ const [showReviewsModal, setShowReviewsModal] = useState(false);
             <Text style={styles.modalTitle}>
               {editingPortfolio ? 'Edit Portfolio Item' : 'Add Portfolio Item'}
             </Text>
-            
-            <TouchableOpacity 
+
+            <TouchableOpacity
               style={styles.imagePicker}
               onPress={pickImage}
             >
               {portfolioImage ? (
-                <Image 
-                  source={{ uri: portfolioImage }} 
+                <Image
+                  source={{ uri: portfolioImage }}
                   style={styles.previewImage}
                 />
               ) : (
@@ -632,23 +592,23 @@ const [showReviewsModal, setShowReviewsModal] = useState(false);
                 </View>
               )}
             </TouchableOpacity>
-            
+
             <TextInput
               style={styles.input}
               placeholder="Project Title"
               value={portfolioTitle}
               onChangeText={setPortfolioTitle}
             />
-            
+
             <View style={styles.modalButtons}>
-              <TouchableOpacity 
+              <TouchableOpacity
                 style={styles.cancelButton}
                 onPress={resetPortfolioForm}
               >
                 <Text style={styles.buttonText}>Cancel</Text>
               </TouchableOpacity>
-              
-              <TouchableOpacity 
+
+              <TouchableOpacity
                 style={styles.saveButton}
                 onPress={handleAddPortfolio}
               >
@@ -988,13 +948,13 @@ const styles = StyleSheet.create({
     backgroundColor: 'transparent',
     justifyContent: 'center',
     alignItems: 'center',
-   
+
     padding: 20,
-   
+
   },
   modalContent: {
-  
-    
+
+
     backgroundColor: colors.backgroundColor,
     width: '90%',
     borderRadius: 10,
@@ -1020,10 +980,10 @@ const styles = StyleSheet.create({
   modalButtons: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-   
+
   },
   cancelButton: {
-    
+
     padding: 12,
     borderRadius: 6,
     flex: 1,
@@ -1032,12 +992,12 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgb(177, 233, 214)', // Red color for cancel button
   },
   saveButton: {
-    
+
     padding: 12,
     borderRadius: 6,
     flex: 1,
     alignItems: 'center',
-    backgroundColor: colors.categoryColor,  
+    backgroundColor: colors.categoryColor,
   },
   buttonText: {
     color: '#fff',

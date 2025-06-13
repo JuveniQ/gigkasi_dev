@@ -211,3 +211,43 @@ export const mockReviews = [
   { id: '9', reviewer: 'Sipho D.', rating: 4, comment: "It looks like you're encountering some dependency warnings when running yarn install for your React Native/Expo project. These warnings are generally not critical, but it's good to address them for better long-term maintenance. Here's how to handle them" },
   { id: '10', reviewer: 'Zanele K.', rating: 5, comment: 'Highly recommended!' },
 ];
+
+// Service options with icons
+export const serviceOptions = [
+  { id: '1', name: 'Plumbing', icon: 'plumbing' },
+  { id: '2', name: 'Electrical', icon: 'electrical-services' },
+  { id: '3', name: 'Tutoring', icon: 'school' },
+  { id: '4', name: 'Cleaning', icon: 'cleaning-services' },
+  { id: '5', name: 'Gardening', icon: 'yard' },
+  { id: '6', name: 'Beauty', icon: 'content-cut' },
+  { id: '7', name: 'Transport', icon: 'directions-car' },
+  { id: '8', name: 'Cooking', icon: 'restaurant' },
+  { id: '9', name: 'Other', icon: 'add-circle-outline' }
+];
+
+export const userData = {
+    name: 'Jay Anderson',
+    imageUrl: 'https://api.a0.dev/assets/image?text=TM&aspect=1:1',
+    location: 'Ext 4, Emalahleni, Mpumalanga',
+    rating: 4.7,
+    reviews: 23,
+    joinDate: 'Joined August 2023',
+    verified: true,
+    completedJobs: 48,
+    requestsMade: 12,
+    services: [
+      { id: '1', name: 'Electrical', description: 'Residential electrical repairs', price: 'R150-R300/hr', icon: 'electrical-services' },
+      { id: '2', name: 'Plumbing', description: 'Water system repairs', price: 'R180-R250/hr', icon: 'plumbing' }
+    ],
+    requests: [
+      { id: '1', title: 'Fix leaking tap', status: 'active', date: '2 days ago', responses: 4 },
+      { id: '2', title: 'Garden cleanup', status: 'pending', date: '5 days ago', responses: 1 },
+      { id: '3', title: 'Math tutoring', status: 'completed', date: '2 weeks ago', provider: 'Sarah K.' }
+    ],
+    portfolio: [
+      { id: '1', title: 'Kitchen Renovation', imageUrl: 'https://api.a0.dev/assets/image?text=Kitchen&aspect=16:9' },
+      { id: '2', title: 'Bathroom Plumbing', imageUrl: 'https://api.a0.dev/assets/image?text=Bathroom&aspect=16:9' }
+    ],
+    skills: ['Electrical wiring', 'Circuit repair', 'Pipe fitting', 'Leak repair'],
+    qualifications: ['National Certificate: Electrical Engineering', 'Plumbing Service Certificate']
+  }
