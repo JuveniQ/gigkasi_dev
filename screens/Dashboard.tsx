@@ -21,6 +21,14 @@ export default function Dashboard() {
   const [searchQuery, setSearchQuery] = useState('');
   //const [location, setLocation] = useState('Soweto, Johannesburg');
   
+
+  const filteredRequests  = liveRequests.filter((req)=>{
+    const filterByTitle = req.title.toLowerCase().includes(searchQuery.toLowerCase())
+    const filterByCategory = req.category.toLowerCase().includes(searchQuery.toLowerCase())
+
+    return filterByCategory || filterByTitle
+  })
+
   const handleProviderPress = (provider) => {
     //@ts-ignore
     navigation.navigate('ProviderDetails', { provider });
@@ -96,7 +104,7 @@ export default function Dashboard() {
         </View>
         
         <View style={styles.requestsContainer}>
-          {liveRequests.map((request) => (
+          {filteredRequests.map((request) => (
             <TouchableOpacity 
               key={request.id} 
               style={styles.requestCard}
