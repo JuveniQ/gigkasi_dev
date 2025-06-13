@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { userData } from '../constants/mockData'
 
 
@@ -56,6 +56,7 @@ interface User {
     qualifications: qualification[],
     login: ({ }: any) => void,
     logout: () => void,
+    updateProfile: ({}: any) => void,
     status: string, //To update
     loggedIn: boolean,
 }
@@ -63,12 +64,16 @@ interface User {
 
 const UserContext = React.createContext<User>(null)
 
+export const useUser = function(){
+    return  useContext(UserContext)
+}
+
 
 export default function UserProvider({ children }) {
-    const [user, setUser] = useState(userData
-        /*id: "",
+    const [user, setUser] = useState({
+        id: "",
         name: "John Doe",
-        imageUrl: "",
+        imageUrl: "https://api.a0.dev/assets/image?text=TM&aspect=1:1",
         rating: 0,
         reviews: [],
         verified: false,
@@ -76,15 +81,17 @@ export default function UserProvider({ children }) {
         completedJobs: 0,
         requestsMade: 0,
         services: [],
-        request: [],
+        requests: [],
         portfolio: [],
         qualifications: [],
         status: "",
-        loggedIn: false,*/
-    );
+        loggedIn: false,
+    });
 
     const login = function(userData: any){
         setUser({
+
+
             ...user,
             name: 'Jay Nhlapho',
             imageUrl: 'https://cdn.download.ams.birds.cornell.edu/api/v2/asset/311635911/900',
@@ -96,8 +103,12 @@ export default function UserProvider({ children }) {
 
     }
 
+    const updateProfile = function(info: any){
+        setUser({...user, ...info})
+    }
+
     return (
-        <UserContext.Provider value={{ ...user, login, logout } }>
+        <UserContext.Provider value={{ ...user, login, logout, updateProfile } }>
             { children }
         </ UserContext.Provider>
      )
