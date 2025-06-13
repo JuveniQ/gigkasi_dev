@@ -1008,7 +1008,7 @@ const styles = StyleSheet.create({
     width: '90%',
     borderRadius: 10,
     padding: 20,
-    maxHeight: '80%',
+    maxHeight: '100%',
     elevation: 16,
   },
   modalTitle: {
@@ -1029,7 +1029,7 @@ const styles = StyleSheet.create({
   modalButtons: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginTop: 10,
+   
   },
   cancelButton: {
     backgroundColor: '#f5f5f5',
@@ -1078,7 +1078,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     flexWrap: 'wrap',
     justifyContent: 'space-between',
-    marginBottom: 15,
+    marginBottom: 20,
   },
   serviceOption: {
     width: '30%',
