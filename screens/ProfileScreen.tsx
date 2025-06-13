@@ -433,7 +433,7 @@ export default function ProfileScreen() {
 
       <TouchableOpacity style={styles.settingItem}
         //@ts-ignore
-        onPress={() => navigation.navigate("Notification")}>
+        onPress={() => navigation.navigate("Notifications")}>
         <Feather name="bell" size={18} color="#666" />
         <Text style={styles.settingText}>Notifications</Text>
         <Feather name="chevron-right" size={18} color="#999" />
