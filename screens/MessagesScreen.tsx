@@ -1,16 +1,17 @@
 import React, { useState } from 'react';
-import { 
-  View, 
-  Text, 
-  StyleSheet, 
-  SafeAreaView, 
-  TouchableOpacity, 
+import {
+  View,
+  Text,
+  StyleSheet,
+  SafeAreaView,
+  TouchableOpacity,
   FlatList,
   Image,
-  TextInput
+  TextInput,
+  Linking
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { MaterialIcons, Ionicons } from '@expo/vector-icons';
+import { Ionicons } from '@expo/vector-icons';
 import { colors } from '../constants/colors';
 
 // Mock data for conversations
@@ -21,6 +22,7 @@ const conversations = [
     service: 'Plumber',
     lastMessage: 'I can come fix your sink at 2pm tomorrow. Does that work for you?',
     time: '10 min ago',
+    phone: '0783322419',
     unread: 2,
     imageUrl: 'https://api.a0.dev/assets/image?text=John%20M.%20Plumber&aspect=1:1',
     messages: [
@@ -35,6 +37,7 @@ const conversations = [
     service: 'Tutor',
     lastMessage: 'Great! I\'ll bring some practice materials for your son.',
     time: '2 hours ago',
+    phone: '0783322419',
     unread: 5,
     imageUrl: 'https://api.a0.dev/assets/image?text=Sarah%20K.%20Tutor&aspect=1:1',
     messages: [
@@ -51,6 +54,7 @@ const conversations = [
     service: 'Electrician',
     lastMessage: 'I\'ll need to replace the circuit breaker. It will cost around R600.',
     time: 'Yesterday',
+    phone: '0783322419',
     unread: 0,
     imageUrl: 'https://api.a0.dev/assets/image?text=David%20N.%20Electrician&aspect=1:1',
     messages: [
@@ -67,6 +71,7 @@ const conversations = [
     service: 'Cleaner',
     lastMessage: 'I\'ve finished cleaning. Left the keys under the mat as requested.',
     time: 'Monday',
+    phone: '0783322419',
     unread: 0,
     imageUrl: 'https://api.a0.dev/assets/image?text=Thandi%20M.%20Cleaner&aspect=1:1',
     messages: []
@@ -77,6 +82,7 @@ const conversations = [
     service: 'Gardener',
     lastMessage: 'Your garden is looking much better now. I\'ve planted those flowers you wanted.',
     time: 'Last week',
+    phone: '0783322419',
     unread: 0,
     imageUrl: 'https://api.a0.dev/assets/image?text=Sipho%20Z.%20Gardener&aspect=1:1',
     messages: []
@@ -175,6 +181,8 @@ export default function MessagesScreen() {
       </SafeAreaView>
     );
   }
+
+  
   
   // Render active chat
   return (
@@ -190,7 +198,7 @@ export default function MessagesScreen() {
           <Text style={styles.chatHeaderName}>{currentConversation.name}</Text>
           <Text style={styles.chatHeaderService}>{currentConversation.service}</Text>
         </View>
-        <TouchableOpacity style={styles.callButton}>
+        <TouchableOpacity style={styles.callButton} onPress={()=> Linking.openURL(`tel:${currentConversation.phone}`)}>
           <Ionicons name="call" size={20} color="#FFFFFF" />
         </TouchableOpacity>
       </View>
