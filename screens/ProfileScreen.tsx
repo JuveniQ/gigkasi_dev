@@ -339,7 +339,7 @@ const mockReviews = [
         renderItem={({ item }) => (
           <View style={styles.serviceCard}>
             <View style={styles.serviceHeader}>
-              <MaterialIcons name={item.icon as any} size={20} color="#2196F3" />
+              <MaterialIcons name={item.icon as any} size={20} color={colors.categoryColor} />
               <Text style={styles.serviceName}>{item.name}</Text>
             </View>
             <Text style={styles.serviceDescription}>{item.description}</Text>
@@ -504,7 +504,7 @@ const mockReviews = [
       ]}
       onPress={() => setSelectedService(service)}
     >
-      <MaterialIcons name={service.icon} size={24} color="#2196F3" />
+      <MaterialIcons name={service.icon} size={24} color={colors.categoryColor }/>
       <Text style={styles.serviceOptionText}>{service.name}</Text>
     </TouchableOpacity>
   );
@@ -1032,21 +1032,24 @@ const styles = StyleSheet.create({
    
   },
   cancelButton: {
-    backgroundColor: '#f5f5f5',
+    
     padding: 12,
     borderRadius: 6,
     flex: 1,
     marginRight: 10,
     alignItems: 'center',
+    backgroundColor: 'rgb(177, 233, 214)', // Red color for cancel button
   },
   saveButton: {
-    backgroundColor: '#2196F3',
+    
     padding: 12,
     borderRadius: 6,
     flex: 1,
     alignItems: 'center',
+    backgroundColor: colors.categoryColor,  
   },
   buttonText: {
+    color: '#fff',
     fontSize: 16,
     fontWeight: '500',
   },
