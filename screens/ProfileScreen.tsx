@@ -50,9 +50,6 @@ export default function ProfileScreen() {
       quality: 1,
     });
 
-
-
-
     if (!result.canceled) {
       setPortfolioImage(result.assets[0].uri);
     }
@@ -413,7 +410,7 @@ export default function ProfileScreen() {
 
   const renderSettings = () => (
     <>
-      <View style={[styles.sectionHeader, {marginTop: 24}]}>
+      <View style={[styles.sectionHeader, { marginTop: 24 }]}>
         <Text style={styles.sectionTitle}>Account Settings</Text>
       </View>
 
@@ -438,8 +435,11 @@ export default function ProfileScreen() {
         <Text style={styles.settingText}>Notifications</Text>
         <Feather name="chevron-right" size={18} color="#999" />
       </TouchableOpacity>
-      
-      <TouchableOpacity style={styles.settingItem}>
+
+      <TouchableOpacity style={styles.settingItem}
+        //@ts-ignore
+        onPress={() => navigation.navigate("PrivacySecurity")}
+      >
         <Feather name="lock" size={18} color="#666" />
         <Text style={styles.settingText}>Privacy & Security</Text>
         <Feather name="chevron-right" size={18} color="#999" />

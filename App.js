@@ -18,6 +18,7 @@ import ProfileScreen from './screens/ProfileScreen'
 import ProviderDetailsScreen from './screens/ProviderDetailsScreen'
 import RequestDetailsScreen from './screens/RequestDetailsScreen'
 import NotificationsScreen from './screens/NotificationScreen'
+import PrivacySecurityScreen from './screens/PrivacyScreen'
 
 const Stack = createNativeStackNavigator()
 const Tab = createBottomTabNavigator()
@@ -103,6 +104,7 @@ function RootStack() {
       <Stack.Screen name='CreateService' component={CreateServiceScreen} />
       <Stack.Screen name='EditProfile' component={EditProfileScreen}/>
       <Stack.Screen name="Notifications" component={NotificationsScreen}/>
+      <Stack.Screen name='PrivacySecurity' component={PrivacySecurityScreen}/>
     </Stack.Navigator>
   )
 }
@@ -114,7 +116,7 @@ export default function App() {
     <GestureHandlerRootView style={{ flex: 1 }}>
       <NavigationContainer>
         <SafeAreaView style={[styles.container, Platform.OS == 'ios' ? { padding: StatusBar.currentHeight } : null]}>
-          <StatusBar barStyle='light-content'   />
+          <StatusBar barStyle='light-content' />
           <RootStack />
         </SafeAreaView>
       </NavigationContainer>
