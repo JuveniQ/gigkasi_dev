@@ -14,6 +14,7 @@ import {
 import { useNavigation } from '@react-navigation/native';
 import { MaterialIcons, Ionicons } from '@expo/vector-icons';
 import { colors } from '../constants/colors';
+import Fuse from 'fuse.js';
 
 // Mock data for providers
 const allProviders = [
@@ -188,27 +189,47 @@ export default function DiscoverScreen({ route }) {
   const [selectedCategory, setSelectedCategory] = useState(initialCategory);
   
   // Filter providers based on search and category
-  const filteredProviders = allProviders.filter(provider => {
-    const matchesSearch = searchQuery === '' || 
-      provider.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      provider.service.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      provider.description.toLowerCase().includes(searchQuery.toLowerCase());
-      
-    const matchesCategory = selectedCategory === 'All' || provider.service === selectedCategory;
-    
-    return matchesSearch && matchesCategory;
-  });
-  
-  // Filter requests based on search and category
-  const filteredRequests = allRequests.filter(request => {
-    const matchesSearch = searchQuery === '' || 
-      request.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      request.description.toLowerCase().includes(searchQuery.toLowerCase());
-      
-    const matchesCategory = selectedCategory === 'All' || request.category === selectedCategory;
-    
-    return matchesSearch && matchesCategory;
-  });
+ // Configure Fuse.js for Providers
+const providerFuse = new Fuse(allProviders, {
+  keys: ['name', 'service', 'description'], // Fields to search in providers
+  threshold: 0.4,
+  includeScore: true,
+  ignoreLocation: true,
+  minMatchCharLength: 2
+});
+
+// Configure Fuse.js for Requests
+const requestFuse = new Fuse(allRequests, {
+  keys: ['title', 'description', 'category'], // Fields to search in requests
+  threshold: 0.4,
+  includeScore: true,
+  ignoreLocation: true,
+  minMatchCharLength: 2
+});
+
+const trimmedQuery = searchQuery.trim();
+
+// Filter Providers (with Fuse.js + category filter)
+const filteredProviders = trimmedQuery 
+  ? providerFuse.search(trimmedQuery)
+      .map(result => result.item)
+      .filter(provider => 
+        selectedCategory === 'All' || provider.service === selectedCategory
+      )
+  : allProviders.filter(provider => 
+      selectedCategory === 'All' || provider.service === selectedCategory
+    );
+
+// Filter Requests (with Fuse.js + category filter)
+const filteredRequests = trimmedQuery 
+  ? requestFuse.search(trimmedQuery)
+      .map(result => result.item)
+      .filter(request => 
+        selectedCategory === 'All' || request.category === selectedCategory
+      )
+  : allRequests.filter(request => 
+      selectedCategory === 'All' || request.category === selectedCategory
+    );
   
   const handleProviderPress = (provider) => {
     //@ts-ignore

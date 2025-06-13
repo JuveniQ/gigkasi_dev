@@ -14,20 +14,47 @@ import { useNavigation } from '@react-navigation/native';
 import { MaterialIcons, Ionicons } from '@expo/vector-icons';
 import {colors} from '../constants/colors'
 import { serviceCategories, liveRequests, nearbyProviders } from '../constants/mockData';
-
+import Fuse from 'fuse.js';
 
 export default function Dashboard() {
   const navigation = useNavigation();
   const [searchQuery, setSearchQuery] = useState('');
   //const [location, setLocation] = useState('Soweto, Johannesburg');
   
+  //search functionality using Fuse.js
+const trimmedQuery = searchQuery.trim();
 
-  const filteredRequests  = liveRequests.filter((req)=>{
-    const filterByTitle = req.title.toLowerCase().includes(searchQuery.toLowerCase())
-    const filterByCategory = req.category.toLowerCase().includes(searchQuery.toLowerCase())
+// Configure Fuse.js options
+const fuseOptions = {
+  keys: ['title', 'category'],  // Fields to search
+  threshold: 0.4,              // Adjust for fuzziness (0=exact, 1=loose)
+  includeScore: true,           // Optional: shows match confidence
+  ignoreLocation: true,        // Search across entire strings
+  minMatchCharLength: 2        // Min characters to trigger a match
+};
 
-    return filterByCategory || filterByTitle
-  })
+// Initialize Fuse with your data
+const fuse = new Fuse(liveRequests, fuseOptions);
+
+// Perform search (returns an array of { item, score } objects)
+const fuseResults = trimmedQuery 
+  ? fuse.search(trimmedQuery).map(result => result.item) 
+  : liveRequests;
+
+// Combine with your original exact match filter (optional)
+const exactMatches = liveRequests.filter(req => {
+  const lowerQuery = trimmedQuery.toLowerCase();
+  return (
+    req.title.toLowerCase().includes(lowerQuery) || 
+    req.category.toLowerCase().includes(lowerQuery)
+  );
+});
+
+// Merge and deduplicate results (Set removes duplicates)
+const filteredRequests = [...new Set([
+  ...exactMatches,
+  ...fuseResults
+])];
 
   const handleProviderPress = (provider) => {
     //@ts-ignore
