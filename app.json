@@ -7,7 +7,7 @@
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
     "newArchEnabled": true,
-    "androidStatusBar": {"backgroundColor": "#004D40", "barStyle": "light-content", "translucent": false},
+    "androidStatusBar": {"backgroundColor": "#004D40", "translucent": false},
     "splash": {
       "image": "./assets/splash-icon.png",
       "resizeMode": "contain",
@@ -21,7 +21,7 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#C1FF72"
       },
-      "package": "za.com.juveniq",
+      "package": "za.co.juveniq",
       "edgeToEdgeEnabled": true
     },
     "web": {

@@ -20,6 +20,7 @@ import RequestDetailsScreen from './screens/RequestDetailsScreen'
 import NotificationsScreen from './screens/NotificationScreen'
 import PrivacySecurityScreen from './screens/PrivacyScreen'
 import UserProvider from './contexts/UserContext'
+import GuideScreen from './screens/GuideScreen'
 import AuthScreen from './screens/AuthScreen';
 
 const Stack = createNativeStackNavigator()
@@ -35,13 +36,13 @@ function MainTabs() {
       if (velocityX > 0) {
         const prevIndex = Math.max(0, currentIndex - 1);
         if (prevIndex !== currentIndex) {
-          navigation.navigate('Home', { screen: tabRoutes[prevIndex] });
+          navigation.navigate('MainTabs', { screen: tabRoutes[prevIndex] });
           setCurrentIndex(prevIndex);
         }
       } else if (velocityX < 0) {
         const nextIndex = Math.min(tabRoutes.length - 1, currentIndex + 1);
         if (nextIndex !== currentIndex) {
-          navigation.navigate('Home', { screen: tabRoutes[nextIndex] });
+          navigation.navigate('MainTabs', { screen: tabRoutes[nextIndex] });
           setCurrentIndex(nextIndex);
         }
       }
@@ -112,7 +113,8 @@ function MainTabs() {
 function RootStack() {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
-      <Stack.Screen name='Home' component={MainTabs} />
+      <Stack.Screen name="Guide" component={GuideScreen}/>
+      <Stack.Screen name='MainTabs' component={MainTabs} />
       <Stack.Screen name='ProviderDetails' component={ProviderDetailsScreen} />
       <Stack.Screen name='RequestDetails' component={RequestDetailsScreen} />
       <Stack.Screen name='CreateRequest' component={CreateRequestScreen} />
