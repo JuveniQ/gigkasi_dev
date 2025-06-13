@@ -1,4 +1,4 @@
-//MessagesScreen
+//MESSAGES SCREEN START ----------------------------------
 export const conversations = [
   {
     id: '1',
@@ -72,9 +72,10 @@ export const conversations = [
     messages: []
   }
 ];
+// MESSAGES SCREEN END======================================
 
 
-//Dashboard Screen Datas
+//DASHBOARD SCREEN START ---------------------------------
 // Service categories for the app
 export const serviceCategories = [
   { id: '1', name: 'Plumbing', icon: 'plumbing' },
@@ -194,11 +195,11 @@ export const liveRequests = [
   },
 ];
 
-//End Dashboard Data
+//DASHBOARD SCREEN END ==============================
 
 
 
-// ProfileScreen
+// PROFILE SCREEN START---------------------------
 
 export const mockReviews = [
   { id: '1', reviewer: 'Lerato M.', rating: 5, comment: 'Excellent job on short notice!' },
@@ -251,3 +252,57 @@ export const userData = {
     skills: ['Electrical wiring', 'Circuit repair', 'Pipe fitting', 'Leak repair'],
     qualifications: ['National Certificate: Electrical Engineering', 'Plumbing Service Certificate']
   }
+
+  //PROFILE SCREEN END ===================================
+
+
+
+  //NOTIFICATION SCREEN START-----------------------------
+export const notifications = [
+    {
+      id: '1',
+      type: 'message',
+      title: 'New message from John',
+      description: 'Hi there! I would like to discuss the plumbing job...',
+      time: '2 min ago',
+      read: false,
+      image: 'https://randomuser.me/api/portraits/men/1.jpg'
+    },
+    {
+      id: '2',
+      type: 'booking',
+      title: 'Booking confirmed',
+      description: 'Your electrical service has been booked for tomorrow at 2pm',
+      time: '1 hour ago',
+      read: true,
+      image: 'https://randomuser.me/api/portraits/women/2.jpg'
+    },
+    {
+      id: '3',
+      type: 'payment',
+      title: 'Payment received',
+      description: 'R1,200 has been deposited to your account',
+      time: '3 hours ago',
+      read: true,
+      icon: 'cash'
+    },
+    {
+      id: '4',
+      type: 'review',
+      title: 'New review',
+      description: 'Sarah gave you 5 stars for your plumbing work',
+      time: '1 day ago',
+      read: true,
+      icon: 'star'
+    },
+    {
+      id: '5',
+      type: 'system',
+      title: 'App update available',
+      description: 'Update to version 2.1.0 for new features',
+      time: '2 days ago',
+      read: false,
+      icon: 'alert-circle'
+    },
+  ];
+  //NOTIFICATION SCREEN END ==============================
