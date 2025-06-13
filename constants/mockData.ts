@@ -251,6 +251,8 @@ export const userData = {
       { id: '1', title: 'Kitchen Renovation', imageUrl: 'https://api.a0.dev/assets/image?text=Kitchen&aspect=16:9' },
       { id: '2', title: 'Bathroom Plumbing', imageUrl: 'https://api.a0.dev/assets/image?text=Bathroom&aspect=16:9' }
     ],
+
+    qualifications: ['National Certificate: Electrical Engineering', 'Plumbing Service Certificate']
     skills: ['Electrical wiring', 'Circuit repair', 'Pipe fitting', 'Leak repair'],
     qualifications: ['National Certificate: Electrical Engineering', 'Plumbing Service Certificate'],
     status: ''

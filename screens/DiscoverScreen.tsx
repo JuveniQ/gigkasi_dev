@@ -27,7 +27,7 @@ const allProviders = [
     distance: '0.8 km',
     imageUrl: 'https://api.a0.dev/assets/image?text=John%20M.%20Plumber&aspect=1:1',
     verified: true,
-    skills: ['Pipe repairs', 'Installation', 'Maintenance'],
+   
     hourlyRate: 'R150-R200',
     description: 'Professional plumber with 8+ years of experience in residential repairs.'
   },
@@ -40,7 +40,7 @@ const allProviders = [
     distance: '1.2 km',
     imageUrl: 'https://api.a0.dev/assets/image?text=Sarah%20K.%20Tutor&aspect=1:1',
     verified: true,
-    skills: ['Mathematics', 'Science', 'English'],
+
     hourlyRate: 'R120-R180',
     description: 'Certified teacher providing tutoring services for primary and high school students.'
   },
@@ -53,7 +53,7 @@ const allProviders = [
     distance: '1.5 km',
     imageUrl: 'https://api.a0.dev/assets/image?text=David%20N.%20Electrician&aspect=1:1',
     verified: false,
-    skills: ['Wiring', 'Installations', 'Repairs'],
+   
     hourlyRate: 'R180-R250',
     description: 'Experienced electrician specializing in residential and small business services.'
   },
@@ -66,7 +66,7 @@ const allProviders = [
     distance: '0.5 km',
     imageUrl: 'https://api.a0.dev/assets/image?text=Thandi%20M.%20Cleaner&aspect=1:1',
     verified: true,
-    skills: ['Deep cleaning', 'Regular maintenance', 'Office cleaning'],
+
     hourlyRate: 'R100-R140',
     description: 'Thorough and efficient cleaning services for homes and small offices.'
   },
@@ -79,7 +79,7 @@ const allProviders = [
     distance: '2.0 km',
     imageUrl: 'https://api.a0.dev/assets/image?text=Sipho%20Z.%20Gardener&aspect=1:1',
     verified: false,
-    skills: ['Lawn maintenance', 'Plant care', 'Garden design'],
+  
     hourlyRate: 'R100-R150',
     description: 'Passionate gardener with expertise in local plants and landscape maintenance.'
   }
@@ -368,13 +368,7 @@ const filteredRequests = trimmedQuery
                 </View>
               </View>
               <Text style={styles.providerDescription}>{item.description}</Text>
-              <View style={styles.skillsContainer}>
-                {item.skills.map((skill, index) => (
-                  <View key={index} style={styles.skillBadge}>
-                    <Text style={styles.skillText}>{skill}</Text>
-                  </View>
-                ))}
-              </View>
+             
               <View style={styles.rateContainer}>
                 <MaterialIcons name="payments" size={14} color="#666" />
                 <Text style={styles.rateText}>{item.hourlyRate}</Text>
@@ -627,23 +621,9 @@ const styles = StyleSheet.create({
     marginBottom: 12,
     lineHeight: 20,
   },
-  skillsContainer: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    marginBottom: 12,
-  },
-  skillBadge: {
-    backgroundColor: '#F0F7FF',
-    paddingHorizontal: 8,
-    paddingVertical: 4,
-    borderRadius: 12,
-    marginRight: 8,
-    marginBottom: 8,
-  },
-  skillText: {
-    fontSize: 12,
-    color: '#2196F3',
-  },
+ 
+  
+ 
   rateContainer: {
     flexDirection: 'row',
     alignItems: 'center',

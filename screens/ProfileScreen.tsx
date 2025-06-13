@@ -387,18 +387,12 @@ export default function ProfileScreen() {
     </>
   );
 
-  const renderSkills = () => (
+  const renderQualifications = () => (
     <>
       <View style={styles.sectionHeader}>
-        <Text style={styles.sectionTitle}>Skills & Qualifications</Text>
+        <Text style={styles.sectionTitle}> Qualifications</Text>
       </View>
-      <View style={styles.skillsContainer}>
-        {userData.skills.map((skill, index) => (
-          <View key={index} style={styles.skillTag}>
-            <Text style={styles.skillText}>{skill}</Text>
-          </View>
-        ))}
-      </View>
+     
       {userData.qualifications.map((qual, index) => (
         <View key={`qual-${index}`} style={styles.qualificationItem}>
           <Feather name="award" size={16} color="#2196F3" />
@@ -495,7 +489,7 @@ export default function ProfileScreen() {
           <>
             {userData.services.length > 0 && renderServices()}
             {userData.portfolio.length > 0 && renderPortfolio()}
-            {userData.skills.length > 0 && renderSkills()}
+            {userData.qualifications.length > 0 && renderQualifications()}
           </>
         ) : (
           userData.requests.length > 0 && renderRequests()
@@ -874,26 +868,9 @@ const styles = StyleSheet.create({
   portfolioActionButton: {
     marginLeft: 8,
   },
-  skillsContainer: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    padding: 16,
-    backgroundColor: '#fff',
-    borderBottomWidth: 1,
-    borderBottomColor: '#eee',
-  },
-  skillTag: {
-    backgroundColor: '#E3F2FD',
-    paddingHorizontal: 12,
-    paddingVertical: 6,
-    borderRadius: 20,
-    marginRight: 8,
-    marginBottom: 8,
-  },
-  skillText: {
-    fontSize: 12,
-    color: '#2196F3',
-  },
+  
+  
+  
   qualificationItem: {
     flexDirection: 'row',
     alignItems: 'center',
