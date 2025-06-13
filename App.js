@@ -34,14 +34,14 @@ function MainTabs() {
           navigation.navigate('Home', { screen: tabRoutes[prevIndex] });
           setCurrentIndex(prevIndex);
         }
-      } else {
+      } else if (velocityX < 0) {
         const nextIndex = Math.min(tabRoutes.length - 1, currentIndex + 1);
         if (nextIndex !== currentIndex) {
           navigation.navigate('Home', { screen: tabRoutes[nextIndex] });
           setCurrentIndex(nextIndex);
         }
       }
-    }).minDistance(60)
+    }).minDistance(100)
 
   const tabIcon = ({ color, size }, route) => {
     const iconMap = {
