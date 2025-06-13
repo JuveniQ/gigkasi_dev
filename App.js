@@ -1,22 +1,22 @@
-import React from 'react'
 import { Ionicons } from '@expo/vector-icons'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { NavigationContainer, useNavigation } from '@react-navigation/native'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
-import { Platform, StyleSheet, View } from 'react-native'
 import { StatusBar } from 'expo-status-bar'
+import React from 'react'
+import { Platform, StyleSheet, View } from 'react-native'
 import { Gesture, GestureDetector, GestureHandlerRootView } from 'react-native-gesture-handler'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { colors } from './constants/colors'
 import CreateRequestScreen from './screens/CreateRequestScreen'
+import CreateServiceScreen from './screens/CreateServiceScreen'
 import Dashboard from './screens/Dashboard'
 import DiscoverScreen from './screens/DiscoverScreen'
+import EditProfileScreen from './screens/EditProfileScreen'
 import MessagesScreen from './screens/MessagesScreen'
 import ProfileScreen from './screens/ProfileScreen'
 import ProviderDetailsScreen from './screens/ProviderDetailsScreen'
 import RequestDetailsScreen from './screens/RequestDetailsScreen'
-import EditProfileScreen from './screens/EditProfileScreen'
-import CreateServiceScreen from './screens/CreateServiceScreen'
 
 const Stack = createNativeStackNavigator()
 const Tab = createBottomTabNavigator()
@@ -57,7 +57,7 @@ function MainTabs() {
   return (
     <GestureDetector gesture={switchTab}>
       <View collapsable={false} style={{flex: 1}}>
-        <Tab.Navigator screenOptions={({ route }) => ({
+        <Tab.Navigator  screenOptions={({ route }) => ({
           tabBarIcon: (props) => tabIcon(props, route),
           headerShown: false,
           tabBarStyle: {
@@ -69,12 +69,21 @@ function MainTabs() {
           lazy: true,
           tabBarActiveTintColor: colors.tabBarColor,
           tabBarInactiveTintColor: colors.headerColor,
+          
         })}>
 
-          <Tab.Screen name='Dashboard' component={Dashboard} />
-          <Tab.Screen name='Discover' component={DiscoverScreen} />
-          <Stack.Screen name='Messages' component={MessagesScreen} />
-          <Tab.Screen name='Profile' component={ProfileScreen} />
+          <Tab.Screen name='Dashboard' component={Dashboard} listeners={{tabPress: (e) =>{
+            setCurrentIndex(0)
+          }}}/>
+          <Tab.Screen name='Discover' component={DiscoverScreen} listeners={{tabPress: (e) =>{
+            setCurrentIndex(1)
+          }}}/>
+          <Stack.Screen name='Messages' component={MessagesScreen} listeners={{tabPress: (e) =>{
+            setCurrentIndex(2)
+          }}}/>
+          <Tab.Screen name='Profile' component={ProfileScreen} listeners={{tabPress: (e) =>{
+            setCurrentIndex(3)
+          }}}/>
         </Tab.Navigator>
         </View>
     </GestureDetector>
