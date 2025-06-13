@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { userData } from '../constants/mockData'
 
 
 type review = {
@@ -50,7 +51,7 @@ interface User {
     completedJobs: number,
     requestsMade: number,
     services: service[],
-    request: request[],
+    requests: request[],
     portfolio: portfolio[],
     qualifications: qualification[],
     login: ({ }: any) => void,
@@ -64,8 +65,8 @@ const UserContext = React.createContext<User>(null)
 
 
 export default function UserProvider({ children }) {
-    const [user, setUser] = useState({
-        id: "",
+    const [user, setUser] = useState(userData
+        /*id: "",
         name: "John Doe",
         imageUrl: "",
         rating: 0,
@@ -79,8 +80,8 @@ export default function UserProvider({ children }) {
         portfolio: [],
         qualifications: [],
         status: "",
-        loggedIn: false,
-    });
+        loggedIn: false,*/
+    );
 
     const login = function(userData: any){
         setUser({
