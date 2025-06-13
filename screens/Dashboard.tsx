@@ -155,12 +155,12 @@ export default function Dashboard() {
   return (
     <SafeAreaView style={styles.container}>
       
-      <View style={styles.header}>
-        <View style={styles.logo_container}>
-            <Text style={styles.logo_main}>Gig</Text>
-            <Text style={styles.logo_secondary}>Kasi</Text>
-        </View>
-      </View>
+     <View style={styles.header}>
+  <View style={styles.logo_container}>
+    <Text style={styles.logo_main}>Gig</Text>
+    <Text style={styles.logo_secondary}>Kasi</Text>
+  </View>
+</View>
       
       {/* Search bar */}
       <View style={styles.searchContainer}>
@@ -263,7 +263,7 @@ export default function Dashboard() {
               style={styles.providerCard}
               onPress={() => handleProviderPress(item)}
             >
-              <Image source={{uri: item.imageUrl}} style={styles.providerImage} />
+              <Image source={{uri: item.imageUrl}} style={styles.providerImage as any} />
               {item.verified && (
                 <View style={styles.verifiedBadge}>
                   <MaterialIcons name="verified" size={14} color="#FFFFFF" />
@@ -303,8 +303,8 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: colors.backgroundColor,
-  },
-  header: {
+},
+header: {
     backgroundColor: colors.headerColor,
     paddingTop: 10,
     paddingBottom: 10,
@@ -312,26 +312,40 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-  },
-  logo_container: {
-    flexDirection: 'row',
-  },
-  logo_main:{
-    fontSize: 36,
-    color: 'white',
-    fontWeight: 'bold',
-    textShadowOffset: {height:2, width: 1},
-    textShadowColor: 'yellow',
-    textShadowRadius: 1,
-
+    elevation: 8, // Android shadow
+    shadowColor: '#000', // iOS shadow
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.3,
+    shadowRadius: 4,
 },
-  logo_secondary: {
+logo_container: {
+    flexDirection: 'row',
+    alignItems: 'center',
+},
+logo_main: {
     fontSize: 36,
-    fontWeight: 'bold',
-    color: 'yellow',
-    textShadowOffset: {height:2, width: 2},
-    textShadowColor: 'lime',
-    textShadowRadius: 1,
+    fontWeight: '800',
+    color: 'white',
+    textShadowColor: 'rgba(0,0,0,0.3)',
+    textShadowOffset: { width: 0, height: 2 },
+    textShadowRadius: 4,
+    transform: [{ perspective: 1000 }, { rotateX: '5deg' }],
+    letterSpacing: 0.5,
+    paddingRight: 2,
+},
+logo_secondary: {
+    fontSize: 36,
+    fontWeight: '800',
+    color: '#FFD700', // More refined gold/yellow
+    textShadowColor: 'rgba(255,255,255,0.3)',
+    textShadowOffset: { 
+        width: -1, 
+        height: 1 
+    },
+    textShadowRadius: 2,
+    transform: [{ perspective: 1000 }, { rotateX: '5deg' }],
+    letterSpacing: 0.5,
+    position: 'relative',
 },
   profileButton: {
     padding: 4,
