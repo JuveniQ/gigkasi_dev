@@ -11,7 +11,7 @@
     "splash": {
       "image": "./assets/splash-icon.png",
       "resizeMode": "contain",
-      "backgroundColor": "#F5F5DC"
+      "backgroundColor": "#C1FF72"
     },
     "ios": {
       "supportsTablet": true
@@ -19,9 +19,9 @@
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#F5F5DC"
+        "backgroundColor": "#C1FF72"
       },
-      "package": "za.co.juveniq",
+      "package": "za.com.juveniq",
       "edgeToEdgeEnabled": true
     },
     "web": {
