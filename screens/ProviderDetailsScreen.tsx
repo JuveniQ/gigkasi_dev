@@ -27,7 +27,7 @@ export default function ProviderDetailsScreen() {
     distance: '0.8 km',
     imageUrl: 'https://api.a0.dev/assets/image?text=John%20M.%20Plumber&aspect=1:1',
     verified: true,
-    skills: ['Pipe repairs', 'Installation', 'Maintenance'],
+   
     hourlyRate: 'R150-R200',
     description: 'Professional plumber with 8+ years of experience in residential repairs.',
     about: 'I specialize in all types of residential plumbing services including installations, repairs, and maintenance. I have over 8 years of experience and prioritize quality workmanship and reliability.',
@@ -175,17 +175,8 @@ export default function ProviderDetailsScreen() {
           <Text style={styles.aboutText}>{provider.about}</Text>
         </View>
         
-        {/* Services & Skills */}
-        <View style={styles.sectionContainer}>
-          <Text style={styles.sectionTitle}>Skills & Expertise</Text>
-          <View style={styles.skillsContainer}>
-            {provider.skills.map((skill, index) => (
-              <View key={index} style={styles.skillBadge}>
-                <Text style={styles.skillText}>{skill}</Text>
-              </View>
-            ))}
-          </View>
-        </View>
+       
+        
         
         {/* Availability */}
         <View style={styles.sectionContainer}>
@@ -466,22 +457,9 @@ const styles = StyleSheet.create({
     color: '#444',
     lineHeight: 20,
   },
-  skillsContainer: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-  },
-  skillBadge: {
-    backgroundColor: '#F0F7FF',
-    paddingHorizontal: 12,
-    paddingVertical: 6,
-    borderRadius: 20,
-    marginRight: 8,
-    marginBottom: 8,
-  },
-  skillText: {
-    fontSize: 12,
-    color: '#2196F3',
-  },
+
+ 
+ 
   availabilityContainer: {
     flexDirection: 'row',
     alignItems: 'center',
