@@ -18,13 +18,6 @@ const firebaseConfig = {
 
 const app = getApps().length === 0 ? initializeApp(firebaseConfig) : getApps()[0];
 
-const secureStorePersistence = {
-  setItem: async (key, value) => await SecureStore.setItemAsync(key, value),
-  getItem: async (key) => await SecureStore.getItemAsync(key),
-  removeItem: async (key) => await SecureStore.deleteItemAsync(key),
-};
-
-
 let auth;
 try {
   auth = getAuth(app);
