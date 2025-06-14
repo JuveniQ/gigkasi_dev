@@ -22,6 +22,8 @@ import PrivacySecurityScreen from './screens/PrivacyScreen'
 import UserProvider from './contexts/UserContext'
 import GuideScreen from './screens/GuideScreen'
 import AuthScreen from './screens/AuthScreen';
+import LoginScreen from './screens/LoginScreen';
+import RegisterScreen from './screens/RegisterScreen';
 
 const Stack = createNativeStackNavigator()
 const Tab = createBottomTabNavigator()
@@ -118,6 +120,8 @@ function RootStack() {
       <Stack.Screen name="Notifications" component={NotificationsScreen} />
       <Stack.Screen name='PrivacySecurity' component={PrivacySecurityScreen} />
       <Stack.Screen name='Auth' component={AuthScreen}/>
+      <Stack.Screen name="Login" component={LoginScreen} />
+      <Stack.Screen name="Register" component={RegisterScreen} />
     </Stack.Navigator>
   )
 }
