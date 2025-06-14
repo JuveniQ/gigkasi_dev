@@ -46,7 +46,7 @@ export default function LoginScreen() {
       //@ts-ignore
       navigation.replace("MainTabs")
     } catch (error) {
-      Alert.alert('Login Error', error.message);
+      Alert.alert('Login Error', error.message.includes('invalid-credential') ? "You have entered invalid login credentials" : "Login server error, please try again");
     } finally {
       setLoading(false);
     }
