@@ -13,7 +13,7 @@ import {
 } from 'react-native';
 import { Feather, Ionicons } from '@expo/vector-icons';
 import { colors } from '../constants/colors';
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth';
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword, sendEmailVerification } from 'firebase/auth';
 import { auth } from '../firebase';
 import  { useUser } from '../contexts/UserContext';
 import { useNavigation } from '@react-navigation/core';
@@ -46,8 +46,11 @@ export default function AuthScreen() {
       if (isLogin) {
         const userCredential = await signInWithEmailAndPassword(auth, email, password);
         handleSuccessfulAuth(userCredential.user);
+        console.log(userCredential.user)
+        sendEmailVerification(userCredential.user)
       } else {
         const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+        
         handleSuccessfulAuth(userCredential.user, name);
       }
     } catch (error) {
@@ -103,6 +106,8 @@ export default function AuthScreen() {
               style={styles.input}
               placeholder="Full Name"
               value={formData.name}
+              focusable={true}
+              autoFocus={true}
               onChangeText={(text) => handleInputChange('name', text)}
               autoCapitalize="words"
             />
