@@ -51,8 +51,10 @@ export default function RegisterScreen() {
 
     setLoading(true);
     try {
-      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-      handleSuccessfulAuth(userCredential.user, name);
+      login(email, password)
+      await login(email, password)
+      //@ts-ignore
+      navigation.replace("MainTabs")
     } catch (error) {
       Alert.alert('Registration Error', error.message);
     } finally {
@@ -60,15 +62,7 @@ export default function RegisterScreen() {
     }
   };
 
-  const handleSuccessfulAuth = (firebaseUser, name) => {
-    login({
-      id: firebaseUser.uid,
-      name,
-      email: firebaseUser.email,
-    });
-    //@ts-ignore
-    navigation.replace("MainTabs");
-  };
+ 
 
   return (
     <ImageBackground 
