@@ -15,7 +15,7 @@ import {
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { Ionicons, Feather, MaterialIcons } from '@expo/vector-icons';
-import { colors } from '../constants/colors';
+import colors from '../constants/colors';
 import * as ImagePicker from 'expo-image-picker';
 import { mockReviews, serviceOptions, userData as ud } from '../constants/mockData';
 
@@ -406,7 +406,7 @@ export default function ProfileScreen() {
         renderItem={({ item }) => (
           <View style={styles.serviceCard}>
             <View style={styles.serviceHeader}>
-              <MaterialIcons name={item.icon as any} size={20} color={colors.categoryColor} />
+              <MaterialIcons name={item.icon as any} size={20} color={colors.support} />
               <Text style={styles.serviceName}>{item.name}</Text>
             </View>
             <Text style={styles.serviceDescription}>{item.description}</Text>
@@ -574,7 +574,7 @@ export default function ProfileScreen() {
       ]}
       onPress={() => setSelectedService(service)}
     >
-      <MaterialIcons name={service.icon} size={24} color={colors.categoryColor} />
+      <MaterialIcons name={service.icon} size={24} color={colors.support} />
       <Text style={styles.serviceOptionText}>{service.name}</Text>
     </TouchableOpacity>
   );
@@ -743,7 +743,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#F5F7FA',
   },
   header: {
-    backgroundColor: colors.headerColor,
+    backgroundColor: colors.main,
     paddingTop: 10,
     paddingBottom: 10,
     paddingHorizontal: 16,
@@ -1071,7 +1071,7 @@ const styles = StyleSheet.create({
     padding: 20,
   },
   modalContent: {
-    backgroundColor: colors.backgroundColor,
+    backgroundColor: colors.support,
     width: '90%',
     borderRadius: 10,
     padding: 20,
@@ -1116,7 +1116,7 @@ const styles = StyleSheet.create({
     borderRadius: 6,
     flex: 1,
     alignItems: 'center',
-    backgroundColor: colors.categoryColor,
+    backgroundColor: colors.support,
   },
   uploadButton: {
     flexDirection: 'row',

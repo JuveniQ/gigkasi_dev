@@ -12,7 +12,7 @@ import {
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { Ionicons } from '@expo/vector-icons';
-import { colors } from '../constants/colors';
+import colors from '../constants/colors';
 
 // Mock data for conversations
 const conversations = [
@@ -251,7 +251,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#F5F7FA',
   },
   header: {
-    backgroundColor: colors.headerColor,
+    backgroundColor: colors.main,
     paddingTop: 10,
     paddingBottom: 10,
     paddingHorizontal: 16,
@@ -265,7 +265,7 @@ const styles = StyleSheet.create({
   searchContainer: {
     paddingHorizontal: 16,
     paddingVertical: 12,
-    backgroundColor: colors.searchBgColor,
+    backgroundColor: colors.main,
     borderBottomWidth: 1,
     borderBottomColor: '#EEEEEE',
   },
@@ -371,7 +371,7 @@ const styles = StyleSheet.create({
   },
   // Chat screen styles
   chatHeader: {
-    backgroundColor: colors.headerColor,
+    backgroundColor: colors.main,
     paddingTop: 10,
     paddingBottom: 10,
     paddingHorizontal: 16,
@@ -423,7 +423,7 @@ const styles = StyleSheet.create({
     marginBottom: 2,
   },
   sentBubble: {
-    backgroundColor: colors.categoryColor,
+    backgroundColor: colors.support,
     borderBottomRightRadius: 4,
   },
   receivedBubble: {
@@ -473,7 +473,7 @@ const styles = StyleSheet.create({
     maxHeight: 100,
   },
   sendButton: {
-    backgroundColor: colors.buttonColor,
+    backgroundColor: colors.support,
     width: 40,
     height: 40,
     borderRadius: 20,

@@ -12,7 +12,7 @@ import {
   StatusBar
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { colors } from '../constants/colors';
+import colors from '../constants/colors';
 
 const { width } = Dimensions.get('window');
 
@@ -172,7 +172,7 @@ const GuideScreen = ({ navigation }) => {
           onPress={handlePrev}
           disabled={currentStep === 0}
         >
-          <Ionicons name="arrow-back" size={20} color={colors.buttonColor} />
+          <Ionicons name="arrow-back" size={20} color={colors.support} />
           <Text style={styles.buttonText}>Previous</Text>
         </TouchableOpacity>
         
@@ -208,7 +208,7 @@ const styles = StyleSheet.create({
 
   },
   skipText: {
-    color: colors.buttonColor,
+    color: colors.support,
     fontSize: 16,
     fontWeight: 'bold',
   },
@@ -274,7 +274,7 @@ const styles = StyleSheet.create({
   },
   activeStepIndicator: {
     width: 24,
-    backgroundColor:  colors.buttonColor,
+    backgroundColor:  colors.support,
   },
   buttonContainer: {
     flexDirection: 'row',
@@ -291,10 +291,10 @@ const styles = StyleSheet.create({
   },
   prevButton: {
     borderWidth: 1,
-    borderColor: colors.buttonColor,
+    borderColor: colors.support,
   },
   nextButton: {
-    backgroundColor: colors.buttonColor,
+    backgroundColor: colors.support,
   },
   disabledButton: {
     opacity: 0.5,

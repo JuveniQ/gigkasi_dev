@@ -2,6 +2,7 @@ import { initializeApp, getApps } from 'firebase/app';
 import { initializeAuth, getAuth, getReactNativePersistence } from 'firebase/auth';
 import { initializeFirestore } from 'firebase/firestore';
 import * as SecureStore from 'expo-secure-store';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import 'react-native-get-random-values';
 
 const firebaseConfig = {
@@ -17,23 +18,35 @@ const firebaseConfig = {
 
 const app = getApps().length === 0 ? initializeApp(firebaseConfig) : getApps()[0];
 
-
-const secureStorePersistence = {
-  setItem: async (key, value) => await SecureStore.setItemAsync(key, value),
-  getItem: async (key) => await SecureStore.getItemAsync(key),
-  removeItem: async (key) => await SecureStore.deleteItemAsync(key),
-};
-
-// ✅ Prevent double-auth init
 let auth;
 try {
-  auth = getAuth(app); // Try getting the auth instance
+  auth = getAuth(app);
 } catch (e) {
-  auth = initializeAuth(app, {
-    persistence: getReactNativePersistence(secureStorePersistence),
-  });
+  const auth = initializeAuth(app, {
+  persistence: {
+    ...getReactNativePersistence(AsyncStorage),
+    async setItem(key, value){
+      if (key.includes('session')) {
+        await SecureStore.setItemAsync(key, value);
+      } else {
+        await AsyncStorage.setItem(key, value);
+      }
+    },
+    async getItem(key) {
+      if (key.includes('session')) {
+        return await SecureStore.getItemAsync(key);
+      }
+      return await AsyncStorage.getItem(key);
+    },
+    async removeItem(key){
+      await Promise.all([
+        SecureStore.deleteItemAsync(key),
+        AsyncStorage.removeItem(key)
+      ]);
+    }
+  }
+});
+
 }
 
-const db = initializeFirestore(app, {});
-
-export { auth, db };
+export { auth };

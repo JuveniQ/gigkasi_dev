@@ -12,7 +12,7 @@ import {
   ActivityIndicator
 } from 'react-native';
 import { Feather, Ionicons } from '@expo/vector-icons';
-import { colors } from '../constants/colors';
+import colors from '../constants/colors';
 import { useUser } from '../contexts/UserContext';
 import { useNavigation } from '@react-navigation/core';
 
@@ -72,7 +72,7 @@ export default function AuthScreen() {
 
         {!isLogin && (
           <View style={styles.inputContainer}>
-            <Feather name="user" size={20} color={colors.categoryColor} style={styles.icon} />
+            <Feather name="user" size={20} color={colors.support} style={styles.icon} />
             <TextInput
               style={styles.input}
               placeholder="Full Name"
@@ -86,7 +86,7 @@ export default function AuthScreen() {
         )}
 
         <View style={styles.inputContainer}>
-          <Feather name="mail" size={20} color={colors.categoryColor} style={styles.icon} />
+          <Feather name="mail" size={20} color={colors.support} style={styles.icon} />
           <TextInput
             style={styles.input}
             placeholder="Email"
@@ -98,7 +98,7 @@ export default function AuthScreen() {
         </View>
 
         <View style={styles.inputContainer}>
-          <Feather name="lock" size={20} color={colors.categoryColor} style={styles.icon} />
+          <Feather name="lock" size={20} color={colors.support} style={styles.icon} />
           <TextInput
             style={styles.input}
             placeholder="Password"
@@ -153,7 +153,7 @@ export default function AuthScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: colors.backgroundColor,
+    backgroundColor: colors.support,
   },
   scrollContainer: {
     flexGrow: 1,
@@ -164,7 +164,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   headerTitle: {
-    color: colors.headerColor,
+    color: colors.main,
     fontSize: 24,
     fontWeight: 'bold',
   },
@@ -198,7 +198,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   authButton: {
-    backgroundColor: colors.categoryColor,
+    backgroundColor: colors.support,
     borderRadius: 10,
     padding: 15,
     marginHorizontal: 20,
@@ -220,7 +220,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   switchAuthText: {
-    color: colors.categoryColor,
+    color: colors.support,
     fontSize: 14,
   },
   divider: {

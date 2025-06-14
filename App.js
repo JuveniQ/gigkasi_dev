@@ -7,7 +7,7 @@ import React from 'react'
 import { Platform, StyleSheet, View } from 'react-native'
 import { Gesture, GestureDetector, GestureHandlerRootView } from 'react-native-gesture-handler'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import { colors } from './constants/colors'
+import colors from './constants/colors'
 import CreateRequestScreen from './screens/CreateRequestScreen'
 import CreateServiceScreen from './screens/CreateServiceScreen'
 import Dashboard from './screens/Dashboard'
@@ -75,8 +75,8 @@ function MainTabs() {
           animation: 'shift',
           tabBarHideOnKeyboard: true,
           lazy: true,
-          tabBarActiveTintColor: colors.tabBarColor,
-          tabBarInactiveTintColor: colors.headerColor,
+          tabBarActiveTintColor: colors.support,
+          tabBarInactiveTintColor: colors.main,
 
         })}>
 
@@ -149,7 +149,7 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: colors.headerColor,
+    backgroundColor: colors.background,
     marginBottom: 48,
   }
 })

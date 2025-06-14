@@ -16,7 +16,7 @@ import {
   TouchableOpacity,
   View
 } from 'react-native';
-import { colors } from '../constants/colors';
+import colors from '../constants/colors';
 
 // Service categories for the app
 const serviceCategories = [
@@ -386,7 +386,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    backgroundColor: colors.headerColor,
+    backgroundColor: colors.main,
     paddingVertical: 10,
     paddingHorizontal: 16,
   },
@@ -660,7 +660,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   submitButton: {
-    backgroundColor: colors.buttonColor,
+    backgroundColor: colors.support,
     borderRadius: 8,
     paddingVertical: 14,
     alignItems: 'center',

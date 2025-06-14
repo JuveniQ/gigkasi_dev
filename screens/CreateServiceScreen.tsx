@@ -14,7 +14,7 @@ import {
 import { useNavigation } from '@react-navigation/native';
 import { Ionicons, Feather, MaterialIcons } from '@expo/vector-icons';
 import * as ImagePicker from 'expo-image-picker';
-import { colors } from '../constants/colors';
+import colors from '../constants/colors';
 
 export default function CreateServiceScreen() {
     const navigation = useNavigation();
@@ -253,7 +253,7 @@ const styles = StyleSheet.create({
         padding: 16,
         borderBottomWidth: 1,
         borderBottomColor: '#eee',
-        backgroundColor: colors.headerColor,
+        backgroundColor: colors.main,
     },
     headerTitle: {
         color: '#FFFFFF',
