@@ -52,7 +52,7 @@ const WelcomeScreen = ({ navigation }) => {
           
           <TouchableOpacity 
             style={styles.secondaryButton}
-            onPress={() => navigation.navigate('Auth')}
+            onPress={() => navigation.navigate('Login')}
             activeOpacity={0.8}
           >
             <Text style={styles.secondaryButtonText}>Login</Text>

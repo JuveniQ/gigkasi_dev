@@ -92,7 +92,7 @@ const GuideScreen = ({ navigation }) => {
     if (currentStep < guideSteps.length - 1) {
       animateTransition('next');
     } else {
-      navigation.navigate('Auth');
+      navigation.navigate('Register');
     }
   };
 
@@ -101,7 +101,7 @@ const GuideScreen = ({ navigation }) => {
   };
 
   const handleSkip = () => {
-    navigation.navigate('Auth');
+    navigation.navigate('Register');
   };
 
   const renderStepIndicator = () => {
