@@ -12,7 +12,7 @@ import {
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { MaterialIcons, Ionicons } from '@expo/vector-icons';
-import {colors} from '../constants/colors'
+import colors from '../constants/colors'
 import { serviceCategories, liveRequests, nearbyProviders } from '../constants/mockData';
 import Fuse from 'fuse.js';
 
@@ -221,10 +221,10 @@ const filteredRequests = [...new Set([
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: colors.backgroundColor,
+    backgroundColor: colors.support,
 },
 header: {
-    backgroundColor: colors.headerColor,
+    backgroundColor: colors.main,
     paddingTop: 10,
     paddingBottom: 10,
     paddingHorizontal: 16,
@@ -273,7 +273,7 @@ logo_secondary: {
     flexDirection: 'row',
     paddingHorizontal: 16,
     paddingVertical: 12,
-    backgroundColor: colors.searchBgColor,
+    backgroundColor: colors.support,
   },
   searchBar: {
     flex: 1,
@@ -295,7 +295,7 @@ logo_secondary: {
   filterButton: {
     width: 40,
     height: 40,
-    backgroundColor: colors.buttonColor,
+    backgroundColor: colors.support,
     borderRadius: 20,
     justifyContent: 'center',
     alignItems: 'center',
@@ -336,7 +336,7 @@ logo_secondary: {
     width: 50,
     height: 50,
     borderRadius: 25,
-    backgroundColor: colors.buttonColor,
+    backgroundColor: colors.support,
     justifyContent: 'center',
     alignItems: 'center',
     marginBottom: 8,
@@ -392,7 +392,7 @@ logo_secondary: {
     marginLeft: 4,
   },
   respondButton: {
-    backgroundColor: colors.buttonColor,
+    backgroundColor: colors.support,
     borderRadius: 20,
     paddingVertical: 8,
     alignItems: 'center',
@@ -468,7 +468,7 @@ logo_secondary: {
     marginBottom: 24,
   },
   createRequestButton: {
-    backgroundColor: colors.buttonColor,
+    backgroundColor: colors.support,
     borderRadius: 25,
     flexDirection: 'row',
     justifyContent: 'center',

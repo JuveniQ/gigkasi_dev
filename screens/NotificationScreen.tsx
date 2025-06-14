@@ -11,7 +11,7 @@ import {
 } from 'react-native';
 import { Ionicons, Feather, MaterialCommunityIcons, MaterialIcons } from '@expo/vector-icons';
 import { notifications } from '../constants/mockData';
-import { colors } from '../constants/colors';
+import colors from '../constants/colors';
 
 const NotificationsScreen = () => {
   const [activeTab, setActiveTab] = useState('All');
@@ -125,7 +125,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     padding: 16,
     paddingTop: 8,
-    backgroundColor: colors.headerColor,
+    backgroundColor: colors.main,
   },
   headerTitle: {
     fontSize: 22,

@@ -13,7 +13,7 @@ import {
   ImageBackground
 } from 'react-native';
 import { Feather } from '@expo/vector-icons';
-import { colors } from '../constants/colors';
+import colors from '../constants/colors';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '../firebase';
 import { useUser } from '../contexts/UserContext';
@@ -69,7 +69,7 @@ export default function LoginScreen() {
 
             <View style={styles.formContainer}>
               <View style={styles.inputContainer}>
-                <Feather name="mail" size={20} color={colors.headerColor} style={styles.icon} />
+                <Feather name="mail" size={20} color={colors.main} style={styles.icon} />
                 <TextInput
                   style={styles.input}
                   placeholder="Email"
@@ -83,7 +83,7 @@ export default function LoginScreen() {
               </View>
 
               <View style={styles.inputContainer}>
-                <Feather name="lock" size={20} color={colors.headerColor} style={styles.icon} />
+                <Feather name="lock" size={20} color={colors.main} style={styles.icon} />
                 <TextInput
                   style={styles.input}
                   placeholder="Password"
@@ -99,7 +99,7 @@ export default function LoginScreen() {
                   <Feather 
                     name={isPasswordVisible ? "eye-off" : "eye"} 
                     size={20} 
-                    color={colors.headerColor} 
+                    color={colors.main} 
                   />
                 </TouchableOpacity>
               </View>
@@ -191,7 +191,7 @@ const styles = StyleSheet.create({
     marginBottom: 25,
   },
   forgotPasswordText: {
-    color: colors.headerColor,
+    color: colors.main,
     fontSize: 14,
     fontWeight: '500',
   },

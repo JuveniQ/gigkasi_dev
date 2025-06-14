@@ -14,7 +14,7 @@ import {
   ScrollView
 } from 'react-native';
 import { Feather } from '@expo/vector-icons';
-import { colors } from '../constants/colors';
+import colors from '../constants/colors';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '../firebase';
 import { useUser } from '../contexts/UserContext';
@@ -84,7 +84,7 @@ export default function RegisterScreen() {
 
             <View style={styles.formContainer}>
               <View style={styles.inputContainer}>
-                <Feather name="user" size={20} color={colors.headerColor} style={styles.icon} />
+                <Feather name="user" size={20} color={colors.main} style={styles.icon} />
                 <TextInput
                   style={styles.input}
                   placeholder="Full Name"
@@ -97,7 +97,7 @@ export default function RegisterScreen() {
               </View>
 
               <View style={styles.inputContainer}>
-                <Feather name="mail" size={20} color={colors.headerColor} style={styles.icon} />
+                <Feather name="mail" size={20} color={colors.main} style={styles.icon} />
                 <TextInput
                   style={styles.input}
                   placeholder="Email"
@@ -111,7 +111,7 @@ export default function RegisterScreen() {
               </View>
 
               <View style={styles.inputContainer}>
-                <Feather name="lock" size={20} color={colors.headerColor} style={styles.icon} />
+                <Feather name="lock" size={20} color={colors.main} style={styles.icon} />
                 <TextInput
                   style={styles.input}
                   placeholder="Password"
@@ -127,13 +127,13 @@ export default function RegisterScreen() {
                   <Feather 
                     name={isPasswordVisible ? "eye-off" : "eye"} 
                     size={20} 
-                    color={colors.headerColor} 
+                    color={colors.main} 
                   />
                 </TouchableOpacity>
               </View>
 
               <View style={styles.inputContainer}>
-                <Feather name="lock" size={20} color={colors.headerColor} style={styles.icon} />
+                <Feather name="lock" size={20} color={colors.main} style={styles.icon} />
                 <TextInput
                   style={styles.input}
                   placeholder="Confirm Password"
@@ -149,7 +149,7 @@ export default function RegisterScreen() {
                   <Feather 
                     name={isConfirmPasswordVisible ? "eye-off" : "eye"} 
                     size={20} 
-                    color={colors.headerColor} 
+                    color={colors.main} 
                   />
                 </TouchableOpacity>
               </View>
@@ -266,7 +266,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   linkText: {
-    color: colors.headerColor,
+    color: colors.main,
     fontWeight: '500',
   },
   dividerContainer: {

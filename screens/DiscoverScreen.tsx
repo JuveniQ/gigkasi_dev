@@ -13,7 +13,7 @@ import {
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { MaterialIcons, Ionicons } from '@expo/vector-icons';
-import { colors } from '../constants/colors';
+import colors from '../constants/colors';
 import Fuse from 'fuse.js';
 
 // Mock data for providers
@@ -286,7 +286,7 @@ const filteredRequests = trimmedQuery
           <MaterialIcons 
             name="person" 
             size={20} 
-            color={activeTab === 'providers' ? colors.buttonColor : '#666'} 
+            color={activeTab === 'providers' ? colors.support : '#666'} 
             style={styles.tabIcon}
           />
           <Text style={[styles.tabText, activeTab === 'providers' && styles.activeTabText]}>
@@ -301,7 +301,7 @@ const filteredRequests = trimmedQuery
           <MaterialIcons 
             name="list-alt" 
             size={20} 
-            color={activeTab === 'requests' ? colors.buttonColor : '#666'} 
+            color={activeTab === 'requests' ? colors.support : '#666'} 
             style={styles.tabIcon}
           />
           <Text style={[styles.tabText, activeTab === 'requests' && styles.activeTabText]}>
@@ -455,7 +455,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#F5F7FA',
   },
   header: {
-    backgroundColor: colors.headerColor,
+    backgroundColor: colors.main,
     paddingTop: 10,
     paddingBottom: 10,
     paddingHorizontal: 16,
@@ -470,7 +470,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     paddingHorizontal: 16,
     paddingVertical: 12,
-    backgroundColor: colors.searchBgColor,
+    backgroundColor: colors.support,
   },
   searchBar: {
     flex: 1,
@@ -492,7 +492,7 @@ const styles = StyleSheet.create({
   filterButton: {
     width: 40,
     height: 40,
-    backgroundColor: colors.buttonColor,
+    backgroundColor: colors.support,
     borderRadius: 20,
     justifyContent: 'center',
     alignItems: 'center',
@@ -513,7 +513,7 @@ const styles = StyleSheet.create({
   },
   activeTabButton: {
     borderBottomWidth: 2,
-    borderBottomColor: colors.buttonColor,
+    borderBottomColor: colors.support,
   },
   tabIcon: {
     marginRight: 6,
@@ -524,7 +524,7 @@ const styles = StyleSheet.create({
     color: '#666',
   },
   activeTabText: {
-    color: colors.buttonColor,
+    color: colors.support,
   },
   categoriesContainer: {
     paddingVertical: 12,
@@ -545,7 +545,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFFFFF',
   },
   selectedCategoryItem: {
-    backgroundColor: colors.buttonColor,
+    backgroundColor: colors.support,
     borderColor: '#2196F3',
   },
   categoryText: {
@@ -636,7 +636,7 @@ const styles = StyleSheet.create({
     marginLeft: 4,
   },
   contactButton: {
-    backgroundColor: colors.buttonColor,
+    backgroundColor: colors.support,
     borderRadius: 25,
     paddingVertical: 10,
     alignItems: 'center',
@@ -730,7 +730,7 @@ const styles = StyleSheet.create({
     marginLeft: 4,
   },
   respondButton: {
-    backgroundColor: colors.buttonColor,
+    backgroundColor: colors.support,
     paddingHorizontal: 16,
     paddingVertical: 8,
     borderRadius: 20,
@@ -750,6 +750,6 @@ const styles = StyleSheet.create({
     width: 46,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: colors.buttonColor,
+    backgroundColor: colors.support,
   }
 });
