@@ -32,6 +32,9 @@
         "projectId": "f7c48d80-dfa8-4d9b-b02f-69523557cc06"
       }
     },
-    "owner": "juveniq"
+    "owner": "juveniq",
+    "plugins": [
+      "expo-secure-store"
+    ]
   }
 }

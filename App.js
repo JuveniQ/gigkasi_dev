@@ -24,6 +24,7 @@ import GuideScreen from './screens/GuideScreen'
 import AuthScreen from './screens/AuthScreen';
 import LoginScreen from './screens/LoginScreen';
 import RegisterScreen from './screens/RegisterScreen';
+import WelcomeScreen from './screens/WelcomeScreen'
 
 const Stack = createNativeStackNavigator()
 const Tab = createBottomTabNavigator()
@@ -110,6 +111,7 @@ function MainTabs() {
 function RootStack() {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
+      <Stack.Screen name='Welcome' component={WelcomeScreen}/>
       <Stack.Screen name="Guide" component={GuideScreen}/>
       <Stack.Screen name='MainTabs' component={MainTabs} />
       <Stack.Screen name='ProviderDetails' component={ProviderDetailsScreen} />

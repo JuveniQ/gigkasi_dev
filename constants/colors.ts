@@ -7,3 +7,5 @@ export const colors = {
     buttonColor : '#00897A',
     tabBarColor: '#00897A',
 }
+
+
