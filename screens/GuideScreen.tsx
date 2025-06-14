@@ -101,7 +101,7 @@ const GuideScreen = ({ navigation }) => {
   };
 
   const handleSkip = () => {
-    navigation.navigate('Register');
+    navigation.navigate('Auth');
   };
 
   const renderStepIndicator = () => {

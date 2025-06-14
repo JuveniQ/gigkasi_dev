@@ -16,8 +16,10 @@ import { colors } from '../constants/colors';
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '../firebase';
 import  { useUser } from '../contexts/UserContext';
+import { useNavigation } from '@react-navigation/core';
 
 export default function AuthScreen() {
+  const navigation = useNavigation()
   const { login } = useUser();
   const [isLogin, setIsLogin] = useState(true);
   const [formData, setFormData] = useState({
@@ -63,7 +65,6 @@ export default function AuthScreen() {
       email: firebaseUser.email,
       imageUrl: firebaseUser.photoURL || 'https://api.a0.dev/assets/image?text=TM&aspect=1:1',
       loggedIn: true,
-      // Default values matching your User type
       rating: 0,
       verified: false,
       joinDate: new Date().toLocaleDateString(),
@@ -75,6 +76,9 @@ export default function AuthScreen() {
       qualifications: [],
       status: 'active'
     });
+
+    //@ts-ignore
+    navigation.replace("MainTabs")
   };
 
   return (
