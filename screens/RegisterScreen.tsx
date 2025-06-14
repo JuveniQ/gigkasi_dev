@@ -10,7 +10,8 @@ import {
   StyleSheet,
   KeyboardAvoidingView,
   Platform,
-  ImageBackground
+  ImageBackground,
+  ScrollView
 } from 'react-native';
 import { Feather } from '@expo/vector-icons';
 import { colors } from '../constants/colors';
@@ -74,7 +75,7 @@ export default function RegisterScreen() {
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
         style={styles.keyboardAvoidingView}
       >
-        <SafeAreaView style={styles.container}>
+        <ScrollView style={styles.container}>
           <View style={styles.content}>
             <AuthHeader 
               title="Create Account" 
@@ -173,11 +174,7 @@ export default function RegisterScreen() {
                 </Text>
               </View>
 
-              <View style={styles.dividerContainer}>
-                <View style={styles.dividerLine} />
-                <Text style={styles.dividerText}>or</Text>
-                <View style={styles.dividerLine} />
-              </View>
+              
 
               <SocialAuth />
 
@@ -189,7 +186,7 @@ export default function RegisterScreen() {
               />
             </View>
           </View>
-        </SafeAreaView>
+        </ScrollView>
       </KeyboardAvoidingView>
     </ImageBackground>
   );

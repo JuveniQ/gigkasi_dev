@@ -114,11 +114,6 @@ export default function LoginScreen() {
                 loading={loading} 
               />
 
-              <View style={styles.dividerContainer}>
-                <View style={styles.dividerLine} />
-                <Text style={styles.dividerText}>or</Text>
-                <View style={styles.dividerLine} />
-              </View>
 
               <SocialAuth />
 
