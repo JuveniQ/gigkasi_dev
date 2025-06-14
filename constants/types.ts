@@ -37,22 +37,26 @@ export type portfolio = {
 }
 
 export interface User {
-    id: string,
-    name: string,
-    imageUrl: string,
-    rating: number,
-    reviews: review[],
-    verified: boolean,
-    joinDate: string,
-    completedJobs: number,
-    requestsMade: number,
-    services: service[],
-    requests: request[],
-    portfolio: portfolio[],
-    qualifications: qualification[],
-    login: ({ }: any) => void,
-    logout: () => void,
-    updateProfile: ({}: any) => void,
-    status: string, //To update
-    loggedIn: boolean,
+  id: string;
+  name: string;
+  email?: string;
+  imageUrl: string;
+  rating: number;
+  verified: boolean;
+  joinDate: string;
+  completedJobs: number;
+  requestsMade: number;
+  services: service[];
+  requests: request[];
+  portfolio: portfolio[];
+  qualifications: qualification[];
+  status: string;
+  loggedIn: boolean;
+}
+
+export interface UserContextType extends User {
+  login: (email: string, password: string) => Promise<void>;
+  register: (email: string, password: string, name: string) => Promise<void>;
+  logout: () => void;
+  updateProfile: (info: Partial<User>) => void;
 }

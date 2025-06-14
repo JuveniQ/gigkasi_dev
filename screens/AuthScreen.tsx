@@ -13,14 +13,12 @@ import {
 } from 'react-native';
 import { Feather, Ionicons } from '@expo/vector-icons';
 import { colors } from '../constants/colors';
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword, sendEmailVerification } from 'firebase/auth';
-import { auth } from '../firebase';
-import  { useUser } from '../contexts/UserContext';
+import { useUser } from '../contexts/UserContext';
 import { useNavigation } from '@react-navigation/core';
 
 export default function AuthScreen() {
-  const navigation = useNavigation()
-  const { login } = useUser();
+  const navigation = useNavigation();
+  const { login, register } = useUser();
   const [isLogin, setIsLogin] = useState(true);
   const [formData, setFormData] = useState({
     email: '',
@@ -29,7 +27,7 @@ export default function AuthScreen() {
   });
   const [loading, setLoading] = useState(false);
 
-  const handleInputChange = (field, value) => {
+  const handleInputChange = (field: string, value: string) => {
     setFormData(prev => ({ ...prev, [field]: value }));
   };
 
@@ -44,44 +42,17 @@ export default function AuthScreen() {
     setLoading(true);
     try {
       if (isLogin) {
-        const userCredential = await signInWithEmailAndPassword(auth, email, password);
-        handleSuccessfulAuth(userCredential.user);
-        console.log(userCredential.user)
-        sendEmailVerification(userCredential.user)
+        await login(email, password);
       } else {
-        const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-        
-        handleSuccessfulAuth(userCredential.user, name);
+        await register(email, password, name);
       }
-    } catch (error) {
+      // @ts-ignore
+      navigation.replace("MainTabs");
+    } catch (error: any) {
       Alert.alert('Authentication Error', error.message);
     } finally {
       setLoading(false);
     }
-  };
-
-  const handleSuccessfulAuth = (firebaseUser, name = '') => {
-    // Map Firebase user to your UserContext structure
-    login({
-      id: firebaseUser.uid,
-      name: name || firebaseUser.displayName || 'New User',
-      email: firebaseUser.email,
-      imageUrl: firebaseUser.photoURL || 'https://api.a0.dev/assets/image?text=TM&aspect=1:1',
-      loggedIn: true,
-      rating: 0,
-      verified: false,
-      joinDate: new Date().toLocaleDateString(),
-      completedJobs: 0,
-      requestsMade: 0,
-      services: [],
-      requests: [],
-      portfolio: [],
-      qualifications: [],
-      status: 'active'
-    });
-
-    //@ts-ignore
-    navigation.replace("MainTabs")
   };
 
   return (
