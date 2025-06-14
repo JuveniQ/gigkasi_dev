@@ -36,8 +36,6 @@ export default function UserProvider({ children }: { children: React.ReactNode }
   const login = async (email: string, password: string) => {
     try {
       const userCredential = await signInWithEmailAndPassword(auth, email, password);
-      await sendEmailVerification(userCredential.user);
-      
       setUser({
         ...user,
         id: userCredential.user.uid,

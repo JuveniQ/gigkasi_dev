@@ -35,7 +35,6 @@ export default function LoginScreen() {
 
   const handleLogin = async () => {
     const { email, password } = credentials;
-    
     if (!email || !password) {
       Alert.alert('Error', 'Please fill all fields');
       return;
@@ -43,8 +42,9 @@ export default function LoginScreen() {
 
     setLoading(true);
     try {
-      const userCredential = await signInWithEmailAndPassword(auth, email, password);
-      handleSuccessfulAuth(userCredential.user);
+      await login(email, password)
+      //@ts-ignore
+      navigation.replace("MainTabs")
     } catch (error) {
       Alert.alert('Login Error', error.message);
     } finally {
@@ -52,14 +52,6 @@ export default function LoginScreen() {
     }
   };
 
-  const handleSuccessfulAuth = (firebaseUser) => {
-    login({
-      id: firebaseUser.uid,
-      email: firebaseUser.email,
-    });
-    //@ts-ignore
-    navigation.replace("MainTabs");
-  };
 
   return (
     <ImageBackground 
