@@ -265,7 +265,7 @@ const styles = StyleSheet.create({
   searchContainer: {
     paddingHorizontal: 16,
     paddingVertical: 12,
-    backgroundColor: colors.support,
+    backgroundColor: colors.main,
     borderBottomWidth: 1,
     borderBottomColor: '#EEEEEE',
   },

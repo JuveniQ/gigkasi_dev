@@ -221,7 +221,7 @@ const filteredRequests = [...new Set([
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: colors.support,
+    backgroundColor: colors.background,
 },
 header: {
     backgroundColor: colors.main,
@@ -273,7 +273,7 @@ logo_secondary: {
     flexDirection: 'row',
     paddingHorizontal: 16,
     paddingVertical: 12,
-    backgroundColor: colors.support,
+    backgroundColor: colors.main,
   },
   searchBar: {
     flex: 1,
@@ -330,7 +330,7 @@ logo_secondary: {
   categoryItem: {
     alignItems: 'center',
     marginRight: 16,
-    width: 70,
+    width: 70
   },
   categoryIcon: {
     width: 50,

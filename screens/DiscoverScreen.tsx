@@ -470,7 +470,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     paddingHorizontal: 16,
     paddingVertical: 12,
-    backgroundColor: colors.support,
+    backgroundColor: colors.main,
   },
   searchBar: {
     flex: 1,
