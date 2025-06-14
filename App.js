@@ -121,7 +121,7 @@ function RootStack() {
       <Stack.Screen name='EditProfile' component={EditProfileScreen} />
       <Stack.Screen name="Notifications" component={NotificationsScreen} />
       <Stack.Screen name='PrivacySecurity' component={PrivacySecurityScreen} />
-      <Stack.Screen name='Auth' component={AuthScreen}/>
+      
       <Stack.Screen name="Login" component={LoginScreen} />
       <Stack.Screen name="Register" component={RegisterScreen} />
     </Stack.Navigator>
