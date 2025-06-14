@@ -1,7 +1,8 @@
 import { initializeApp } from 'firebase/app';
-import { getAuth } from 'firebase/auth';
-import { getFirestore } from 'firebase/firestore';
-
+import { initializeAuth, getReactNativePersistence } from 'firebase/auth';
+import {  initializeFirestore } from 'firebase/firestore';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import 'react-native-get-random-values'; 
 
 const firebaseConfig = {
   apiKey: "AIzaSyANvGxAuDs40pqFGaVkQgepr2PKV7woums",
@@ -15,6 +16,12 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 
-export const auth = getAuth(app);
-export const db = getFirestore(app);
+const auth = initializeAuth(app, {
+  persistence: getReactNativePersistence(AsyncStorage),
+});
 
+
+const db = initializeFirestore(app, {});
+
+
+export { auth, db }

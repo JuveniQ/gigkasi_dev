@@ -92,7 +92,7 @@ const GuideScreen = ({ navigation }) => {
     if (currentStep < guideSteps.length - 1) {
       animateTransition('next');
     } else {
-      navigation.navigate('MainTabs', {screen: 'Discover'});
+      navigation.navigate('Auth');
     }
   };
 

@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState } from 'react';
 import {
   View,
   Text,
@@ -14,7 +14,7 @@ import {
 import { Feather, Ionicons } from '@expo/vector-icons';
 import { colors } from '../constants/colors';
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth';
-import { auth } from '../constants/firebase.config';
+import { auth } from '../firebase';
 import  { useUser } from '../contexts/UserContext';
 
 export default function AuthScreen() {
