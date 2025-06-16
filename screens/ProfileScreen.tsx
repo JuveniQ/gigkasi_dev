@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-
 import {
   View,
   Text,
@@ -20,8 +19,6 @@ import colors from '../constants/colors';
 import * as ImagePicker from 'expo-image-picker';
 import { mockReviews, serviceOptions, userData as ud } from '../constants/mockData';
 
-
-
 export default function ProfileScreen() {
   const navigation = useNavigation();
   const [isServiceProvider, setIsServiceProvider] = useState(false);
@@ -30,6 +27,10 @@ export default function ProfileScreen() {
   const [editingService, setEditingService] = useState(null);
   const [editingPortfolio, setEditingPortfolio] = useState(null);
   const [portfolioImage, setPortfolioImage] = useState(null);
+  const [showReviewsModal, setShowReviewsModal] = useState(false);
+  const [showVerificationModal, setShowVerificationModal] = useState(false);
+  const [verificationDocs, setVerificationDocs] = useState([]);
+  const [isProviderRequested, setIsProviderRequested] = useState(false);
 
   // Form states
   const [serviceName, setServiceName] = useState('');
@@ -53,6 +54,42 @@ export default function ProfileScreen() {
     if (!result.canceled) {
       setPortfolioImage(result.assets[0].uri);
     }
+  };
+
+  const pickVerificationDoc = async () => {
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: 'images',
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
+
+    if (!result.canceled) {
+      setVerificationDocs([...verificationDocs, result.assets[0].uri]);
+    }
+  };
+
+  const handleRoleChange = (value) => {
+    if (value) {
+      setShowVerificationModal(true);
+    } else {
+      setIsServiceProvider(false);
+      setIsProviderRequested(false);
+    }
+  };
+
+  const submitVerification = () => {
+    if (verificationDocs.length === 0) {
+      Alert.alert('Error', 'Please upload at least one verification document');
+      return;
+    }
+
+    setIsProviderRequested(true);
+    setShowVerificationModal(false);
+    Alert.alert(
+      'Application Submitted',
+      'Your provider application is under review. We\'ll notify you once approved.'
+    );
   };
 
   const handleAddService = () => {
@@ -181,8 +218,6 @@ export default function ProfileScreen() {
       ]
     );
   };
-  const [showReviewsModal, setShowReviewsModal] = useState(false);
-
 
   const renderProfileHeader = () => (
     <View style={styles.profileHeader}>
@@ -264,6 +299,90 @@ export default function ProfileScreen() {
         <Text style={styles.statLabel}>Requests Made</Text>
       </View>
     </View>
+  );
+
+  const renderModeToggle = () => (
+    <View style={styles.modeToggle}>
+      <Text style={styles.modeText}>Seeker Mode</Text>
+      <Switch
+        value={isServiceProvider || isProviderRequested}
+        onValueChange={handleRoleChange}
+        trackColor={{ false: '#767577', true: colors.categoryColor }}
+        thumbColor={(isServiceProvider || isProviderRequested) ? '#fff' : '#f4f3f4'}
+        disabled={isProviderRequested && !isServiceProvider}
+      />
+      <Text style={styles.modeText}>Provider Mode</Text>
+      {isProviderRequested && !isServiceProvider && (
+        <Text style={styles.verificationStatusText}>Verification pending</Text>
+      )}
+    </View>
+  );
+
+  const renderVerificationModal = () => (
+    <Modal
+      visible={showVerificationModal}
+      animationType="slide"
+      transparent={true}
+      onRequestClose={() => setShowVerificationModal(false)}
+    >
+      <View style={styles.modalOverlay}>
+        <View style={styles.modalContent}>
+          <Text style={styles.modalTitle}>Become a Service Provider</Text>
+          <Text style={styles.modalSubtitle}>
+            To offer services, please verify your identity and qualifications
+          </Text>
+
+          <View style={styles.verificationStep}>
+            <Feather name="check-circle" size={20} color={colors.categoryColor} />
+            <Text style={styles.verificationStepText}>
+              Government ID (Driver's license, passport, etc.)
+            </Text>
+          </View>
+
+          <View style={styles.verificationStep}>
+            <Feather name="check-circle" size={20} color={colors.categoryColor} />
+            <Text style={styles.verificationStepText}>
+              Proof of skills (Certification, portfolio, etc.)
+            </Text>
+          </View>
+
+          <FlatList
+            data={verificationDocs}
+            keyExtractor={(item, index) => index.toString()}
+            renderItem={({ item }) => (
+              <Image source={{ uri: item }} style={styles.verificationDocPreview} />
+            )}
+            ListEmptyComponent={
+              <Text style={styles.uploadPromptText}>No documents uploaded yet</Text>
+            }
+          />
+
+          <TouchableOpacity
+            style={styles.uploadButton}
+            onPress={pickVerificationDoc}
+          >
+            <Feather name="upload" size={20} color="#fff" />
+            <Text style={styles.uploadButtonText}>Upload Document</Text>
+          </TouchableOpacity>
+
+          <View style={styles.modalButtons}>
+            <TouchableOpacity
+              style={styles.cancelButton}
+              onPress={() => setShowVerificationModal(false)}
+            >
+              <Text style={styles.buttonText}>Cancel</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              style={styles.saveButton}
+              onPress={submitVerification}
+            >
+              <Text style={styles.buttonText}>Submit Application</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </View>
+    </Modal>
   );
 
   const renderServices = () => (
@@ -473,19 +592,10 @@ export default function ProfileScreen() {
         {renderStats()}
 
         {/* Mode Toggle */}
-        <View style={styles.modeToggle}>
-          <Text style={styles.modeText}>Client Mode</Text>
-          <Switch
-            value={isServiceProvider}
-            onValueChange={() => setIsServiceProvider(!isServiceProvider)}
-            trackColor={{ false: '#767577', true: '#81b0ff' }}
-            thumbColor={isServiceProvider ? '#2196F3' : '#f4f3f4'}
-          />
-          <Text style={styles.modeText}>Provider Mode</Text>
-        </View>
+        {renderModeToggle()}
 
         {/* Content based on mode */}
-        {isServiceProvider ? (
+        {(isServiceProvider || isProviderRequested) ? (
           <>
             {userData.services.length > 0 && renderServices()}
             {userData.portfolio.length > 0 && renderPortfolio()}
@@ -498,6 +608,9 @@ export default function ProfileScreen() {
         {/* Settings */}
         {renderSettings()}
       </ScrollView>
+
+      {/* Verification Modal */}
+      {renderVerificationModal()}
 
       {/* Service Form Modal */}
       <Modal
@@ -739,6 +852,12 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: '#333',
   },
+  verificationStatusText: {
+    marginLeft: 10,
+    fontSize: 12,
+    color: colors.categoryColor,
+    fontStyle: 'italic',
+  },
   sectionHeader: {
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -868,9 +987,26 @@ const styles = StyleSheet.create({
   portfolioActionButton: {
     marginLeft: 8,
   },
-  
-  
-  
+  skillsContainer: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    padding: 16,
+    backgroundColor: '#fff',
+    borderBottomWidth: 1,
+    borderBottomColor: '#eee',
+  },
+  skillTag: {
+    backgroundColor: '#E3F2FD',
+    paddingHorizontal: 12,
+    paddingVertical: 6,
+    borderRadius: 20,
+    marginRight: 8,
+    marginBottom: 8,
+  },
+  skillText: {
+    fontSize: 12,
+    color: '#2196F3',
+  },
   qualificationItem: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -932,9 +1068,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'transparent',
     justifyContent: 'center',
     alignItems: 'center',
-
     padding: 20,
-
   },
   modalContent: {
     backgroundColor: colors.support,
@@ -951,6 +1085,12 @@ const styles = StyleSheet.create({
     color: '#333',
     textAlign: 'center',
   },
+  modalSubtitle: {
+    fontSize: 14,
+    color: colors.headerColor,
+    textAlign: 'center',
+    marginBottom: 20,
+  },
   input: {
     borderWidth: 1,
     borderColor: '#ddd',
@@ -962,24 +1102,35 @@ const styles = StyleSheet.create({
   modalButtons: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-
   },
   cancelButton: {
-
     padding: 12,
     borderRadius: 6,
     flex: 1,
     marginRight: 10,
     alignItems: 'center',
-    backgroundColor: 'rgb(177, 233, 214)', // Red color for cancel button
+    backgroundColor: 'rgb(177, 233, 214)',
   },
   saveButton: {
-
     padding: 12,
     borderRadius: 6,
     flex: 1,
     alignItems: 'center',
     backgroundColor: colors.support,
+  },
+  uploadButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: colors.categoryColor,
+    padding: 12,
+    borderRadius: 6,
+    marginBottom: 15,
+  },
+  uploadButtonText: {
+    color: '#fff',
+    fontSize: 16,
+    marginLeft: 10,
   },
   buttonText: {
     color: '#fff',
@@ -1008,6 +1159,27 @@ const styles = StyleSheet.create({
   previewImage: {
     width: '100%',
     height: '100%',
+  },
+  verificationDocPreview: {
+    width: '100%',
+    height: 200,
+    marginBottom: 15,
+    borderRadius: 8,
+  },
+  uploadPromptText: {
+    textAlign: 'center',
+    color: '#999',
+    marginVertical: 20,
+  },
+  verificationStep: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 15,
+  },
+  verificationStepText: {
+    marginLeft: 10,
+    fontSize: 14,
+    color: colors.headerColor,
   },
   // Service options styles
   serviceOptionsContainer: {
