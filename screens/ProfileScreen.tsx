@@ -18,6 +18,9 @@ import { Ionicons, Feather, MaterialIcons } from '@expo/vector-icons';
 import colors from '../constants/colors';
 import * as ImagePicker from 'expo-image-picker';
 import { mockReviews, serviceOptions, userData as ud } from '../constants/mockData';
+import * as DocumentPicker from 'expo-document-picker';
+import { CameraType } from 'react-native-image-picker'; // Adjust the import path based on your library
+
 
 export default function ProfileScreen() {
   const navigation = useNavigation();
@@ -307,7 +310,7 @@ export default function ProfileScreen() {
       <Switch
         value={isServiceProvider || isProviderRequested}
         onValueChange={handleRoleChange}
-        trackColor={{ false: '#767577', true: colors.categoryColor }}
+        trackColor={{ false: '#767577', true: colors.support }}
         thumbColor={(isServiceProvider || isProviderRequested) ? '#fff' : '#f4f3f4'}
         disabled={isProviderRequested && !isServiceProvider}
       />
@@ -318,7 +321,68 @@ export default function ProfileScreen() {
     </View>
   );
 
-  const renderVerificationModal = () => (
+  const renderVerificationModal = () => {
+  const [selfieImage, setSelfieImage] = useState(null);
+  const [governmentID, setGovernmentID] = useState(null);
+  const [qualifications, setQualifications] = useState([]);
+
+  const captureSelfie = async () => {
+    const { status } = await ImagePicker.requestCameraPermissionsAsync();
+    if (status !== 'granted') {
+      Alert.alert('Permission required', 'We need camera access to take your selfie');
+      return;
+    }
+
+    const result = await ImagePicker.launchCameraAsync({
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 0.7,
+      cameraType: ImagePicker.CameraType.front,
+    });
+
+    if (!result.canceled) {
+      setSelfieImage(result.assets[0].uri);
+      setVerificationDocs([...verificationDocs, result.assets[0].uri]);
+    }
+  };
+
+  const pickGovernmentID = async () => {
+    const result = await DocumentPicker.getDocumentAsync({
+      type: ['image/*', 'application/pdf'],
+      copyToCacheDirectory: true
+    });
+
+    if (result.assets) {
+      setGovernmentID({
+        name: result.assets[0].name,
+        uri: result.assets[0].uri
+      });
+      setVerificationDocs([...verificationDocs, result.assets[0].uri]);
+    }
+  };
+
+  const pickQualification = async () => {
+    const result = await DocumentPicker.getDocumentAsync({
+      type: ['image/*', 'application/pdf'],
+      copyToCacheDirectory: true,
+      multiple: true
+    });
+
+    if (result.assets) {
+      const newDocs = result.assets.map(asset => asset.uri);
+      setQualifications([...qualifications, ...result.assets]);
+      setVerificationDocs([...verificationDocs, ...newDocs]);
+    }
+  };
+
+  const removeQualification = (index) => {
+    const newQualifications = [...qualifications];
+    const removedDoc = newQualifications.splice(index, 1);
+    setQualifications(newQualifications);
+    setVerificationDocs(verificationDocs.filter(uri => uri !== removedDoc[0].uri));
+  };
+
+  return (
     <Modal
       visible={showVerificationModal}
       animationType="slide"
@@ -326,44 +390,73 @@ export default function ProfileScreen() {
       onRequestClose={() => setShowVerificationModal(false)}
     >
       <View style={styles.modalOverlay}>
-        <View style={styles.modalContent}>
+        <ScrollView style={styles.modalContent}>
           <Text style={styles.modalTitle}>Become a Service Provider</Text>
           <Text style={styles.modalSubtitle}>
             To offer services, please verify your identity and qualifications
           </Text>
 
-          <View style={styles.verificationStep}>
-            <Feather name="check-circle" size={20} color={colors.categoryColor} />
-            <Text style={styles.verificationStepText}>
-              Government ID (Driver's license, passport, etc.)
-            </Text>
-          </View>
-
-          <View style={styles.verificationStep}>
-            <Feather name="check-circle" size={20} color={colors.categoryColor} />
-            <Text style={styles.verificationStepText}>
-              Proof of skills (Certification, portfolio, etc.)
-            </Text>
-          </View>
-
-          <FlatList
-            data={verificationDocs}
-            keyExtractor={(item, index) => index.toString()}
-            renderItem={({ item }) => (
-              <Image source={{ uri: item }} style={styles.verificationDocPreview} />
+          {/* Selfie Section */}
+          <View style={styles.verificationSection}>
+            <Text style={styles.sectionTitle}>1. Live Selfie Verification</Text>
+            {selfieImage ? (
+              <Image source={{ uri: selfieImage }} style={styles.verificationDocPreview} />
+            ) : (
+              <Text style={styles.uploadPromptText}>No selfie taken</Text>
             )}
-            ListEmptyComponent={
-              <Text style={styles.uploadPromptText}>No documents uploaded yet</Text>
-            }
-          />
+            <TouchableOpacity
+              style={styles.uploadButton}
+              onPress={captureSelfie}
+            >
+              <Feather name="camera" size={20} color="#fff" />
+              <Text style={styles.uploadButtonText}>Take Selfie</Text>
+            </TouchableOpacity>
+          </View>
 
-          <TouchableOpacity
-            style={styles.uploadButton}
-            onPress={pickVerificationDoc}
-          >
-            <Feather name="upload" size={20} color="#fff" />
-            <Text style={styles.uploadButtonText}>Upload Document</Text>
-          </TouchableOpacity>
+          {/* Government ID Section */}
+          <View style={styles.verificationSection}>
+            <Text style={styles.sectionTitle}>2. Government ID</Text>
+            {governmentID ? (
+              <View style={styles.documentPreview}>
+                <Feather name="file-text" size={24} color="#2196F3" />
+                <Text style={styles.documentName}>{governmentID.name}</Text>
+              </View>
+            ) : (
+              <Text style={styles.uploadPromptText}>No ID uploaded</Text>
+            )}
+            <TouchableOpacity
+              style={styles.uploadButton}
+              onPress={pickGovernmentID}
+            >
+              <Feather name="upload" size={20} color="#fff" />
+              <Text style={styles.uploadButtonText}>Upload Government ID</Text>
+            </TouchableOpacity>
+          </View>
+
+          {/* Qualifications Section */}
+          <View style={styles.verificationSection}>
+            <Text style={styles.sectionTitle}>3. Qualifications (Optional)</Text>
+            {qualifications.length > 0 ? (
+              qualifications.map((doc, index) => (
+                <View key={index} style={styles.documentItem}>
+                  <Feather name="file-text" size={20} color="#2196F3" />
+                  <Text style={styles.documentName}>{doc.name}</Text>
+                  <TouchableOpacity onPress={() => removeQualification(index)}>
+                    <Feather name="trash-2" size={20} color="#f44336" />
+                  </TouchableOpacity>
+                </View>
+              ))
+            ) : (
+              <Text style={styles.uploadPromptText}>No qualifications added</Text>
+            )}
+            <TouchableOpacity
+              style={[styles.uploadButton, { backgroundColor: '#fff', borderWidth: 1, borderColor: '#2196F3' }]}
+              onPress={pickQualification}
+            >
+              <Feather name="plus" size={20} color="#2196F3" />
+              <Text style={[styles.uploadButtonText, { color: '#2196F3' }]}>Add Qualification</Text>
+            </TouchableOpacity>
+          </View>
 
           <View style={styles.modalButtons}>
             <TouchableOpacity
@@ -374,16 +467,18 @@ export default function ProfileScreen() {
             </TouchableOpacity>
 
             <TouchableOpacity
-              style={styles.saveButton}
+              style={[styles.saveButton, (!selfieImage || !governmentID) && styles.disabledButton]}
               onPress={submitVerification}
+              disabled={!selfieImage || !governmentID}
             >
               <Text style={styles.buttonText}>Submit Application</Text>
             </TouchableOpacity>
           </View>
-        </View>
+        </ScrollView>
       </View>
     </Modal>
   );
+};
 
   const renderServices = () => (
     <>
@@ -855,7 +950,7 @@ const styles = StyleSheet.create({
   verificationStatusText: {
     marginLeft: 10,
     fontSize: 12,
-    color: colors.categoryColor,
+    color: colors.support,
     fontStyle: 'italic',
   },
   sectionHeader: {
@@ -1071,7 +1166,7 @@ const styles = StyleSheet.create({
     padding: 20,
   },
   modalContent: {
-    backgroundColor: colors.support,
+    backgroundColor: "white",
     width: '90%',
     borderRadius: 10,
     padding: 20,
@@ -1087,7 +1182,7 @@ const styles = StyleSheet.create({
   },
   modalSubtitle: {
     fontSize: 14,
-    color: colors.headerColor,
+    color: colors.highlight,
     textAlign: 'center',
     marginBottom: 20,
   },
@@ -1122,7 +1217,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: colors.categoryColor,
+    backgroundColor: colors.main,
     padding: 12,
     borderRadius: 6,
     marginBottom: 15,
@@ -1179,7 +1274,7 @@ const styles = StyleSheet.create({
   verificationStepText: {
     marginLeft: 10,
     fontSize: 14,
-    color: colors.headerColor,
+    color: "black",
   },
   // Service options styles
   serviceOptionsContainer: {
@@ -1206,4 +1301,35 @@ const styles = StyleSheet.create({
     fontSize: 12,
     textAlign: 'center',
   },
+
+  verificationSection: {
+  marginBottom: 20,
+  paddingBottom: 15,
+  borderBottomWidth: 1,
+  borderBottomColor: '#eee',
+},
+documentPreview: {
+  flexDirection: 'row',
+  alignItems: 'center',
+  padding: 10,
+  backgroundColor: '#f5f5f5',
+  borderRadius: 8,
+  marginBottom: 10,
+},
+documentItem: {
+  flexDirection: 'row',
+  alignItems: 'center',
+  padding: 10,
+  backgroundColor: '#f5f5f5',
+  borderRadius: 8,
+  marginBottom: 5,
+},
+documentName: {
+  flex: 1,
+  marginLeft: 10,
+  color: '#333',
+},
+disabledButton: {
+  opacity: 0.6,
+},
 });
