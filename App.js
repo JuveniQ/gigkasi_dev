@@ -65,7 +65,7 @@ function MainTabs() {
 
   return (
     <GestureDetector gesture={switchTab}>
-      <View collapsable={false} style={{ flex: 1 }}>
+      <View collapsable={false} style={{ flex: 1, marginBottom: 0 }}>
         <Tab.Navigator screenOptions={({ route }) => ({
           tabBarIcon: (props) => tabIcon(props, route),
           headerShown: false,
@@ -111,7 +111,7 @@ function MainTabs() {
 
 function RootStack() {
   return (
-    <Stack.Navigator screenOptions={{ headerShown: false }}>
+    <Stack.Navigator screenOptions={{ headerShown: false }} style={{backgroundColor: colors.main}}>
       <Stack.Screen name='Welcome'>
         {() => (<AuthGuard>
           <WelcomeScreen />
@@ -141,8 +141,8 @@ export default function App() {
 
   return (
     <UserProvider>
-      <SafeAreaProvider style={{flex: 1}}>
-        <GestureHandlerRootView style={{ flex: 1 }}>
+      <SafeAreaProvider style={styles.container}>
+        <GestureHandlerRootView style={{ flex: 1, marginBottom: 0 }}>
           <NavigationContainer>
             <SafeAreaView style={[styles.container, Platform.OS == 'ios' ? { padding: StatusBar.currentHeight } : null]}>
               <StatusBar barStyle='light-content' />
@@ -160,6 +160,7 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: colors.main,
+    backgroundColor: colors.backgroundColor,
+    marginBottom: 0,
     }
 })
