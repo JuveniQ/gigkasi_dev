@@ -43,13 +43,8 @@ export interface User {
   imageUrl: string;
   rating: number;
   verified: boolean;
+  emailVerified: boolean;
   joinDate: string;
-  completedJobs: number;
-  requestsMade: number;
-  services: service[];
-  requests: request[];
-  portfolio: portfolio[];
-  qualifications: qualification[];
   status: string;
   loggedIn: boolean;
 }
