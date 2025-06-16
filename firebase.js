@@ -1,6 +1,6 @@
 import { initializeApp, getApps } from 'firebase/app';
 import { initializeAuth, getAuth, getReactNativePersistence } from 'firebase/auth';
-import { initializeFirestore } from 'firebase/firestore';
+import { getFirestore, initializeFirestore } from 'firebase/firestore';
 import * as SecureStore from 'expo-secure-store';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import 'react-native-get-random-values';
@@ -20,33 +20,41 @@ const app = getApps().length === 0 ? initializeApp(firebaseConfig) : getApps()[0
 
 let auth;
 try {
-  auth = getAuth(app);
-} catch (e) {
-  const auth = initializeAuth(app, {
-  persistence: {
-    ...getReactNativePersistence(AsyncStorage),
-    async setItem(key, value){
+  const reactNativePersistence = getReactNativePersistence({
+    ...AsyncStorage,
+    setItem: async (key, value) => {
       if (key.includes('session')) {
         await SecureStore.setItemAsync(key, value);
       } else {
         await AsyncStorage.setItem(key, value);
       }
     },
-    async getItem(key) {
+    getItem: async (key) => {
       if (key.includes('session')) {
         return await SecureStore.getItemAsync(key);
       }
       return await AsyncStorage.getItem(key);
     },
-    async removeItem(key){
+    removeItem: async (key) => {
       await Promise.all([
         SecureStore.deleteItemAsync(key),
         AsyncStorage.removeItem(key)
       ]);
     }
-  }
-});
+  });
 
+  auth = initializeAuth(app, {persistence: reactNativePersistence});
+} catch (err) {
+  auth = getAuth(app)
 }
 
-export { auth };
+
+
+let db;
+try{
+  db = getFirestore();
+} catch(error) {
+  db = initializeFirestore(app)
+}
+
+export { auth, db };

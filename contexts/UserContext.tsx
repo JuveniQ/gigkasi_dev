@@ -16,22 +16,16 @@ export const useUser = () => {
 };
 
 export default function UserProvider({ children }: { children: React.ReactNode }) {
+
+
+
   const [user, setUser] = useState<User>(null);
 
   const login = async (email: string, password: string) => {
     try {
       const userCredential = await signInWithEmailAndPassword(auth, email, password);
 
-      setUser({
-        ...user,
-        id: userCredential.user.uid,
-        name: userCredential.user.displayName,
-        email: userCredential.user.email,
-        imageUrl: userCredential.user.photoURL,
-        loggedIn: true,
-        verified: userCredential.user.emailVerified,
-        joinDate: new Date().toLocaleDateString(),
-      });
+      
     } catch (error) {
       throw error;
     }
@@ -47,10 +41,7 @@ export default function UserProvider({ children }: { children: React.ReactNode }
   };
 
   const logout = () => {
-    setUser({
-      ...user,
-      loggedIn: false,
-    });
+    setUser({...user, isAuthenticated: false});
   };
 
   const updateProfile = (info: Partial<User>) => {
@@ -58,7 +49,7 @@ export default function UserProvider({ children }: { children: React.ReactNode }
   };
 
   return (
-    <UserContext.Provider value={{ ...user, login, register, logout, updateProfile }}>
+    <UserContext.Provider value={{...user, login, logout, updateProfile, register}}>
       {children}
     </UserContext.Provider>
   );
