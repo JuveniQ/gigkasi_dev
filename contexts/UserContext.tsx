@@ -16,36 +16,16 @@ export const useUser = () => {
 };
 
 export default function UserProvider({ children }: { children: React.ReactNode }) {
-  const [user, setUser] = useState<User>({
-    id: "",
-    name: "John Doe",
-    imageUrl: "https://api.a0.dev/assets/image?text=TM&aspect=1:1",
-    rating: 0,
-    verified: false,
-    joinDate: "",
-    completedJobs: 0,
-    requestsMade: 0,
-    services: [],
-    requests: [],
-    portfolio: [],
-    qualifications: [],
-    status: "",
-    loggedIn: false,
-  });
+
+
+
+  const [user, setUser] = useState<User>(null);
 
   const login = async (email: string, password: string) => {
     try {
       const userCredential = await signInWithEmailAndPassword(auth, email, password);
-      setUser({
-        ...user,
-        id: userCredential.user.uid,
-        name: userCredential.user.displayName || 'Jay Nhlapho',
-        email: userCredential.user.email || '',
-        imageUrl: userCredential.user.photoURL || 'https://cdn.download.ams.birds.cornell.edu/api/v2/asset/311635911/900',
-        loggedIn: true,
-        verified: userCredential.user.emailVerified,
-        joinDate: new Date().toLocaleDateString(),
-      });
+
+      
     } catch (error) {
       throw error;
     }
@@ -55,25 +35,13 @@ export default function UserProvider({ children }: { children: React.ReactNode }
     try {
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
       
-      setUser({
-        ...user,
-        id: userCredential.user.uid,
-        name: name,
-        email: email,
-        loggedIn: true,
-        verified: false,
-        joinDate: new Date().toLocaleDateString(),
-      });
     } catch (error) {
       throw error;
     }
   };
 
   const logout = () => {
-    setUser({
-      ...user,
-      loggedIn: false,
-    });
+    setUser({...user, isAuthenticated: false});
   };
 
   const updateProfile = (info: Partial<User>) => {
@@ -81,7 +49,7 @@ export default function UserProvider({ children }: { children: React.ReactNode }
   };
 
   return (
-    <UserContext.Provider value={{ ...user, login, register, logout, updateProfile }}>
+    <UserContext.Provider value={{...user, login, logout, updateProfile, register}}>
       {children}
     </UserContext.Provider>
   );

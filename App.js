@@ -6,7 +6,7 @@ import { StatusBar } from 'expo-status-bar'
 import React from 'react'
 import { Platform, StyleSheet, View } from 'react-native'
 import { Gesture, GestureDetector, GestureHandlerRootView } from 'react-native-gesture-handler'
-import { SafeAreaView } from 'react-native-safe-area-context'
+import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context'
 import colors from './constants/colors'
 import CreateRequestScreen from './screens/CreateRequestScreen'
 import CreateServiceScreen from './screens/CreateServiceScreen'
@@ -21,10 +21,11 @@ import NotificationsScreen from './screens/NotificationScreen'
 import PrivacySecurityScreen from './screens/PrivacyScreen'
 import UserProvider from './contexts/UserContext'
 import GuideScreen from './screens/GuideScreen'
-import AuthScreen from './screens/AuthScreen';
 import LoginScreen from './screens/LoginScreen';
 import RegisterScreen from './screens/RegisterScreen';
 import WelcomeScreen from './screens/WelcomeScreen'
+import AuthGuard from './components/AuthGuard'
+import { Toaster } from 'sonner-native'
 
 const Stack = createNativeStackNavigator()
 const Tab = createBottomTabNavigator()
@@ -111,8 +112,15 @@ function MainTabs() {
 function RootStack() {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
-      <Stack.Screen name='Welcome' component={WelcomeScreen}/>
-      <Stack.Screen name="Guide" component={GuideScreen}/>
+      <Stack.Screen name='Welcome'>
+        {() => (<AuthGuard>
+          <WelcomeScreen />
+        </AuthGuard>)}
+      </Stack.Screen>
+
+
+
+      <Stack.Screen name="Guide" component={GuideScreen} />
       <Stack.Screen name='MainTabs' component={MainTabs} />
       <Stack.Screen name='ProviderDetails' component={ProviderDetailsScreen} />
       <Stack.Screen name='RequestDetails' component={RequestDetailsScreen} />
@@ -121,7 +129,7 @@ function RootStack() {
       <Stack.Screen name='EditProfile' component={EditProfileScreen} />
       <Stack.Screen name="Notifications" component={NotificationsScreen} />
       <Stack.Screen name='PrivacySecurity' component={PrivacySecurityScreen} />
-      
+
       <Stack.Screen name="Login" component={LoginScreen} />
       <Stack.Screen name="Register" component={RegisterScreen} />
     </Stack.Navigator>
@@ -133,14 +141,17 @@ export default function App() {
 
   return (
     <UserProvider>
-      <GestureHandlerRootView style={{ flex: 1 }}>
-        <NavigationContainer>
-          <SafeAreaView style={[styles.container, Platform.OS == 'ios' ? { padding: StatusBar.currentHeight } : null]}>
-            <StatusBar barStyle='light-content' />
-            <RootStack />
-          </SafeAreaView>
-        </NavigationContainer>
-      </GestureHandlerRootView>
+      <SafeAreaProvider style={{flex: 1}}>
+        <GestureHandlerRootView style={{ flex: 1 }}>
+          <NavigationContainer>
+            <SafeAreaView style={[styles.container, Platform.OS == 'ios' ? { padding: StatusBar.currentHeight } : null]}>
+              <StatusBar barStyle='light-content' />
+              <RootStack />
+              <Toaster />
+            </SafeAreaView>
+          </NavigationContainer>
+        </GestureHandlerRootView>
+      </SafeAreaProvider>
     </UserProvider>
   );
 }
@@ -149,7 +160,6 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: colors.background,
-    marginBottom: 48,
-  }
+    backgroundColor: colors.main,
+    }
 })
