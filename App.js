@@ -145,6 +145,7 @@ export default function App() {
         <SafeAreaProvider styles={styles.container}>
 
           <NavigationContainer>
+
             <View style={[styles.container, Platform.OS == 'ios' ? { padding: StatusBar.currentHeight } : null]}>
               <StatusBar barStyle='light-content' />
               <RootStack />
@@ -164,5 +165,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: colors.main,
     marginBottom: 0,
+    paddingTop:10
+
   }
 })
