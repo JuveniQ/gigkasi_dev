@@ -11,12 +11,12 @@ export default function AuthGuard({ children }){
     const navigation = useNavigation();
     const [token, setToken] = useState(null)
 
-    if (user.isAuthenticated || !token){
-
-        
+    if (user.isAuthenticated || token){
         //@ts-ignore
         navigation.replace('Login');
     }
+
+
 
     //If authenticated return the children
     return children
