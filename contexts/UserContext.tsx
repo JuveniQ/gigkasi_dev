@@ -5,6 +5,7 @@ import { doc, getDoc } from 'firebase/firestore'
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut, } from 'firebase/auth';
 import { User, UserContextType } from '../constants/types';
 import { toast } from 'sonner-native';
+import { useNavigation } from '@react-navigation/native';
 
 
 const UserContext = createContext<UserContextType | null>(null);
@@ -38,16 +39,37 @@ const initUser: User = {
 }
 
 export default function UserProvider({ children }: { children: React.ReactNode }) {
+  const navigation = useNavigation();
   const [user, setUser] = useState<User>(null);
   const [loading, setLoading] = useState(false);
-  
-  useEffect(()=>{
-    const unsubscribe = onAuthStateChanged(auth, (firebaseUser) =>{
 
-    })
+   useEffect(() => {
+  const unsubscribe = onAuthStateChanged(auth, (firebaseUser) => {
+    if (firebaseUser) {
+      const userData = getDoc(doc(db, 'users', firebaseUser.uid));
+      userData
+        .then((docSnap) => {
+          if (docSnap.exists()) {
+            const data = docSnap.data() as User;
+            setUser({
+              ...data,
+              isAuthenticated: true,
+            });
+            //@ts-ignore
+            navigation.replace('MainTabs');
+          }
+        })
+        .catch((error) => {
+          toast.error("Failed To Login, please try again later");
+          setUser(initUser);
+        });
+    } 
+  });
 
-    return () => unsubscribe();
-  })
+  return () => unsubscribe();
+}, []);
+
+
 
 
   const login = async (email: string, password: string) => {
@@ -68,3 +90,4 @@ export default function UserProvider({ children }: { children: React.ReactNode }
     </UserContext.Provider>
   );
 }
+   
