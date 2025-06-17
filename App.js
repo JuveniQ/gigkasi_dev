@@ -63,68 +63,7 @@ function MainTabs() {
     return <Ionicons name={iconName} size={size} color={color} />
   }
 
-  return (
-    <View style={{ flex: 1 }}>
-      <Tab.Navigator
-        screenOptions={({ route }) => ({
-          tabBarIcon: (props) => tabIcon(props, route),
-          headerShown: false,
-          tabBarStyle: {
-            borderTopWidth: 0,
-            elevation: 0
-          },
-          tabBarActiveTintColor: colors.support,
-          tabBarInactiveTintColor: colors.main,
-        })}
-      >
-        <Tab.Screen name='Dashboard' component={Dashboard} />
-        <Tab.Screen name='Discover' component={DiscoverScreen} />
-        <Tab.Screen name='Messages' component={MessagesScreen} />
-        <Tab.Screen name='Profile' component={ProfileScreen} />
-      </Tab.Navigator>
-    </View>
-    <GestureDetector gesture={switchTab}>
-      <View collapsable={false} style={{ flex: 1 }}>
-        <Tab.Navigator screenOptions={({ route }) => ({
-          tabBarIcon: (props) => tabIcon(props, route),
-          headerShown: false,
-          tabBarStyle: {
-            borderTopWidth: 0,
-            elevation: 0
-          },
-          animation: 'shift',
-          tabBarHideOnKeyboard: true,
-          lazy: true,
-          tabBarActiveTintColor: colors.support,
-          tabBarInactiveTintColor: colors.main,
-
-        })}>
-
-          <Tab.Screen name='Dashboard' component={Dashboard} listeners={{
-            tabPress: (e) => {
-              setCurrentIndex(0)
-            }
-          }} />
-          <Tab.Screen name='Discover' component={DiscoverScreen} listeners={{
-            tabPress: (e) => {
-              setCurrentIndex(1)
-            }
-          }} />
-          <Stack.Screen name='Messages' component={MessagesScreen} listeners={{
-            tabPress: (e) => {
-              setCurrentIndex(2)
-            }
-          }} />
-          <Tab.Screen name='Profile' component={ProfileScreen} listeners={{
-            tabPress: (e) => {
-              setCurrentIndex(3)
-            }
-          }} />
-        </Tab.Navigator>
-      </View>
-    </GestureDetector>
-
-  )
+  
 }
 
 
