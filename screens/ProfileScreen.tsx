@@ -19,11 +19,13 @@ import colors from '../constants/colors';
 import * as ImagePicker from 'expo-image-picker';
 import { mockReviews, serviceOptions, userData as ud } from '../constants/mockData';
 import * as DocumentPicker from 'expo-document-picker';
+import { useUser } from '../contexts/UserContext';
 
 
 
 export default function ProfileScreen() {
   const navigation = useNavigation();
+  const user = useUser()
   const [isServiceProvider, setIsServiceProvider] = useState(false);
   const [showServiceForm, setShowServiceForm] = useState(false);
   const [showPortfolioForm, setShowPortfolioForm] = useState(false);
@@ -225,8 +227,8 @@ export default function ProfileScreen() {
   const renderProfileHeader = () => (
     <View style={styles.profileHeader}>
       <View style={styles.avatarContainer}>
-        <Image source={{ uri: userData.imageUrl }} style={styles.profileImage} />
-        {userData.verified && (
+        <Image source={{ uri: user.imageUrl }} style={styles.profileImage} />
+        {user.verified && (
           <View style={styles.verifiedBadge}>
             <MaterialIcons name="verified" size={20} color="blue" />
           </View>
@@ -234,10 +236,10 @@ export default function ProfileScreen() {
       </View>
       <View style={styles.profileInfo}>
         <View>
-          <Text style={styles.profileName}>{userData.name}</Text>
+          <Text style={styles.profileName}>{user.displayName}</Text>
         </View>
         <Text style={styles.profileLocation}>
-          <Feather name="map-pin" size={12} color="#666" /> {userData.location}
+          <Feather name="map-pin" size={12} color="#666" /> {user.location}
         </Text>
 
 
@@ -245,7 +247,7 @@ export default function ProfileScreen() {
           <View style={styles.ratingContainer}>
             <Ionicons name="star" size={14} color="#FFD700" />
             <Text style={styles.ratingText}>
-              {userData.rating} ({userData.reviews} reviews)
+              {user.rating} ({userData.reviews} reviews)
             </Text>
           </View>
         </TouchableOpacity>}
@@ -285,7 +287,7 @@ export default function ProfileScreen() {
         </Modal>
 
 
-        <Text style={styles.joinDate}>{userData.joinDate}</Text>
+        <Text style={styles.joinDate}>{user.joinDate}</Text>
       </View>
     </View>
   );
