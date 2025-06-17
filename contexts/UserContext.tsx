@@ -45,11 +45,9 @@ export default function UserProvider({ children }: { children: React.ReactNode }
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (firebaseUser) => {
-      setLoading(true)
       if (firebaseUser) {
         const userData = getDoc(doc(db, 'users', firebaseUser.uid));
-        userData
-          .then((docSnap) => {
+        userData.then((docSnap) => {
             if (docSnap.exists()) {
               const data = docSnap.data() as User;
               setUser({
@@ -62,15 +60,10 @@ export default function UserProvider({ children }: { children: React.ReactNode }
               navigation.navigate('MainTabs');
             }
           })
-          .catch((error) => {
-            console.log(error.message)
-            setLoading(false)
-            toast.error("Failed To Login, please try again");
-            setUser(initUser);
-          });
+      } else {
+        setUser({...initUser, isAuthenticated: false})
       }
     });
-
     return () => unsubscribe();
   }, []);
 
@@ -82,18 +75,17 @@ export default function UserProvider({ children }: { children: React.ReactNode }
   };
 
   const register = async (email: string, password: string, name: string) => {
-    const userCredentials = createUserWithEmailAndPassword(auth, email, password)
+    const userCredentials = await createUserWithEmailAndPassword(auth, email, password)
 
     const userRef = doc(db, "users", (await userCredentials).user.uid)
     setDoc(userRef, {
       ...initUser,
       displayName: name,
       isAuthenticated:true, 
-      joinDate: new Date().toISOString(),
+      emailVerified: userCredentials.user.emailVerified,
+      joinDate: userCredentials.user.metadata.creationTime,
       status: "active"
     })
-    setLoading(false)
-
     //@ts-ignore
     navigation.navigate('MainTabs', {replace: true});
   };
