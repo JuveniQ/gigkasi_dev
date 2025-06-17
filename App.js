@@ -25,6 +25,7 @@ import { Toaster } from 'sonner-native';
 import AuthGuard from './components/AuthGuard';
 import LoginScreen from './screens/LoginScreen';
 import RegisterScreen from './screens/RegisterScreen';
+import UserProvider from './contexts/UserContext';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -84,8 +85,8 @@ function AppStack() {
       <Stack.Screen name="PrivacySecurity" component={PrivacySecurityScreen} />
       <Stack.Screen name="Guide" component={GuideScreen} />
       <Stack.Screen name="Welcome" component={WelcomeScreen} />
-      <Stack.Screen name='Login' component={LoginScreen}/>
-      <Stack.Screen name='Register' component={RegisterScreen}/>
+      <Stack.Screen name='Login' component={LoginScreen} />
+      <Stack.Screen name='Register' component={RegisterScreen} />
 
     </Stack.Navigator>
   );
@@ -94,17 +95,19 @@ function AppStack() {
 
 export default function App() {
   return (
-    <GestureHandlerRootView style={{ flex: 1 }}>
-      <SafeAreaProvider>
-        <StatusBar style="light" backgroundColor={colors.main} />
-        <NavigationContainer>
-          <SafeAreaView style={styles.container} edges={['top', 'right', 'left']}>
-            <AppStack />
-            <Toaster />
-          </SafeAreaView>
-        </NavigationContainer>
-      </SafeAreaProvider>
-    </GestureHandlerRootView>
+    <UserProvider>
+      <GestureHandlerRootView style={{ flex: 1 }}>
+        <SafeAreaProvider>
+          <StatusBar style="light" backgroundColor={colors.main} />
+          <NavigationContainer>
+            <SafeAreaView style={styles.container} edges={['top', 'right', 'left']}>
+              <AppStack />
+              <Toaster />
+            </SafeAreaView>
+          </NavigationContainer>
+        </SafeAreaProvider>
+      </GestureHandlerRootView>
+    </UserProvider>
   );
 }
 
@@ -112,7 +115,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: colors.main,
-    marginBottom: Platform.OS === 'ios' ? 0 : 0, 
+    marginBottom: Platform.OS === 'ios' ? 0 : 0,
     marginBottom: Platform.OS === 'android' ? 32 : 0
   },
 });
