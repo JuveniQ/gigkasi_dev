@@ -1,12 +1,12 @@
 import { Ionicons } from '@expo/vector-icons'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
-import { NavigationContainer } from '@react-navigation/native'
+import { NavigationContainer, useNavigation } from '@react-navigation/native'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
-import React from 'react'
 import { StatusBar } from 'expo-status-bar'
+import React from 'react'
 import { Platform, StyleSheet, View } from 'react-native'
-import { GestureHandlerRootView } from 'react-native-gesture-handler'
-import { SafeAreaProvider } from 'react-native-safe-area-context'
+import { Gesture, GestureDetector, GestureHandlerRootView } from 'react-native-gesture-handler'
+import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context'
 import colors from './constants/colors'
 import CreateRequestScreen from './screens/CreateRequestScreen'
 import CreateServiceScreen from './screens/CreateServiceScreen'
@@ -42,6 +42,7 @@ function MainTabs() {
     return <Ionicons name={iconName} size={size} color={color} />
   }
 
+  
   return (
       <Tab.Navigator
         screenOptions={({ route }) => ({
@@ -124,14 +125,17 @@ export default function App() {
     <UserProvider>
       <GestureHandlerRootView style={{ flex: 1, marginBottom: 0 }}>
         <SafeAreaProvider styles={styles.container}>
+          <StatusBar style='light' backgroundColor={colors.main} />
           <NavigationContainer>
+
             <View style={[styles.container, Platform.OS == 'ios' ? { padding: StatusBar.currentHeight } : null]}>
-              <StatusBar style='light' />
+              
               <RootStack />
               <Toaster />
             </View>
           </NavigationContainer>
-       </SafeAreaProvider>
+
+        </SafeAreaProvider>
       </GestureHandlerRootView>
     </UserProvider>
   );
