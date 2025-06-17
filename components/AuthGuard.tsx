@@ -12,7 +12,12 @@ export default function AuthGuard({ children }){
 
     if (!user.isAuthenticated){
         //@ts-ignore
-        navigation.replace('Login');
+        navigation.navigate('Login');
+    } 
+
+    if (user.isAuthenticated){
+        //@ts-ignore
+        navigation.navigate('MainTabs')
     }
 
     //If authenticated return the children

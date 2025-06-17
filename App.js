@@ -150,19 +150,22 @@ function AppStack() {
 
 export default function App() {
   return (
-    <UserProvider>
-      <GestureHandlerRootView style={{ flex: 1 }}>
-        <SafeAreaProvider>
-          <StatusBar style="light" backgroundColor={colors.main} />
-          <NavigationContainer>
+
+
+    <GestureHandlerRootView style={{ flex: 1 }}>
+      <SafeAreaProvider>
+        <StatusBar style="light" backgroundColor={colors.main} />
+        <NavigationContainer>
+          <UserProvider>
             <SafeAreaView style={styles.container} edges={['top', 'right', 'left']}>
               <AppStack />
               <Toaster />
             </SafeAreaView>
-          </NavigationContainer>
-        </SafeAreaProvider>
-      </GestureHandlerRootView>
-    </UserProvider>
+          </UserProvider>
+        </NavigationContainer>
+      </SafeAreaProvider>
+    </GestureHandlerRootView>
+
   );
 }
 

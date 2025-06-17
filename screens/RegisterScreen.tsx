@@ -23,10 +23,11 @@ import AuthHeader from '../components/AuthHeader';
 import AuthButton from '../components/AuthButton';
 import SocialAuth from '../components/SocialAuth';
 import AuthSwitch from '../components/AuthSwitch';
+import { toast } from 'sonner-native';
 
 export default function RegisterScreen() {
   const navigation = useNavigation();
-  const { login } = useUser();
+  const { register } = useUser();
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -52,12 +53,9 @@ export default function RegisterScreen() {
 
     setLoading(true);
     try {
-      login(email, password)
-      await login(email, password)
-      //@ts-ignore
-      navigation.replace("MainTabs")
+      await register(email, password, name)
     } catch (error) {
-      Alert.alert('Registration Error', error.message);
+      toast.info(`Registration Error ${error.message}`);
     } finally {
       setLoading(false);
     }
@@ -67,7 +65,6 @@ export default function RegisterScreen() {
 
   return (
     <ImageBackground 
-     // source={require('../assets/auth-bg.jpg')}
       style={styles.background}
       resizeMode="cover"
     >
