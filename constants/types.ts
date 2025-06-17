@@ -37,9 +37,10 @@ export type portfolio = {
 }
 
 export interface User {
-  id: string;
-  name: string;
+  uid: string;
+  displayName: string;
   email: string;
+  phone: string;
   imageUrl?: string;
   rating: number;
   verified: boolean;
@@ -47,7 +48,10 @@ export interface User {
   phoneVerified: boolean;
   joinDate: string;
   status: string;
+  location?: string;
+  bio?: string;
   isAuthenticated: boolean;
+  loading;
 }
 
 export interface UserContextType extends User {

@@ -19,6 +19,7 @@ import Fuse from 'fuse.js';
 export default function Dashboard() {
   const navigation = useNavigation();
   const [searchQuery, setSearchQuery] = useState('');
+
   //const [location, setLocation] = useState('Soweto, Johannesburg');
 
   //search functionality using Fuse.js

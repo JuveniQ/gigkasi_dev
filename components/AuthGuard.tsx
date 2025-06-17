@@ -9,9 +9,8 @@ import { useEffect, useState } from 'react';
 export default function AuthGuard({ children }){
     const user = useUser();
     const navigation = useNavigation();
-    const [token, setToken] = useState(null)
 
-    if (user.isAuthenticated || token){
+    if (user.isAuthenticated){
         //@ts-ignore
         navigation.replace('Login');
     }
