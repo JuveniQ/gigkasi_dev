@@ -66,7 +66,7 @@ function MainTabs() {
 
 function RootStack() {
   return (
-    <Stack.Navigator screenOptions={{ headerShown: false }} initialRouteName='MainTabs'>
+    <Stack.Navigator screenOptions={{ headerShown: false }} initialRouteName='Login'>
       <Stack.Screen name='Welcome' component={WelcomeScreen} />
       <Stack.Screen name="Guide" component={GuideScreen} />
       <Stack.Screen name="MainTabs" >
