@@ -26,6 +26,8 @@ export default function UserProvider({ children }: { children: React.ReactNode }
   const login = async (email: string, password: string) => {
     try {
       const userCredential = await signInWithEmailAndPassword(auth, email, password);
+      
+
       toast.success('Logged in succesfully')
       console.log(AsyncStorage.getAllKeys())
     } catch (error) {
