@@ -73,7 +73,7 @@ function MainTabs() {
 
 function AppStack() {
   return (
-    <Stack.Navigator screenOptions={{ headerShown: false }} initialRouteName="MainTabs">
+    <Stack.Navigator screenOptions={{ headerShown: false }} initialRouteName="Welcome">
       <Stack.Screen name="MainTabs" component={MainTabs} />
       <Stack.Screen name="ProviderDetails" component={ProviderDetailsScreen} />
       <Stack.Screen name="RequestDetails" component={RequestDetailsScreen} />
@@ -86,7 +86,7 @@ function AppStack() {
       <Stack.Screen name="Welcome" component={WelcomeScreen} />
       <Stack.Screen name='Login' component={LoginScreen}/>
       <Stack.Screen name='Register' component={RegisterScreen}/>
-      
+
     </Stack.Navigator>
   );
 }
