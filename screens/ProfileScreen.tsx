@@ -19,7 +19,7 @@ import colors from '../constants/colors';
 import * as ImagePicker from 'expo-image-picker';
 import { mockReviews, serviceOptions, userData as ud } from '../constants/mockData';
 import * as DocumentPicker from 'expo-document-picker';
-import { CameraType } from 'react-native-image-picker'; // Adjust the import path based on your library
+
 
 
 export default function ProfileScreen() {
@@ -471,7 +471,7 @@ export default function ProfileScreen() {
               onPress={submitVerification}
               disabled={!selfieImage || !governmentID}
             >
-              <Text style={styles.buttonText}>Submit Application</Text>
+              <Text style={styles.buttonText}>Submit</Text>
             </TouchableOpacity>
           </View>
         </ScrollView>
@@ -1164,6 +1164,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     padding: 20,
+    
   },
   modalContent: {
     backgroundColor: "white",
@@ -1197,6 +1198,7 @@ const styles = StyleSheet.create({
   modalButtons: {
     flexDirection: 'row',
     justifyContent: 'space-between',
+    paddingBottom: 25
   },
   cancelButton: {
     padding: 12,
@@ -1204,7 +1206,7 @@ const styles = StyleSheet.create({
     flex: 1,
     marginRight: 10,
     alignItems: 'center',
-    backgroundColor: 'rgb(177, 233, 214)',
+    backgroundColor: 'rgb(48, 63, 58)',
   },
   saveButton: {
     padding: 12,
@@ -1221,14 +1223,15 @@ const styles = StyleSheet.create({
     padding: 12,
     borderRadius: 6,
     marginBottom: 15,
+    
   },
   uploadButtonText: {
-    color: '#fff',
+    color: 'white',
     fontSize: 16,
     marginLeft: 10,
   },
   buttonText: {
-    color: '#fff',
+    color: 'black',
     fontSize: 16,
     fontWeight: '500',
   },
