@@ -43,25 +43,25 @@ function MainTabs() {
   }
 
   return (
-      <View style={{ flex: 1 }}>
-        <Tab.Navigator 
-          screenOptions={({ route }) => ({
-            tabBarIcon: (props) => tabIcon(props, route),
-            headerShown: false,
-            tabBarStyle: {
-              borderTopWidth: 0,
-              elevation: 0
-            },
-            tabBarActiveTintColor: colors.support,
-            tabBarInactiveTintColor: colors.main,
-          })}
-        >
-          <Tab.Screen name='Dashboard' component={Dashboard} />
-          <Tab.Screen name='Discover' component={DiscoverScreen} />
-          <Tab.Screen name='Messages' component={MessagesScreen} />
-          <Tab.Screen name='Profile' component={ProfileScreen} />
-        </Tab.Navigator>
-      </View>
+    <View style={{ flex: 1 }}>
+      <Tab.Navigator
+        screenOptions={({ route }) => ({
+          tabBarIcon: (props) => tabIcon(props, route),
+          headerShown: false,
+          tabBarStyle: {
+            borderTopWidth: 0,
+            elevation: 0
+          },
+          tabBarActiveTintColor: colors.support,
+          tabBarInactiveTintColor: colors.main,
+        })}
+      >
+        <Tab.Screen name='Dashboard' component={Dashboard} />
+        <Tab.Screen name='Discover' component={DiscoverScreen} />
+        <Tab.Screen name='Messages' component={MessagesScreen} />
+        <Tab.Screen name='Profile' component={ProfileScreen} />
+      </Tab.Navigator>
+    </View>
   )
 }
 
@@ -69,23 +69,33 @@ function MainTabs() {
 function RootStack() {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }} initialRouteName='MainTabs'>
-      <Stack.Screen name='Welcome'>
-        {() => (<AuthGuard>
-          <WelcomeScreen />
-        </AuthGuard>)}
-      </Stack.Screen>
-
-
-
+      <Stack.Screen name='Welcome' component={WelcomeScreen} />
       <Stack.Screen name="Guide" component={GuideScreen} />
-      <Stack.Screen name='MainTabs' component={MainTabs} />
-      <Stack.Screen name='ProviderDetails' component={ProviderDetailsScreen} />
-      <Stack.Screen name='RequestDetails' component={RequestDetailsScreen} />
-      <Stack.Screen name='CreateRequest' component={CreateRequestScreen} />
-      <Stack.Screen name='CreateService' component={CreateServiceScreen} />
-      <Stack.Screen name='EditProfile' component={EditProfileScreen} />
-      <Stack.Screen name="Notifications" component={NotificationsScreen} />
-      <Stack.Screen name='PrivacySecurity' component={PrivacySecurityScreen} />
+      <Stack.Screen name="MainTabs" component={() => (
+        <AuthGuard><MainTabs /></AuthGuard>
+      )} />
+      <Stack.Screen name="ProviderDetails" component={() => (
+        <AuthGuard><ProviderDetailsScreen /></AuthGuard>
+      )} />
+      <Stack.Screen name="RequestDetails" component={() => (
+        <AuthGuard><RequestDetailsScreen /></AuthGuard>
+      )} />
+      <Stack.Screen name="CreateRequest" component={() => (
+        <AuthGuard><CreateRequestScreen /></AuthGuard>
+      )} />
+      <Stack.Screen name="CreateService" component={() => (
+        <AuthGuard><CreateServiceScreen /></AuthGuard>
+      )} />
+      <Stack.Screen name="EditProfile" component={() => (
+        <AuthGuard><EditProfileScreen /></AuthGuard>
+      )} />
+      <Stack.Screen name="Notifications" component={() => (
+        <AuthGuard><NotificationsScreen /></AuthGuard>
+      )} />
+      <Stack.Screen name="PrivacySecurity" component={() => (
+        <AuthGuard><PrivacySecurityScreen /></AuthGuard>
+      )} />
+
 
       <Stack.Screen name="Login" component={LoginScreen} />
       <Stack.Screen name="Register" component={RegisterScreen} />
@@ -122,7 +132,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: colors.main,
     marginBottom: 0,
-    paddingTop:10
+    paddingTop: 10
 
   }
 })
