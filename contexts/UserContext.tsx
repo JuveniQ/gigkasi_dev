@@ -51,6 +51,7 @@ export default function UserProvider({ children }: { children: React.ReactNode }
 
 
   const login = async (email: string, password: string) => {
+    setLoading(true)
     const useCredentials = await signInWithEmailAndPassword(auth, email, password)
   };
 
@@ -67,7 +68,7 @@ export default function UserProvider({ children }: { children: React.ReactNode }
   };
 
   return (
-    <UserContext.Provider value={{...user, login, logout, updateProfile, register}}>
+    <UserContext.Provider value={{...user, login, logout, updateProfile, register, loading}}>
       {children}
     </UserContext.Provider>
   );
