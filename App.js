@@ -42,9 +42,6 @@ function MainTabs() {
     return <Ionicons name={iconName} size={size} color={color} />
   }
 
-<<<<<<< HEAD
-  
-=======
   return (
       <Tab.Navigator
         screenOptions={({ route }) => ({
@@ -64,7 +61,6 @@ function MainTabs() {
         <Tab.Screen name='Profile' component={ProfileScreen} />
       </Tab.Navigator>
   )
->>>>>>> 0124aa43a17023cc2721139f4856fc344f4b0fe2
 }
 
 
