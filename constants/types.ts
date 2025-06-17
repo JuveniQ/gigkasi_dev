@@ -51,7 +51,7 @@ export interface User {
   location?: string;
   bio?: string;
   isAuthenticated: boolean;
-
+  loading?: boolean;
 }
 
 export interface UserContextType extends User {

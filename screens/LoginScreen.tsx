@@ -19,15 +19,15 @@ import AuthHeader from '../components/AuthHeader';
 import AuthButton from '../components/AuthButton';
 import SocialAuth from '../components/SocialAuth';
 import AuthSwitch from '../components/AuthSwitch';
+import { toast } from 'sonner-native';
 
 export default function LoginScreen() {
   const navigation = useNavigation();
-  const { login } = useUser();
+  const { login, loading } = useUser();
   const [credentials, setCredentials] = useState({
     email: '',
     password: ''
   });
-  const [loading, setLoading] = useState(false);
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
 
   const handleLogin = async () => {
@@ -43,7 +43,7 @@ export default function LoginScreen() {
       //@ts-ignore
       navigation.replace("MainTabs")
     } catch (error) {
-      Alert.alert('Login Error', error.message.includes('invalid-credential') ? "You have entered invalid login credentials" : "Login server error, please try again");
+      error.message.includes('invalid-credential') ? toast.error("You have entered invalid login credentials") : toast.error("Login server error, please try again");
     } finally {
 
     }

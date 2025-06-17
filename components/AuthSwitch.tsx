@@ -20,7 +20,7 @@ const styles = StyleSheet.create({
     marginVertical: 20,
   },
   text: {
-    color: colors.categoryColor,
+    color: colors.black,
   },
   actionText: {
     color: colors.main,
