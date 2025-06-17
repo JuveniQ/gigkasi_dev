@@ -19,6 +19,24 @@ export const useUser = () => {
   return context;
 };
 
+
+const initUser: User = {
+  uid: "",
+  displayName: "",
+  email: "",
+  emailVerified: false,
+  isAuthenticated: false,
+  phoneVerified: false,
+  joinDate: '',
+  phone: "",
+  rating: 0.0,
+  status: 'inactive',
+  verified: false,
+  bio: "",
+  imageUrl: "",
+  location: null
+}
+
 export default function UserProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<User>(null);
   const [loading, setLoading] = useState(false);
