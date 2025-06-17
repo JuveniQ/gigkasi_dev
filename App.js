@@ -31,27 +31,6 @@ const Stack = createNativeStackNavigator()
 const Tab = createBottomTabNavigator()
 
 function MainTabs() {
-  const navigation = useNavigation();
-  const tabRoutes = ['Dashboard', 'Discover', 'Messages', 'Profile'];
-  const [currentIndex, setCurrentIndex] = React.useState(0);
-
-  const switchTab = Gesture.Pan()
-    .onStart(({ velocityX }) => {
-      if (velocityX > 0) {
-        const prevIndex = Math.max(0, currentIndex - 1);
-        if (prevIndex !== currentIndex) {
-          navigation.navigate('MainTabs', { screen: tabRoutes[prevIndex] });
-          setCurrentIndex(prevIndex);
-        }
-      } else if (velocityX < 0) {
-        const nextIndex = Math.min(tabRoutes.length - 1, currentIndex + 1);
-        if (nextIndex !== currentIndex) {
-          navigation.navigate('MainTabs', { screen: tabRoutes[nextIndex] });
-          setCurrentIndex(nextIndex);
-        }
-      }
-    }).minDistance(100)
-
   const tabIcon = ({ color, size }, route) => {
     const iconMap = {
       Dashboard: "home",
@@ -63,7 +42,29 @@ function MainTabs() {
     return <Ionicons name={iconName} size={size} color={color} />
   }
 
+<<<<<<< HEAD
   
+=======
+  return (
+      <Tab.Navigator
+        screenOptions={({ route }) => ({
+          tabBarIcon: (props) => tabIcon(props, route),
+          headerShown: false,
+          tabBarStyle: {
+            borderTopWidth: 0,
+            elevation: 0
+          },
+          tabBarActiveTintColor: colors.support,
+          tabBarInactiveTintColor: colors.main,
+        })}
+      >
+        <Tab.Screen name='Dashboard' component={Dashboard} />
+        <Tab.Screen name='Discover' component={DiscoverScreen} />
+        <Tab.Screen name='Messages' component={MessagesScreen} />
+        <Tab.Screen name='Profile' component={ProfileScreen} />
+      </Tab.Navigator>
+  )
+>>>>>>> 0124aa43a17023cc2721139f4856fc344f4b0fe2
 }
 
 
@@ -72,30 +73,46 @@ function RootStack() {
     <Stack.Navigator screenOptions={{ headerShown: false }} initialRouteName='MainTabs'>
       <Stack.Screen name='Welcome' component={WelcomeScreen} />
       <Stack.Screen name="Guide" component={GuideScreen} />
-      <Stack.Screen name="MainTabs" component={() => (
+      <Stack.Screen name="MainTabs" >
+        { () => (
         <AuthGuard><MainTabs /></AuthGuard>
-      )} />
-      <Stack.Screen name="ProviderDetails" component={() => (
+        )}
+        </Stack.Screen>
+      <Stack.Screen name="ProviderDetails" >
+        { () => (
         <AuthGuard><ProviderDetailsScreen /></AuthGuard>
-      )} />
-      <Stack.Screen name="RequestDetails" component={() => (
+        )}
+        </Stack.Screen>
+      <Stack.Screen name="RequestDetails" >
+        { () => (
         <AuthGuard><RequestDetailsScreen /></AuthGuard>
-      )} />
-      <Stack.Screen name="CreateRequest" component={() => (
+        )}
+        </Stack.Screen>
+      <Stack.Screen name="CreateRequest" >
+        { () => (
         <AuthGuard><CreateRequestScreen /></AuthGuard>
-      )} />
-      <Stack.Screen name="CreateService" component={() => (
+        )}
+        </Stack.Screen>
+      <Stack.Screen name="CreateService" >
+        { () => (
         <AuthGuard><CreateServiceScreen /></AuthGuard>
-      )} />
-      <Stack.Screen name="EditProfile" component={() => (
+        )}
+        </Stack.Screen>
+      <Stack.Screen name="EditProfile" >
+        { () => (
         <AuthGuard><EditProfileScreen /></AuthGuard>
-      )} />
-      <Stack.Screen name="Notifications" component={() => (
+        )}
+        </Stack.Screen>
+      <Stack.Screen name="Notifications" >
+        { () => (
         <AuthGuard><NotificationsScreen /></AuthGuard>
-      )} />
-      <Stack.Screen name="PrivacySecurity" component={() => (
+        )}
+        </Stack.Screen>
+      <Stack.Screen name="PrivacySecurity" >
+        { () => (
         <AuthGuard><PrivacySecurityScreen /></AuthGuard>
-      )} />
+        )}
+        </Stack.Screen>
 
 
       <Stack.Screen name="Login" component={LoginScreen} />
@@ -132,8 +149,5 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: colors.main,
-    marginBottom: 0,
-    paddingTop: 10
-
   }
 })

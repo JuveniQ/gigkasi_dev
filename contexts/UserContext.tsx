@@ -3,6 +3,8 @@ import React, { createContext, useContext, useState } from 'react';
 import { auth } from '../firebase';
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword, sendEmailVerification } from 'firebase/auth';
 import { User, UserContextType } from '../constants/types';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { toast } from 'sonner-native';
 
 
 const UserContext = createContext<UserContextType | null>(null);
@@ -24,8 +26,8 @@ export default function UserProvider({ children }: { children: React.ReactNode }
   const login = async (email: string, password: string) => {
     try {
       const userCredential = await signInWithEmailAndPassword(auth, email, password);
-
-      
+      toast.success('Logged in succesfully')
+      console.log(AsyncStorage.getAllKeys())
     } catch (error) {
       throw error;
     }

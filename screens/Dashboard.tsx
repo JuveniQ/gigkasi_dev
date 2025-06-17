@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { 
-  View, 
-  Text, 
-  StyleSheet, 
-  SafeAreaView, 
+import {
+  View,
+  Text,
+  StyleSheet,
+  SafeAreaView,
   TouchableOpacity,
   ScrollView,
   Image,
@@ -20,41 +20,41 @@ export default function Dashboard() {
   const navigation = useNavigation();
   const [searchQuery, setSearchQuery] = useState('');
   //const [location, setLocation] = useState('Soweto, Johannesburg');
-  
+
   //search functionality using Fuse.js
-const trimmedQuery = searchQuery.trim();
+  const trimmedQuery = searchQuery.trim();
 
-// Configure Fuse.js options
-const fuseOptions = {
-  keys: ['title', 'category'],  // Fields to search
-  threshold: 0.4,              // Adjust for fuzziness (0=exact, 1=loose)
-  includeScore: true,           // Optional: shows match confidence
-  ignoreLocation: true,        // Search across entire strings
-  minMatchCharLength: 2        // Min characters to trigger a match
-};
+  // Configure Fuse.js options
+  const fuseOptions = {
+    keys: ['title', 'category'],  // Fields to search
+    threshold: 0.4,              // Adjust for fuzziness (0=exact, 1=loose)
+    includeScore: true,           // Optional: shows match confidence
+    ignoreLocation: true,        // Search across entire strings
+    minMatchCharLength: 2        // Min characters to trigger a match
+  };
 
-// Initialize Fuse with your data
-const fuse = new Fuse(liveRequests, fuseOptions);
+  // Initialize Fuse with your data
+  const fuse = new Fuse(liveRequests, fuseOptions);
 
-// Perform search (returns an array of { item, score } objects)
-const fuseResults = trimmedQuery 
-  ? fuse.search(trimmedQuery).map(result => result.item) 
-  : liveRequests;
+  // Perform search (returns an array of { item, score } objects)
+  const fuseResults = trimmedQuery
+    ? fuse.search(trimmedQuery).map(result => result.item)
+    : liveRequests;
 
-// Combine with your original exact match filter (optional)
-const exactMatches = liveRequests.filter(req => {
-  const lowerQuery = trimmedQuery.toLowerCase();
-  return (
-    req.title.toLowerCase().includes(lowerQuery) || 
-    req.category.toLowerCase().includes(lowerQuery)
-  );
-});
+  // Combine with your original exact match filter (optional)
+  const exactMatches = liveRequests.filter(req => {
+    const lowerQuery = trimmedQuery.toLowerCase();
+    return (
+      req.title.toLowerCase().includes(lowerQuery) ||
+      req.category.toLowerCase().includes(lowerQuery)
+    );
+  });
 
-// Merge and deduplicate results (Set removes duplicates)
-const filteredRequests = [...new Set([
-  ...exactMatches,
-  ...fuseResults
-])];
+  // Merge and deduplicate results (Set removes duplicates)
+  const filteredRequests = [...new Set([
+    ...exactMatches,
+    ...fuseResults
+  ])];
 
   const handleProviderPress = (provider) => {
     //@ts-ignore
@@ -70,17 +70,17 @@ const filteredRequests = [...new Set([
     //@ts-ignore
     navigation.navigate('CreateRequest');
   };
-  
+
   return (
     <SafeAreaView style={styles.container}>
-      
-     <View style={styles.header}>
-  <View style={styles.logo_container}>
-    <Text style={styles.logo_main}>Gig</Text>
-    <Text style={styles.logo_secondary}>Kasi</Text>
-  </View>
-</View>
-      
+
+      <View style={styles.header}>
+        <View style={styles.logo_container}>
+          <Text style={styles.logo_main}>Gig</Text>
+          <Text style={styles.logo_secondary}>Kasi</Text>
+        </View>
+      </View>
+
       {/* Search bar */}
       <View style={styles.searchContainer}>
         <View style={styles.searchBar}>
@@ -97,15 +97,15 @@ const filteredRequests = [...new Set([
           <Ionicons name="options-outline" size={20} color="#FFFFFF" />
         </TouchableOpacity>
       </View>
-      
+
       <ScrollView style={styles.content} showsVerticalScrollIndicator={false}>
         {/* Service Categories */}
         <Text style={styles.sectionTitle}>Services</Text>
         <View style={styles.categoriesContainer}>
           <ScrollView horizontal showsHorizontalScrollIndicator={false}>
             {serviceCategories.map((category) => (
-              <TouchableOpacity 
-                key={category.id} 
+              <TouchableOpacity
+                key={category.id}
                 style={styles.categoryItem}
                 //@ts-ignore
                 onPress={() => navigation.navigate('Discover', { category: category.name })}
@@ -118,22 +118,22 @@ const filteredRequests = [...new Set([
             ))}
           </ScrollView>
         </View>
-        
+
         {/* Live Requests Section */}
         <View style={styles.sectionHeader}>
           <Text style={styles.sectionTitle}>Live Requests</Text>
-          
-          <TouchableOpacity 
-          //@ts-ignore
-          onPress={() => navigation.navigate('Discover', { tab: 'requests' })}>
+
+          <TouchableOpacity
+            //@ts-ignore
+            onPress={() => navigation.navigate('Discover', { tab: 'requests' })}>
             <Text style={styles.viewAllText}>View all</Text>
           </TouchableOpacity>
         </View>
-        
+
         <View style={styles.requestsContainer}>
           {filteredRequests.map((request) => (
-            <TouchableOpacity 
-              key={request.id} 
+            <TouchableOpacity
+              key={request.id}
               style={styles.requestCard}
               onPress={() => handleRequestPress(request)}
             >
@@ -152,7 +152,7 @@ const filteredRequests = [...new Set([
                   <Text style={styles.requestDetailText}>{request.time}</Text>
                 </View>
               </View>
-              <TouchableOpacity 
+              <TouchableOpacity
                 style={styles.respondButton}
                 onPress={() => handleRequestPress(request)}
               >
@@ -161,28 +161,28 @@ const filteredRequests = [...new Set([
             </TouchableOpacity>
           ))}
         </View>
-        
+
         {/* Nearby Providers Section */}
         <View style={styles.sectionHeader}>
           <Text style={styles.sectionTitle}>Nearby Providers</Text>
           {/*@ts*/}
-          <TouchableOpacity 
-          //@ts-ignore
-          onPress={() => navigation.navigate('Discover', { tab: 'providers' })}>
+          <TouchableOpacity
+            //@ts-ignore
+            onPress={() => navigation.navigate('Discover', { tab: 'providers' })}>
             <Text style={styles.viewAllText}>View all</Text>
           </TouchableOpacity>
         </View>
-        
+
         <FlatList
           data={nearbyProviders}
           horizontal
           showsHorizontalScrollIndicator={false}
-          renderItem={({item}) => (
-            <TouchableOpacity 
+          renderItem={({ item }) => (
+            <TouchableOpacity
               style={styles.providerCard}
               onPress={() => handleProviderPress(item)}
             >
-              <Image source={{uri: item.imageUrl}} style={styles.providerImage as any} />
+              <Image source={{ uri: item.imageUrl }} style={styles.providerImage as any} />
               {item.verified && (
                 <View style={styles.verifiedBadge}>
                   <MaterialIcons name="verified" size={14} color="#FFFFFF" />
@@ -205,7 +205,7 @@ const filteredRequests = [...new Set([
 
         {/* Create Request Button */}
         <View style={styles.createRequestContainer}>
-          <TouchableOpacity 
+          <TouchableOpacity
             style={styles.createRequestButton}
             onPress={handleCreateRequestPress}
           >
@@ -222,8 +222,8 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: colors.background,
-},
-header: {
+  },
+  header: {
     backgroundColor: colors.main,
     paddingTop: 10,
     paddingBottom: 10,
@@ -236,12 +236,12 @@ header: {
     shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.3,
     shadowRadius: 4,
-},
-logo_container: {
+  },
+  logo_container: {
     flexDirection: 'row',
     alignItems: 'center',
-},
-logo_main: {
+  },
+  logo_main: {
     fontSize: 36,
     fontWeight: '800',
     color: 'white',
@@ -251,21 +251,21 @@ logo_main: {
     transform: [{ perspective: 1000 }, { rotateX: '5deg' }],
     letterSpacing: 0.5,
     paddingRight: 2,
-},
-logo_secondary: {
+  },
+  logo_secondary: {
     fontSize: 36,
     fontWeight: '800',
     color: '#FFD700', // More refined gold/yellow
     textShadowColor: 'rgba(255,255,255,0.3)',
-    textShadowOffset: { 
-        width: -1, 
-        height: 1 
+    textShadowOffset: {
+      width: -1,
+      height: 1
     },
     textShadowRadius: 2,
     transform: [{ perspective: 1000 }, { rotateX: '5deg' }],
     letterSpacing: 0.5,
     position: 'relative',
-},
+  },
   profileButton: {
     padding: 4,
   },
@@ -403,7 +403,7 @@ logo_secondary: {
   },
   providersContainer: {
     paddingLeft: 16,
-    paddingBottom:1.5,
+    paddingBottom: 1.5,
     marginBottom: 28,
   },
   providerCard: {

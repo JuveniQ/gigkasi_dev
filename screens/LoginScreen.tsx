@@ -5,7 +5,6 @@ import {
   SafeAreaView, 
   TouchableOpacity, 
   TextInput, 
-  ActivityIndicator, 
   Alert,
   StyleSheet,
   KeyboardAvoidingView,
@@ -14,8 +13,6 @@ import {
 } from 'react-native';
 import { Feather } from '@expo/vector-icons';
 import colors from '../constants/colors';
-import { signInWithEmailAndPassword } from 'firebase/auth';
-import { auth } from '../firebase';
 import { useUser } from '../contexts/UserContext';
 import { useNavigation } from '@react-navigation/native';
 import AuthHeader from '../components/AuthHeader';
@@ -40,7 +37,7 @@ export default function LoginScreen() {
       return;
     }
 
-    setLoading(true);
+
     try {
       await login(email, password)
       //@ts-ignore
@@ -48,7 +45,7 @@ export default function LoginScreen() {
     } catch (error) {
       Alert.alert('Login Error', error.message.includes('invalid-credential') ? "You have entered invalid login credentials" : "Login server error, please try again");
     } finally {
-      setLoading(false);
+
     }
   };
 
