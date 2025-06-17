@@ -10,12 +10,10 @@ export default function AuthGuard({ children }){
     const user = useUser();
     const navigation = useNavigation();
 
-    if (user.isAuthenticated){
+    if (!user.isAuthenticated){
         //@ts-ignore
         navigation.replace('Login');
     }
-
-
 
     //If authenticated return the children
     return children
