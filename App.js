@@ -75,19 +75,74 @@ function MainTabs() {
 function AppStack() {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }} initialRouteName="Welcome">
-      <Stack.Screen name="MainTabs" component={MainTabs} />
-      <Stack.Screen name="ProviderDetails" component={ProviderDetailsScreen} />
-      <Stack.Screen name="RequestDetails" component={RequestDetailsScreen} />
-      <Stack.Screen name="CreateRequest" component={CreateRequestScreen} />
-      <Stack.Screen name="CreateService" component={CreateServiceScreen} />
-      <Stack.Screen name="EditProfile" component={EditProfileScreen} />
-      <Stack.Screen name="Notifications" component={NotificationsScreen} />
-      <Stack.Screen name="PrivacySecurity" component={PrivacySecurityScreen} />
+      <Stack.Screen name="MainTabs">
+        {() => (
+          <AuthGuard>
+            <MainTabs />
+          </AuthGuard>
+        )}
+      </Stack.Screen>
+
+      <Stack.Screen name="ProviderDetails">
+        {() => (
+          <AuthGuard>
+            <ProviderDetailsScreen />
+          </AuthGuard>
+        )}
+      </Stack.Screen>
+
+      <Stack.Screen name="RequestDetails">
+        {() => (
+          <AuthGuard>
+            <RequestDetailsScreen />
+          </AuthGuard>
+        )}
+      </Stack.Screen>
+
+      <Stack.Screen name="CreateRequest">
+        {() => (
+          <AuthGuard>
+            <CreateRequestScreen />
+          </AuthGuard>
+        )}
+      </Stack.Screen>
+
+      <Stack.Screen name="CreateService">
+        {() => (
+          <AuthGuard>
+            <CreateServiceScreen />
+          </AuthGuard>
+        )}
+      </Stack.Screen>
+
+      <Stack.Screen name="EditProfile">
+        {() => (
+          <AuthGuard>
+            <EditProfileScreen />
+          </AuthGuard>
+        )}
+      </Stack.Screen>
+
+      <Stack.Screen name="Notifications">
+        {() => (
+          <AuthGuard>
+            <NotificationsScreen />
+          </AuthGuard>
+        )}
+      </Stack.Screen>
+
+      <Stack.Screen name="PrivacySecurity">
+        {() => (
+          <AuthGuard>
+            <PrivacySecurityScreen />
+          </AuthGuard>
+        )}
+      </Stack.Screen>
+
       <Stack.Screen name="Guide" component={GuideScreen} />
       <Stack.Screen name="Welcome" component={WelcomeScreen} />
       <Stack.Screen name='Login' component={LoginScreen} />
       <Stack.Screen name='Register' component={RegisterScreen} />
-
     </Stack.Navigator>
   );
 }
