@@ -154,7 +154,7 @@ export default function App() {
 
     <GestureHandlerRootView style={{ flex: 1 }}>
       <SafeAreaProvider>
-        <StatusBar style="light" backgroundColor={colors.main} />
+        <StatusBar style="light"/>
         <NavigationContainer>
           <UserProvider>
             <SafeAreaView style={styles.container} edges={['top', 'right', 'left']}>

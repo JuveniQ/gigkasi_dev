@@ -37,15 +37,9 @@ export default function LoginScreen() {
       return;
     }
 
-    try {
-      await login(email, password)
-      //@ts-ignore
-      navigation.replace("MainTabs")
-    } catch (error) {
-      error.message.includes('invalid-credential') ? toast.error("You have entered invalid login credentials") : toast.error("Login server error, please try again");
-    } finally {
-      
-    }
+    login(email, password)
+    //@ts-ignore
+    navigation.navigate('MainTabs', {replace: true});
   };
 
 

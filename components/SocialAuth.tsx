@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, TouchableOpacity, Text, StyleSheet } from 'react-native';
-import { FontAwesome, Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
+import { MaterialCommunityIcons, MaterialIcons } from '@expo/vector-icons';
 import colors from '../constants/colors';
 
 export default function SocialAuth() {
@@ -13,7 +13,7 @@ export default function SocialAuth() {
       </View>
 
       <TouchableOpacity style={styles.socialButton}>
-        <Ionicons name='logo-google'  size={20} color="#DB4437" />
+        <MaterialCommunityIcons name='google'  size={20} color="#DB4437" />
         <Text style={styles.socialButtonText}>Continue with Google</Text>
       </TouchableOpacity>
     </View>

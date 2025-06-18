@@ -1,3 +1,5 @@
+import { Timestamp } from "firebase/firestore"
+
 export type review = {
     id: string,
     reviewer: string,
@@ -7,12 +9,13 @@ export type review = {
 }
 
 export type service = {
-    id: string,
+    uid: string,
     title: string,
     category: string,
     description: string,
     price: string,
     icon: string,
+    verified: boolean,
 }
 export type request = {
     id: string,
@@ -46,7 +49,7 @@ export interface User {
   verified: boolean;
   emailVerified: boolean;
   phoneVerified: boolean;
-  joinDate: string;
+  joinDate: Timestamp;
   status: string;
   location?: string;
   bio?: string;

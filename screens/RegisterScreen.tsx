@@ -27,14 +27,13 @@ import { toast } from 'sonner-native';
 
 export default function RegisterScreen() {
   const navigation = useNavigation();
-  const { register } = useUser();
+  const { register, loading } = useUser();
   const [formData, setFormData] = useState({
     name: '',
     email: '',
     password: '',
     confirmPassword: ''
   });
-  const [loading, setLoading] = useState(false);
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   const [isConfirmPasswordVisible, setIsConfirmPasswordVisible] = useState(false);
 
@@ -51,14 +50,10 @@ export default function RegisterScreen() {
       return;
     }
 
-    setLoading(true);
-    try {
-      await register(email, password, name)
-    } catch (error) {
-      toast.info(`Registration Error ${error.message}`);
-    } finally {
-      setLoading(false);
-    }
+    await register(email, password, name)
+
+    //@ts-ignore
+    navigation.navigate('MainTabs', {replace: true});
   };
 
  

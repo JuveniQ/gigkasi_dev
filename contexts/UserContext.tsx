@@ -1,11 +1,10 @@
 // UserContext.tsx
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { auth, db } from '../firebase';
-import { doc, getDoc, setDoc } from 'firebase/firestore'
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut, } from 'firebase/auth';
+import { doc, getDoc, setDoc, updateDoc, Timestamp } from 'firebase/firestore'
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut } from 'firebase/auth';
 import { User, UserContextType } from '../constants/types';
 import { toast } from 'sonner-native';
-import { useNavigation } from '@react-navigation/native';
 
 
 const UserContext = createContext<UserContextType | null>(null);
@@ -21,6 +20,7 @@ export const useUser = () => {
 };
 
 
+
 const initUser: User = {
   uid: "",
   displayName: "",
@@ -28,18 +28,17 @@ const initUser: User = {
   emailVerified: false,
   isAuthenticated: false,
   phoneVerified: false,
-  joinDate: '',
+  joinDate: Timestamp.now(),
   phone: "",
   rating: 0.0,
   status: 'inactive',
   verified: false,
   bio: "",
-  imageUrl: "",
+  imageUrl: "https://fra.cloud.appwrite.io/v1/storage/buckets/6851ea670001286ca7ec/files/6851f24000040335c213/view?project=6851ea2a0006cdc67827",
   location: null
 }
 
 export default function UserProvider({ children }: { children: React.ReactNode }) {
-  const navigation = useNavigation();
   const [user, setUser] = useState<User>(initUser);
   const [loading, setLoading] = useState(false);
 
@@ -48,54 +47,72 @@ export default function UserProvider({ children }: { children: React.ReactNode }
       if (firebaseUser) {
         const userData = getDoc(doc(db, 'users', firebaseUser.uid));
         userData.then((docSnap) => {
-            if (docSnap.exists()) {
-              const data = docSnap.data() as User;
-              setUser({
-                ...data,
-                isAuthenticated: true,
-              });
-
-              setLoading(false)
-              //@ts-ignore
-              navigation.navigate('MainTabs');
-            }
-          })
+          if (docSnap.exists()) {
+            const data = docSnap.data() as User;
+            setUser({
+              ...data,
+              isAuthenticated: true,
+            });
+          }
+        })
       } else {
-        setUser({...initUser, isAuthenticated: false})
+        setUser({ ...initUser, isAuthenticated: false })
       }
     });
+
     return () => unsubscribe();
   }, []);
 
-
-
-
   const login = async (email: string, password: string) => {
-    const useCredentials = await signInWithEmailAndPassword(auth, email, password)
+    try {
+      setLoading(true)
+      const useCredentials = await signInWithEmailAndPassword(auth, email, password)
+    } catch (error) {
+      console.log('Error')
+      error.message.includes('invalid-credential') ? toast.error("You have entered invalid login credentials") : toast.error("Login server error, please try again");
+    } finally {
+      setLoading(false);
+    }
   };
 
   const register = async (email: string, password: string, name: string) => {
-    const userCredentials = await createUserWithEmailAndPassword(auth, email, password)
+    setLoading(true)
+    try {
+      const userCredentials = await createUserWithEmailAndPassword(auth, email, password)
+      const userRef = doc(db, "users", userCredentials.user.uid)
+      const userData = {
+        ...initUser,
+        uid: userCredentials.user.uid,
+        displayName: name,
+        isAuthenticated: true,
+        emailVerified: userCredentials.user.emailVerified,
+        joinDate: Timestamp.fromDate(new Date()),
+        status: "active"
+      }
+      await setDoc(userRef, userData)
+      setUser(userData)
 
-    const userRef = doc(db, "users", (await userCredentials).user.uid)
-    setDoc(userRef, {
-      ...initUser,
-      displayName: name,
-      isAuthenticated:true, 
-      emailVerified: userCredentials.user.emailVerified,
-      joinDate: userCredentials.user.metadata.creationTime,
-      status: "active"
-    })
-    //@ts-ignore
-    navigation.navigate('MainTabs', {replace: true});
+    } catch(error){
+      toast.error(error.message)
+    } finally{
+      setLoading(false)
+    }
+    
   };
 
-  const logout = () => {
+  const logout = async () => {
+    setLoading(true)
     signOut(auth);
-    setUser(initUser)
+    setLoading(false)
   };
 
-  const updateProfile = (info: Partial<User>) => {
+  const updateProfile = async (info: Partial<User>) => {
+    const userRef = doc(db, 'users', user.uid)
+    const resp = await updateDoc(userRef, {
+      ...info
+    })
+
+    setUser({ ...user, ...info })
   };
 
   return (
