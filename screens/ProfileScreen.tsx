@@ -655,7 +655,7 @@ export default function ProfileScreen() {
         <Feather name="chevron-right" size={18} color="#999" />
       </TouchableOpacity>
 
-      <TouchableOpacity style={styles.logoutButton} onPress={() => user.logout()}>
+      <TouchableOpacity style={styles.logoutButton} onPress={() => {console.log('logout pressed');user.logout()}}>
         <Text style={styles.logoutText}>Logout</Text>
       </TouchableOpacity>
       <Text style={styles.versionText}>App Version 1.0.0</Text>

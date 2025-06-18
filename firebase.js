@@ -22,25 +22,28 @@ let auth;
 try {
   const reactNativePersistence = getReactNativePersistence({
     ...AsyncStorage,
-    setItem: async (key, value) => {
-      if (key.includes('session')) {
-        await SecureStore.setItemAsync(key, value);
-      } else {
-        await AsyncStorage.setItem(key, value);
-      }
-    },
-    getItem: async (key) => {
-      if (key.includes('session')) {
-        return await SecureStore.getItemAsync(key);
-      }
-      return await AsyncStorage.getItem(key);
-    },
-    removeItem: async (key) => {
-      await Promise.all([
-        SecureStore.deleteItemAsync(key),
-        AsyncStorage.removeItem(key)
-      ]);
-    }
+    // setItem: async (key, value) => {
+    //   if (key.includes('session') && false) {
+    //     await SecureStore.setItemAsync(key, value);
+    //   } else {
+    //     await AsyncStorage.setItem(key, value);
+    //   }
+    // },
+    // getItem: async (key) => {
+    //   if (key.includes('session') && false) {
+    //     return await SecureStore.getItemAsync(key);
+    //   }
+    //   return await AsyncStorage.getItem(key);
+    // },
+    // removeItem: async (key) => {
+    //   if (key) {
+    //     await Promise.all([
+    //       SecureStore.deleteItemAsync(key),
+    //       AsyncStorage.removeItem(key)
+    //     ]);
+    //   }
+
+    //}
   });
 
   auth = initializeAuth(app, {persistence: reactNativePersistence});

@@ -7,32 +7,31 @@ import { View, ActivityIndicator } from 'react-native';
 
 
 
-export default function AuthGuard({ children }){
+export default function AuthGuard({ children }) {
     const user = useUser();
     const navigation = useNavigation();
 
-    useEffect(()=>{
-        if(!user.loading){
-            if(!user.isAuthenticated){
+    useEffect(() => {
+        if (!user.loading) {
+            if (!user.isAuthenticated) {
                 //@ts-ignore
-                navigation.navigate({ name: 'Login', pop: true})
+                navigation.navigate({ name: 'Login', pop: true })
             } else {
-                if(navigation.getId() === 'Login' || navigation.getId() === 'Register' || navigation.getId() === 'Guide' || navigation.getId() === 'Welcome' ){
-                    //@ts-ignore
-                    navigation.navigate({ name: 'MainTabs', pop: true})
-                }
+                //@ts-ignore
+                navigation.navigate('MainTabs')
+
             }
-        } 
+        }
     }, [user.isAuthenticated, user.loading])
 
 
     if (user.loading) {
-    return (
-      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-        <ActivityIndicator size="large" />
-      </View>
-    );
-  }
+        return (
+            <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+                <ActivityIndicator size="large" />
+            </View>
+        );
+    }
 
     //If authenticated return the children
     return user.isAuthenticated ? children : null

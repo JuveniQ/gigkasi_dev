@@ -56,8 +56,11 @@ export default function UserProvider({ children }: { children: React.ReactNode }
           }
         })
       } else {
+        console.log('user signed out')
         setUser({ ...initUser, isAuthenticated: false })
       }
+      
+      setLoading(false)
     });
 
     return () => unsubscribe();
@@ -102,8 +105,13 @@ export default function UserProvider({ children }: { children: React.ReactNode }
 
   const logout = async () => {
     setLoading(true)
-    signOut(auth);
-    setLoading(false)
+    try{
+      await signOut(auth)
+    } catch(error){
+      toast.error(error.message)
+    } finally{
+      setLoading(false)
+    }
   };
 
   const updateProfile = async (info: Partial<User>) => {
