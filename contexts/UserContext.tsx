@@ -59,8 +59,6 @@ export default function UserProvider({ children }: { children: React.ReactNode }
         console.log('user signed out')
         setUser({ ...initUser, isAuthenticated: false })
       }
-      
-      setLoading(false)
     });
 
     return () => unsubscribe();

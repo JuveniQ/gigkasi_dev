@@ -33,13 +33,11 @@ export default function LoginScreen() {
   const handleLogin = async () => {
     const { email, password } = credentials;
     if (!email || !password) {
-      Alert.alert('Error', 'Please fill all fields');
+      toast.error('Please fill all fields');
       return;
     }
 
     login(email, password)
-    //@ts-ignore
-    navigation.navigate('MainTabs', {replace: true});
   };
 
 

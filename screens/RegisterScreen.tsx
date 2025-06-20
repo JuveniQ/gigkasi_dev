@@ -41,19 +41,16 @@ export default function RegisterScreen() {
     const { name, email, password, confirmPassword } = formData;
     
     if (!name || !email || !password || !confirmPassword) {
-      Alert.alert('Error', 'Please fill all fields');
+      toast.error('Please fill all fields');
       return;
     }
 
     if (password !== confirmPassword) {
-      Alert.alert('Error', 'Passwords do not match');
+      toast.error('Passwords do not match');
       return;
     }
 
     await register(email, password, name)
-
-    //@ts-ignore
-    navigation.navigate('MainTabs', {replace: true});
   };
 
  
