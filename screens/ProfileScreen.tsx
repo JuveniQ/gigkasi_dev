@@ -20,13 +20,16 @@ import * as ImagePicker from 'expo-image-picker';
 import { mockReviews, serviceOptions, userData as ud } from '../constants/mockData';
 import * as DocumentPicker from 'expo-document-picker';
 import { useUser } from '../contexts/UserContext';
+import { useData } from '../contexts/DataContext';
 
 
 
 export default function ProfileScreen() {
   const navigation = useNavigation();
   const user = useUser()
-  const [isServiceProvider, setIsServiceProvider] = useState(false);
+  const requests = useData()['requests'].filter((data) => data.uid === user.uid)
+  const services = useData()['services'].filter((data) => data.uid === user.uid)
+  const [isServiceProvider, setIsServiceProvider] = useState(services.length > 0);
   const [showServiceForm, setShowServiceForm] = useState(false);
   const [showPortfolioForm, setShowPortfolioForm] = useState(false);
   const [editingService, setEditingService] = useState(null);
@@ -77,6 +80,7 @@ export default function ProfileScreen() {
   const handleRoleChange = (value) => {
     if (value) {
       setShowVerificationModal(true);
+
     } else {
       setIsServiceProvider(false);
       setIsProviderRequested(false);
@@ -246,9 +250,9 @@ export default function ProfileScreen() {
         {isServiceProvider && <TouchableOpacity onPress={() => setShowReviewsModal(true)}>
           <View style={styles.ratingContainer}>
             <Ionicons name="star" size={14} color="#FFD700" />
-            <Text style={styles.ratingText}>
+            {<Text style={styles.ratingText}>
               {user.rating} ({userData.reviews} reviews)
-            </Text>
+            </Text>}
           </View>
         </TouchableOpacity>}
 
@@ -300,7 +304,7 @@ export default function ProfileScreen() {
       </View>
       <View style={styles.statDivider} />
       <View style={styles.statItem}>
-        <Text style={styles.statValue}>{userData.requestsMade}</Text>
+        <Text style={styles.statValue}>{requests.length}</Text>
         <Text style={styles.statLabel}>Requests Made</Text>
       </View>
     </View>
@@ -525,8 +529,8 @@ export default function ProfileScreen() {
         <Text style={styles.sectionTitle}>My Requests</Text>
       </View>
       <FlatList
-        data={userData.requests}
-        keyExtractor={(item) => item.id}
+        data={requests}
+        keyExtractor={(item, key) => key as unknown as string}
         scrollEnabled={false}
         renderItem={({ item }) => (
           <TouchableOpacity style={styles.requestCard}>
@@ -535,15 +539,15 @@ export default function ProfileScreen() {
                 styles.statusIndicator,
                 {
                   backgroundColor:
-                    item.status === 'active' ? '#4CAF50' :
-                      item.status === 'pending' ? '#FF9800' : '#8BC34A'
+                    item.status === 'COMPLETED' ? '#4CAF50' :
+                      item.status === 'PENDING' ? '#FF9800' : '#8BC34A'
                 }
               ]} />
               <Text style={styles.requestStatus}>{item.status}</Text>
               <Text style={styles.requestDate}>{item.date}</Text>
             </View>
             <Text style={styles.requestTitle}>{item.title}</Text>
-            {item.status === 'completed' ? (
+            {item.status === 'COMPLETED' ? (
               <Text style={styles.requestDetail}>
                 <Feather name="check" size={12} color="#4CAF50" /> Completed by {item.provider}
               </Text>

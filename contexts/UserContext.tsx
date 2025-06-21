@@ -5,6 +5,7 @@ import { doc, getDoc, setDoc, updateDoc, Timestamp } from 'firebase/firestore'
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut } from 'firebase/auth';
 import { User, UserContextType } from '../constants/types';
 import { toast } from 'sonner-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
 const UserContext = createContext<UserContextType | null>(null);
@@ -56,7 +57,6 @@ export default function UserProvider({ children }: { children: React.ReactNode }
           }
         })
       } else {
-        console.log('user signed out')
         setUser({ ...initUser, isAuthenticated: false })
       }
     });

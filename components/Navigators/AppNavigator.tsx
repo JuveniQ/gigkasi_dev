@@ -8,17 +8,12 @@ import CreateServiceScreen from "../../screens/CreateServiceScreen";
 import Dashboard from "../../screens/Dashboard";
 import DiscoverScreen from "../../screens/DiscoverScreen";
 import EditProfileScreen from "../../screens/EditProfileScreen";
-import GuideScreen from "../../screens/GuideScreen";
-import LoginScreen from "../../screens/LoginScreen";
 import MessagesScreen from "../../screens/MessagesScreen";
 import NotificationsScreen from "../../screens/NotificationScreen";
 import PrivacySecurityScreen from "../../screens/PrivacyScreen";
 import ProfileScreen from "../../screens/ProfileScreen";
 import ProviderDetailsScreen from "../../screens/ProviderDetailsScreen";
-import RegisterScreen from "../../screens/RegisterScreen";
 import RequestDetailsScreen from "../../screens/RequestDetailsScreen";
-import WelcomeScreen from "../../screens/WelcomeScreen";
-import AuthGuard from "../AuthGuard";
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -30,7 +25,6 @@ function MainTabs() {
       screenOptions={({ route }) => ({
         tabBarIcon: ({ focused, color, size }) => {
           let iconName;
-
           if (route.name === 'Dashboard') {
             iconName = focused ? 'home' : 'home-outline';
           } else if (route.name === 'Discover') {
@@ -68,7 +62,7 @@ function MainTabs() {
 
 export default function AppNavigator() {
   return (
-    <Stack.Navigator id={undefined} screenOptions={{ headerShown: false }} initialRouteName="Welcome">
+    <Stack.Navigator id={undefined} screenOptions={{ headerShown: false }}>
       <Stack.Screen name="MainTabs" component={MainTabs} />
       <Stack.Screen name="ProviderDetails" component={ProviderDetailsScreen} />
       <Stack.Screen name="RequestDetails" component={RequestDetailsScreen} />

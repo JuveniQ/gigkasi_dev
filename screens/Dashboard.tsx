@@ -99,7 +99,7 @@ export default function Dashboard() {
         </TouchableOpacity>
       </View>
 
-      <ScrollView style={styles.content} showsVerticalScrollIndicator={false}>
+      <ScrollView style={styles.content} bounces showsVerticalScrollIndicator={true}>
         {/* Service Categories */}
         <Text style={styles.sectionTitle}>Services</Text>
         <View style={styles.categoriesContainer}>
@@ -178,6 +178,7 @@ export default function Dashboard() {
           data={nearbyProviders}
           horizontal
           showsHorizontalScrollIndicator={false}
+          refreshing
           renderItem={({ item }) => (
             <TouchableOpacity
               style={styles.providerCard}

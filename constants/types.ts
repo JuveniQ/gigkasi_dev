@@ -18,7 +18,7 @@ export type service = {
     verified: boolean,
 }
 export type request = {
-    id: string,
+    uid: string,
     title: string,
     category: string,
     status: 'COMPLETED' | 'PENDING' | 'DELETED' | null,

@@ -1,12 +1,14 @@
 import { db } from "../firebase";
 import { collection, onSnapshot, getDocs } from "firebase/firestore";
-import { service } from "../constants/types";
+import { request, service } from "../constants/types";
 
 
 
 //Fetching services 
-const servicesRef = collection(db, 'services')
-const services: service[] = []
+const servicesRef = collection(db, 'requests')
+const reqs: request[] = []
 onSnapshot(servicesRef, (snapShot) => {
-    snapShot.forEach((doc) => services.push(doc.data() as service))
+    snapShot.forEach((doc) => reqs.push(doc.data() as request))
 })
+console.log(reqs)
+export let requests = reqs

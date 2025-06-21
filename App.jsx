@@ -10,25 +10,26 @@ import { Toaster } from 'sonner-native';
 import UserProvider, { useUser } from './contexts/UserContext';
 import AuthNavigator from './components/Navigators/AuthNavigator';
 import AppNavigator from './components/Navigators/AppNavigator';
+import { DataProvider } from './contexts/DataContext';
 
 
 Stack = createNativeStackNavigator()
 
-function RootStack(){
+function RootStack() {
   const { loading, isAuthenticated } = useUser()
 
-  if(loading){
-    return(
-      <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-        <ActivityIndicator size='large' color={colors.accentLight}/>
+  if (loading) {
+    return (
+      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+        <ActivityIndicator size='large' color={colors.accentLight} />
       </View>
     )
   }
 
-  return(
+  return (
     <>
       {isAuthenticated ?
-        <AppNavigator/> :
+        <AppNavigator /> :
         <AuthNavigator />
       }
     </>
@@ -40,18 +41,19 @@ export default function App() {
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <SafeAreaProvider>
-        <StatusBar style="light"/>
+        <StatusBar style="light" />
         <NavigationContainer>
           <UserProvider>
-            <SafeAreaView style={styles.container} edges={['top', 'right', 'left']}>
-              <RootStack />
-              <Toaster closeButton={true} position='top-center' gap={5} richColors/>
-            </SafeAreaView>
+            <DataProvider>
+              <SafeAreaView style={styles.container} edges={['top', 'right', 'left']}>
+                <RootStack />
+                <Toaster closeButton={true} position='top-center' gap={5} richColors />
+              </SafeAreaView>
+            </DataProvider>
           </UserProvider>
         </NavigationContainer>
       </SafeAreaProvider>
     </GestureHandlerRootView>
-
   );
 }
 
