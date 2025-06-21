@@ -2,11 +2,8 @@ import React, { useState } from 'react';
 import { 
   View, 
   Text, 
-  SafeAreaView, 
   TouchableOpacity, 
   TextInput, 
-  ActivityIndicator, 
-  Alert,
   StyleSheet,
   KeyboardAvoidingView,
   Platform,
@@ -15,14 +12,12 @@ import {
 } from 'react-native';
 import { Feather } from '@expo/vector-icons';
 import colors from '../constants/colors';
-import { createUserWithEmailAndPassword } from 'firebase/auth';
-import { auth } from '../firebase';
 import { useUser } from '../contexts/UserContext';
 import { useNavigation } from '@react-navigation/native';
-import AuthHeader from '../components/AuthHeader';
-import AuthButton from '../components/AuthButton';
-import SocialAuth from '../components/SocialAuth';
-import AuthSwitch from '../components/AuthSwitch';
+import AuthHeader from '../components/authentication/AuthHeader';
+import AuthButton from '../components/authentication/AuthButton';
+import SocialAuth from '../components/authentication/SocialAuth';
+import AuthSwitch from '../components/authentication/AuthSwitch';
 import { toast } from 'sonner-native';
 
 export default function RegisterScreen() {

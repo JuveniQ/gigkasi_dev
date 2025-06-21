@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, TouchableOpacity, Text, StyleSheet } from 'react-native';
 import { MaterialCommunityIcons, MaterialIcons } from '@expo/vector-icons';
-import colors from '../constants/colors';
+import colors from '../../constants/colors';
 
 export default function SocialAuth() {
   return (

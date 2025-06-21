@@ -15,10 +15,10 @@ import { Feather } from '@expo/vector-icons';
 import colors from '../constants/colors';
 import { useUser } from '../contexts/UserContext';
 import { useNavigation } from '@react-navigation/native';
-import AuthHeader from '../components/AuthHeader';
-import AuthButton from '../components/AuthButton';
-import SocialAuth from '../components/SocialAuth';
-import AuthSwitch from '../components/AuthSwitch';
+import AuthHeader from '../components/authentication/AuthHeader';
+import AuthButton from '../components/authentication/AuthButton';
+import SocialAuth from '../components/authentication/SocialAuth';
+import AuthSwitch from '../components/authentication/AuthSwitch';
 import { toast } from 'sonner-native';
 
 export default function LoginScreen() {
