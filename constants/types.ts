@@ -44,7 +44,13 @@ export interface User {
   displayName: string;
   email: string;
   phone: string;
-  imageUrl?: string;
+  image?: {
+    uid: string,
+    name: string,
+    size: number,
+    type: string,
+    uri: string,
+  };
   rating: number;
   verified: boolean;
   emailVerified: boolean;
@@ -61,5 +67,5 @@ export interface UserContextType extends User {
   login: (email: string, password: string) => Promise<void>;
   register: (email: string, password: string, name: string) => Promise<void>;
   logout: () => void;
-  updateProfile: (info: Partial<User>) => void;
+  updateProfile: (formData: any, { saving } : any) => void;
 }

@@ -8,26 +8,30 @@ import {
   Image,
   ScrollView,
   TextInput,
-  Alert,
-  Platform
+  Platform,
+  ActivityIndicator
 } from 'react-native';
 
 import { useNavigation } from '@react-navigation/native';
 import { Ionicons, Feather } from '@expo/vector-icons';
 import * as ImagePicker from 'expo-image-picker';
+import { useUser } from '../contexts/UserContext';
+import colors from '../constants/colors';
 
 export default function EditProfileScreen() {
   const navigation = useNavigation();
+  const user = useUser();
+  const [saving, setSaving] = useState(false)
+  const [formData, setFormData] = useState({
+    uid: user.uid,
+    displayName: user.displayName,
+    phone: user.phone,
+    image: {uid: user.uid ,name: user.image.name, size: user.image.size, uri: user.image.uri, type: user.image.type},
+    email: user.email,
+    location: user.location,
+    bio: user.bio
+  })
   
-  // User data state
-  const [profile, setProfile] = useState({
-    name: 'Thabo Mokoena',
-    email: 'thabo.mokoena@example.com',
-    phone: '+27 72 123 4567',
-    location: 'Soweto, Johannesburg',
-    bio: 'Professional electrician and plumber with 5+ years experience',
-    imageUrl: 'https://api.a0.dev/assets/image?text=TM&aspect=1:1'
-  });
 
   // Handle image selection
   const pickImage = async () => {
@@ -39,15 +43,19 @@ export default function EditProfileScreen() {
     });
 
     if (!result.canceled) {
-      setProfile({...profile, imageUrl: result.assets[0].uri});
+     setFormData({...formData, image: {
+      uid: user.uid,
+      name: result.assets[0].fileName,
+      size: result.assets[0].fileSize,
+      type: result.assets[0].mimeType,
+      uri: result.assets[0].uri,
+     }}) 
     }
   };
 
   // Handle form submission
   const handleSave = () => {
-    // Here you would typically send the updated profile to your backend
-    Alert.alert('Success', 'Profile updated successfully');
-    navigation.goBack();
+    user.updateProfile(formData, setSaving)
   };
 
   return (
@@ -60,14 +68,16 @@ export default function EditProfileScreen() {
             <Ionicons name="arrow-back" size={24} color="#333" />
           </TouchableOpacity>
           <Text style={styles.headerTitle}>Edit Profile</Text>
-          <TouchableOpacity onPress={handleSave}>
+          { !saving ?
+           <TouchableOpacity onPress={handleSave}>
             <Text style={styles.saveButton}>Save</Text>
-          </TouchableOpacity>
+          </TouchableOpacity> :
+           <ActivityIndicator size='small' color={colors.accentDark} />}
         </View>
 
         {/* Profile Picture */}
         <View style={styles.profilePictureContainer}>
-          <Image source={{ uri: profile.imageUrl }} style={styles.profileImage} />
+          <Image source={{ uri: formData.image.uri, cache: 'reload' }} style={styles.profileImage} />
           <TouchableOpacity style={styles.editPhotoButton} onPress={pickImage}>
             <Feather name="camera" size={18} color="#fff" />
           </TouchableOpacity>
@@ -79,8 +89,8 @@ export default function EditProfileScreen() {
             <Text style={styles.inputLabel}>Full Name</Text>
             <TextInput
               style={styles.input}
-              value={profile.name}
-              onChangeText={(text) => setProfile({...profile, name: text})}
+              value={formData.displayName}
+              onChangeText={(text) => setFormData({...formData, displayName: text})}
               placeholder="Enter your full name"
             />
           </View>
@@ -89,8 +99,8 @@ export default function EditProfileScreen() {
             <Text style={styles.inputLabel}>Email</Text>
             <TextInput
               style={styles.input}
-              value={profile.email}
-              onChangeText={(text) => setProfile({...profile, email: text})}
+              value={formData.email}
+              onChangeText={(text) => setFormData({...formData, email: text})}
               placeholder="Enter your email"
               keyboardType="email-address"
               autoCapitalize="none"
@@ -101,8 +111,8 @@ export default function EditProfileScreen() {
             <Text style={styles.inputLabel}>Phone Number</Text>
             <TextInput
               style={styles.input}
-              value={profile.phone}
-              onChangeText={(text) => setProfile({...profile, phone: text})}
+              value={formData.phone}
+              onChangeText={(text) => setFormData({...formData, phone: text})}
               placeholder="Enter your phone number"
               keyboardType="phone-pad"
             />
@@ -112,8 +122,8 @@ export default function EditProfileScreen() {
             <Text style={styles.inputLabel}>Location</Text>
             <TextInput
               style={styles.input}
-              value={profile.location}
-              onChangeText={(text) => setProfile({...profile, location: text})}
+              value={formData.location}
+              onChangeText={(text) => setFormData({...formData, location: text})}
               placeholder="Enter your location"
             />
           </View>
@@ -122,8 +132,8 @@ export default function EditProfileScreen() {
             <Text style={styles.inputLabel}>Bio</Text>
             <TextInput
               style={[styles.input, styles.bioInput]}
-              value={profile.bio}
-              onChangeText={(text) => setProfile({...profile, bio: text})}
+              value={formData.bio}
+              onChangeText={(text) => setFormData({...formData, bio: text})}
               placeholder="Tell us about yourself"
               multiline
               numberOfLines={4}

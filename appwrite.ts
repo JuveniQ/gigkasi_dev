@@ -11,10 +11,31 @@ const client = new Client().setEndpoint(awc.endpoint).setProject(awc.poject_id)
 const storage = new Storage(client)
 
 
-export function getDefaultImageUrl(){
-  
-    
-    const url =  storage.getFileView(awc.bucket_id, '6851f24000040335c213', )
-    console.log(url.href)
+export function getDefaultImageUrl(fileID: string){
+    const url =  storage.getFileView(awc.bucket_id,fileID)
     return url.href as string
+}
+
+export async function saveFile(fileData){
+    let promise;
+        try{
+            await getFile(fileData)
+            try{
+                await storage.deleteFile(awc.bucket_id, fileData.uid)
+                promise = await storage.createFile(awc.bucket_id, fileData.uid ,fileData)
+            } catch(error){
+                console.log('Error occured on deletion and creation')
+            }
+
+        } catch(getFileError){
+            if(getFileError.code == 404){
+                promise = await storage.createFile(awc.bucket_id, fileData.uid ,fileData)
+            }
+        }
+    return promise
+}
+
+
+async function getFile(fileData) {
+    const file = await storage.getFile(awc.bucket_id, fileData.uid)
 }

@@ -5,7 +5,8 @@ import { doc, getDoc, setDoc, updateDoc, Timestamp } from 'firebase/firestore'
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut } from 'firebase/auth';
 import { User, UserContextType } from '../constants/types';
 import { toast } from 'sonner-native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { getDefaultImageUrl, saveFile } from '../appwrite';
+import { useNavigation } from '@react-navigation/core';
 
 
 const UserContext = createContext<UserContextType | null>(null);
@@ -35,13 +36,15 @@ const initUser: User = {
   status: 'inactive',
   verified: false,
   bio: "",
-  imageUrl: "https://fra.cloud.appwrite.io/v1/storage/buckets/6851ea670001286ca7ec/files/6851f24000040335c213/view?project=6851ea2a0006cdc67827",
+  image: {uid: '', size: 0, type: '', name: '', uri: "https://fra.cloud.appwrite.io/v1/storage/buckets/6851ea670001286ca7ec/files/6851f24000040335c213/view?project=6851ea2a0006cdc67827"},
   location: null
 }
 
 export default function UserProvider({ children }: { children: React.ReactNode }) {
+  const navigation = useNavigation();
   const [user, setUser] = useState<User>(initUser);
   const [loading, setLoading] = useState(false);
+
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (firebaseUser) => {
@@ -86,6 +89,7 @@ export default function UserProvider({ children }: { children: React.ReactNode }
         uid: userCredentials.user.uid,
         displayName: name,
         isAuthenticated: true,
+        email: userCredentials.user.email,
         emailVerified: userCredentials.user.emailVerified,
         joinDate: Timestamp.fromDate(new Date()),
         status: "active"
@@ -112,13 +116,25 @@ export default function UserProvider({ children }: { children: React.ReactNode }
     }
   };
 
-  const updateProfile = async (info: Partial<User>) => {
-    const userRef = doc(db, 'users', user.uid)
-    const resp = await updateDoc(userRef, {
-      ...info
-    })
-
-    setUser({ ...user, ...info })
+  const updateProfile = async (formData: any, setSaving) => {
+    setSaving(true)
+    try{
+      const File = await saveFile(formData.image)
+      const uri = await getDefaultImageUrl(File.$id)
+      formData.image.uri = uri
+      await updateDoc(doc(db, 'users', formData.uid), {...user, ...formData}).then(()=>{
+        setUser({...user, ...formData})
+      }).catch((error) => {
+        toast.error(error.message)
+      })
+      toast.success('Profile Updated Successfully')
+      navigation.goBack();
+    } catch (error){
+      console.log(error.message)
+      toast.error(error.message)
+    } finally {
+      setSaving(false)
+    }
   };
 
   return (

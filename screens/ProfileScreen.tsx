@@ -231,7 +231,8 @@ export default function ProfileScreen() {
   const renderProfileHeader = () => (
     <View style={styles.profileHeader}>
       <View style={styles.avatarContainer}>
-        <Image source={{ uri: user.imageUrl }} style={styles.profileImage} />
+      
+        <Image source={{ uri: user.image.uri, cache: 'reload' }} style={styles.profileImage} />
         {user.verified && (
           <View style={styles.verifiedBadge}>
             <MaterialIcons name="verified" size={20} color="blue" />
